@@ -1,16 +1,38 @@
-.Intro_content_box {
+.welcome {
   font-family: "LLPixel";
+  height: 100vh;
+  width: 100vw;
+}
+.welcome_content {
+  position: absolute;
+  bottom: 10vh;
+  width: 40vw;
+  right: 30vw;
 }
 .welcome_Ilgi {
+  margin: 0;
   font-size: 180px;
+  padding-bottom: 25px;
 }
-.Intro_content_box p {
+.welcome p {
+  padding: 10px;
   font-size: 28px;
 }
-.letter {
+.welcome_letter {
   display: inline;
   padding-right: 5px;
   margin: 0;
+}
+.welcome_button {
+  padding: 8px;
+  background: transparent;
+  background-color: none;
+  border: 1px solid black;
+  transition: background-color 2s;
+}
+.welcome_button:hover {
+  background-color: black;
+  color: white;
 }
 
 @font-face {
