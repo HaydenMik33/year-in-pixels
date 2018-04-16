@@ -1,0 +1,29 @@
+.grid-container {
+  display: grid;
+  /* background-color: #d7e1e5; */
+  grid-gap: 3px;
+  justify-content: center;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+}
+.grid-item {
+  padding: 1px;
+  background-color: white;
+}
+.grid-item-custom {
+  padding: 20px;
+  border-bottom: 3px solid #d7e1e5;
+}
+.daysIndicator {
+  padding: 11px;
+  border-bottom: 3px solid #d7e1e5;
+}
+.Ilgi {
+  height: 1700px;
+}
+.Ilgi_containerBackground {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #d7e1e5;
+  width: 83vw;
+  margin: 0 auto;
+}

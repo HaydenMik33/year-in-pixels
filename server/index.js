@@ -1,72 +1,86 @@
-const express = require("express");
-const session = require("express-session");
-const passport = require("passport");
-const Auth0Strategy = require("passport-auth0");
-const students = require("./students.json");
 require("dotenv").config();
+const express = require("express");
+const { json } = require("body-parser");
+const cors = require("cors");
+const session = require("express-session");
+const massive = require("massive");
+const passport = require("passport");
+// console.log(__dirname);
+const { strat, logout, getUser } = require(`${__dirname}/controllers/authCtrl`);
+// const {
+//   getProducts,
+//   getCart,
+//   addToCart
+// } = require(`${__dirname}/controllers/productCtrl`);
+
+const port = process.env.PORT || 3001;
 
 const app = express();
+
+massive(process.env.CONNECTION_STRING)
+  .then(db => app.set("db", db))
+  .catch(err => console.log(err));
+
+app.use(json());
+app.use(cors());
+
 app.use(
   session({
-    secret: process.env.secret,
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 100000
+    }
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(
-  new Auth0Strategy(
-    {
-      domain: process.env.DOMAIN,
-      clientID: process.env.CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: "/login",
-      scope: "openid email profile"
-    },
-    // accessToken is the token to call Auth0 API (not needed in the most cases)
-    // extraParams.id_token has the JSON Web Token
-    // profile has all the information from the user
-    function(accessToken, refreshToken, extraParams, profile, done) {
-      return done(null, profile);
-    }
-  )
-);
+passport.use(strat);
 
 passport.serializeUser((user, done) => {
-  done(null, {
-    clientID: user.id,
-    email: user._json.email,
-    name: user._json.name
-  });
+  console.log(user);
+  app
+    .get("db")
+    .getUserByAuthid(user.id)
+    .then(response => {
+      console.log(user.id);
+      if (!response[0]) {
+        app
+          .get("db")
+          .addUserByAuthid([user.id, user.displayName, user.picture])
+          .then(res => {
+            return done(null, res[0]);
+          })
+          .catch(err => console.log(err));
+      } else {
+        return done(null, response[0]);
+      }
+    })
+    .catch(err => console.log(err));
 });
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
+passport.deserializeUser((user, done) => {
+  return done(null, user);
 });
+
+// AUTH ENDPOINTS
 
 app.get(
-  "/login",
+  "/auth",
   passport.authenticate("auth0", {
-    successRedirect: "/students",
-    failureRedirect: "/login",
-    connection: "github"
-    //config obj
+    successRedirect: "http://localhost:3000/#/home/ilgi",
+    failureRedirect: "http://localhost:3000/#/"
   })
 );
-///'auth0' => we are using auth0 strategy
-function authenticate(req, res, next) {
-  if (req.user) {
-    next();
-  } else {
-    res.sendStatus(401);
-  }
-}
+app.get("/logout", logout);
+app.get("/api/me", getUser);
 
-app.get("/students", (req, res, next) => {
-  res.status(200).send(students);
-});
-const port = 3001;
+// // PRODCUTS ENDPOINTS
+// app.get("/api/product", getProducts);
+// app.get("/api/cart", getCart);
+// app.post("/api/cart/:id", addToCart);
+
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.log(`Listening on port ${port}`);
 });

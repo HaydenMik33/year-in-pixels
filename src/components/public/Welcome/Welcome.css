@@ -1,0 +1,21 @@
+.Intro_content_box {
+  font-family: "LLPixel";
+}
+.welcome_Ilgi {
+  font-size: 180px;
+}
+.Intro_content_box p {
+  font-size: 28px;
+}
+.letter {
+  display: inline;
+  padding-right: 5px;
+  margin: 0;
+}
+
+@font-face {
+  font-family: "LLPixel";
+  font-style: normal;
+  font-weight: normal;
+  src: local("LLPixel"), url("LLPIXEL_.woff") format("woff");
+}
