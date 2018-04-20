@@ -1,1 +1,1 @@
-SELECT * FROM users WHERE authid = $1;
+select * from users where authid = $1;

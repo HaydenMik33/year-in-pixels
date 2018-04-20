@@ -1,7 +1,6 @@
 import axios from "axios";
 // ACTION TYPES (CONSTANTS)
 const GET_USER = "GET_USER";
-
 export function getUser() {
   return {
     type: GET_USER,

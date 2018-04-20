@@ -1,0 +1,1 @@
+INSERT INTO ilgi (title,ownerid) VALUES ($1,$2) RETURNING *;

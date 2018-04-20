@@ -1,0 +1,18 @@
+.start_ILGI {
+  font-family: "LLPixel";
+  font-size: 60px;
+}
+.start_h1 {
+  font-size: 50px;
+}
+.smallerI {
+  font-size: 30px;
+}
+
+@font-face {
+  font-family: "LLPixel";
+  font-style: normal;
+  font-weight: normal;
+  src: local("LLPixel"),
+    url("../../public/Welcome/LLPIXEL_.woff") format("woff");
+}

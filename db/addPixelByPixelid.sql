@@ -1,1 +1,0 @@
-INSERT INTO pixels (pixelid,text,img) VALUES ($1, $2,$3) RETURNING *;

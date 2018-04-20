@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, combineReducers } from "redux";
 import promiseMiddleware from "redux-promise-middleware";
-
+import pixelReducer from "./ducks/pixelReducer";
 import userReducer from "./ducks/userReducer";
 
 const store = createStore(
   combineReducers({
-    userReducer
-    ///somthing else here
+    userReducer,
+    pixelReducer
   }),
   applyMiddleware(promiseMiddleware())
 );

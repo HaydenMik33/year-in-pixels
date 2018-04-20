@@ -3,7 +3,7 @@
   /* background-color: #d7e1e5; */
   grid-gap: 3px;
   justify-content: center;
-  grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto auto;
+  grid-template-columns: 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw;
 }
 .grid-item {
   padding: 1px;
@@ -24,6 +24,6 @@
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: #d7e1e5;
-  width: 83vw;
+  width: 85vw;
   margin: 0 auto;
 }

@@ -9,6 +9,7 @@
 }
 
 .edit_grid-container {
+  width: 50vw;
   margin: 0 auto;
   display: grid;
   justify-content: center;

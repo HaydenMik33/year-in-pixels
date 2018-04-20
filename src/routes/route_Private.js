@@ -8,9 +8,9 @@ import Edit from "../components/private/Edit/Edit";
 
 export default (
   <Switch>
+    <Route path="/home/ilgi/edit" component={Edit} />
     <Route path="/home/ilgi" component={Ilgi} />
     <Route path="/home/profile" component={Profile} />
     <Route path="/home/start" component={Start} />
-    <Route path="/home/edit" component={Edit} />
   </Switch>
 );

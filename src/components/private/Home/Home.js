@@ -3,7 +3,8 @@ import "./Home.css";
 import { Link } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import route_Private from "../../../routes/route_Private";
-import Ilgi from "../Ilgi/Ilgi";
+import { connect } from "react-redux";
+import { getUser } from "../../../ducks/userReducer";
 class Home extends Component {
   constructor() {
     super();
@@ -11,6 +12,9 @@ class Home extends Component {
       navSwitch: false
     };
     this.toggleNav = this.toggleNav.bind(this);
+  }
+  componentDidMount() {
+    this.props.getUser();
   }
   toggleNav() {
     this.setState({ navSwitch: !this.state.navSwitch });
@@ -45,10 +49,20 @@ class Home extends Component {
           &#9776; OPEN
         </span>
         <div>{route_Private}</div>
+        <div className="Home">
+          Hello This is just bunch of dummy texts
+          <div />
+        </div>
         <Footer />
       </div>
     );
   }
 }
+function mapStateToProps(state) {
+  const { user } = state.userReducer;
+  return {
+    user
+  };
+}
 
-export default Home;
+export default connect(mapStateToProps, { getUser })(Home);

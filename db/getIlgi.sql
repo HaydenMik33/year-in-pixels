@@ -1,0 +1,1 @@
+SELECT * FROM ilgi WHERE ownerid = $1 ;

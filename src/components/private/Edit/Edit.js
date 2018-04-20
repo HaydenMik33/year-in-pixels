@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./Edit.css";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { updatePixel, updateCurrentPixel } from "../../../ducks/pixelReducer";
+import axios from "axios";
 
 class Edit extends Component {
   constructor() {
@@ -9,8 +11,10 @@ class Edit extends Component {
       love: React.createRef()
     };
     this.state = {
+      id: "",
+      ilgi_id: "",
       text: "",
-      mood: "",
+      colorValue: "",
       img: "",
       savedText: "How was your day",
       savedImgUrl: "Img url",
@@ -20,21 +24,44 @@ class Edit extends Component {
       inputBorder: "none",
       inputBoxShadow: "none"
     };
-    this.moodSelector = this.moodSelector.bind(this);
+    this.colorValueSelector = this.colorValueSelector.bind(this);
     this.handleConfirm = this.handleConfirm.bind(this);
+    this.reset = this.reset.bind(this);
   }
-  moodSelector(ref) {
+  componentDidMount() {
+    const { currentPixel } = this.props;
     this.setState({
-      mood: ref,
+      id: currentPixel[0].id,
+      ilgi_id: currentPixel[0].ilgi_id,
+      text: currentPixel[0].text,
+      img: currentPixel[0].img
+      // colorValue: currentPixel[0].colorvalue
+    });
+    this.colorValueSelector(currentPixel[0].colorvalue);
+  }
+  colorValueSelector(ref) {
+    this.setState({
+      colorValue: ref,
       divBorder: "2px solid rgba(81, 203, 238, 1)",
       inputBoxShadow: "0 0 7px rgba(81, 203, 238, 1)"
     });
   }
-
-  handleConfirm() {}
+  reset() {
+    this.setState({
+      text: "",
+      img: "",
+      colorValue: ""
+    });
+  }
+  handleConfirm() {
+    const { id, ilgi_id, text, img, colorValue } = this.state;
+    const { updateCurrentPixel, updatePixel } = this.props;
+    updateCurrentPixel([{ text, img, colorValue }]);
+    updatePixel(id, text, img, colorValue, ilgi_id);
+    this.props.history.push("/home/ilgi");
+  }
 
   render() {
-    console.log(this.state.mood);
     const {
       text,
       img,
@@ -42,15 +69,16 @@ class Edit extends Component {
       clicked,
       savedImgUrl,
       savedText,
-      mood
+      colorValue
     } = this.state;
+    const { currentPixel } = this.props;
     const styles = {
       inputStyle: {
         border: this.state.inputBorder
       },
       colorBoxStyle: {
         border: this.state.divBorder,
-        "box-shadow": this.state.inputBoxShadow
+        boxShadow: this.state.inputBoxShadow
       }
     };
     const { colorBoxStyle, inputStyle } = styles;
@@ -60,33 +88,33 @@ class Edit extends Component {
         <div className="edit_grid-container">
           <div
             className="edit_grid-item #e16161 anger"
-            onClick={() => this.moodSelector("anger")}
-            style={mood === "anger" ? colorBoxStyle : null}
+            onClick={() => this.colorValueSelector("anger")}
+            style={colorValue === "anger" ? colorBoxStyle : null}
           />
           <div
             className="edit_grid-item #fdc513 excited"
-            onClick={() => this.moodSelector("excited")}
-            style={mood === "excited" ? colorBoxStyle : null}
+            onClick={() => this.colorValueSelector("excited")}
+            style={colorValue === "excited" ? colorBoxStyle : null}
           />
           <div
             className="edit_grid-item #ffd1d1 love"
-            onClick={() => this.moodSelector("love")}
-            style={mood === "love" ? colorBoxStyle : null}
+            onClick={() => this.colorValueSelector("love")}
+            style={colorValue === "love" ? colorBoxStyle : null}
           />
           <div
             className="edit_grid-item #c6c6c8 sad"
-            onClick={() => this.moodSelector("sad")}
-            style={mood === "sad" ? colorBoxStyle : null}
+            onClick={() => this.colorValueSelector("sad")}
+            style={colorValue === "sad" ? colorBoxStyle : null}
           />
           <div
             className="edit_grid-item #eafbfa chill"
-            onClick={() => this.moodSelector("chill")}
-            style={mood === "chill" ? colorBoxStyle : null}
+            onClick={() => this.colorValueSelector("chill")}
+            style={colorValue === "chill" ? colorBoxStyle : null}
           />
           <div
             className="edit_grid-item 	#94acff nervous"
-            onClick={() => this.moodSelector("nervous")}
-            style={mood === "nervous" ? colorBoxStyle : null}
+            onClick={() => this.colorValueSelector("nervous")}
+            style={colorValue === "nervous" ? colorBoxStyle : null}
           />
           <div className="edit_grid-item" />
           <div className="edit_grid-item" />
@@ -102,8 +130,15 @@ class Edit extends Component {
               img: e.target.value
             })
           }
-          defaultValue={savedImgUrl}
+          defaultValue={
+            currentPixel[0].img !== null ? currentPixel[0].img : savedImgUrl
+          }
         />
+        {currentPixel[0].img ? (
+          <div>
+            <img src={currentPixel[0].img} alt="image.jpg" />
+          </div>
+        ) : null}
 
         <input
           className="edit_textArea edit_input"
@@ -122,14 +157,23 @@ class Edit extends Component {
                 })
               : null;
           }}
-          defaultValue={savedText}
+          defaultValue={
+            currentPixel[0].text !== null ? currentPixel[0].text : savedText
+          }
         />
-        <Link to="/home/ilgi">
-          <button onClick={this.handleConfirm}>Confirm</button>
-        </Link>
+
+        <button onClick={() => this.handleConfirm()}>Confirm</button>
       </div>
     );
   }
 }
 
-export default Edit;
+function mapStateToProps(state) {
+  return {
+    currentPixel: state.pixelReducer.currentPixel
+  };
+}
+export default connect(mapStateToProps, {
+  updatePixel,
+  updateCurrentPixel
+})(Edit);

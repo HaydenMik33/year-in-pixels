@@ -6,12 +6,19 @@ const session = require("express-session");
 const massive = require("massive");
 const passport = require("passport");
 // console.log(__dirname);
-const { strat, logout, getUser } = require(`${__dirname}/controllers/authCtrl`);
-// const {
-//   getProducts,
-//   getCart,
-//   addToCart
-// } = require(`${__dirname}/controllers/productCtrl`);
+const {
+  strat,
+  logout,
+  getUser,
+  newIlgi,
+  getIlgi
+} = require(`${__dirname}/controllers/authCtrl`);
+const {
+  addPixel,
+  getAllPixels,
+  getPixel,
+  updatePixel
+} = require(`${__dirname}/controllers/pixelCtrl`);
 
 const port = process.env.PORT || 3001;
 
@@ -40,7 +47,7 @@ app.use(passport.session());
 passport.use(strat);
 
 passport.serializeUser((user, done) => {
-  console.log(user);
+  // console.log(user);
   app
     .get("db")
     .getUserByAuthid(user.id)
@@ -69,17 +76,20 @@ passport.deserializeUser((user, done) => {
 app.get(
   "/auth",
   passport.authenticate("auth0", {
-    successRedirect: "http://localhost:3000/#/home/ilgi",
+    successRedirect: "http://localhost:3000/#/home",
     failureRedirect: "http://localhost:3000/#/"
   })
 );
 app.get("/logout", logout);
 app.get("/api/me", getUser);
+app.post("/api/ilgi", newIlgi);
+app.get("/api/ilgi/:id", getIlgi);
 
-// // PRODCUTS ENDPOINTS
-// app.get("/api/product", getProducts);
-// app.get("/api/cart", getCart);
-// app.post("/api/cart/:id", addToCart);
+// PIXEL ENDPOINTS
+app.post("/api/pixel", addPixel);
+app.get("/api/pixels/:ilgi_id", getAllPixels);
+app.get("/api/pixel/:id", getPixel);
+app.post("/api/pixel/:ilgi_id/:id", updatePixel);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
