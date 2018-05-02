@@ -70,9 +70,11 @@
   margin: 0;
 }
 .welcome_button {
-  padding: 8px;
+  padding: 12px;
   background: transparent;
   background-color: none;
+  font-weight: bold;
+  font-size: 15px;
   border: 1px solid black;
   transition: background-color 2s;
 }

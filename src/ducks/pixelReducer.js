@@ -1,11 +1,13 @@
 import axios from "axios";
 const initialState = {
   pixels: [],
-  currentPixel: []
+  currentPixel: {},
+  ilgi: []
 };
 const GET_ALL_PIXELS = "GET_ALL_PIXELS";
 const UPDATE_PIXEL = "UPDATE_PIXEL";
 const UPDATE_CURRENTPIXEL = "UPDATE_CURRENTPIXEL";
+const SEND_ILGI_TO_REDUCER = "SEND_ILGI_TO_REDUCER";
 
 export function getAllPixels(ilgi_id) {
   return {
@@ -13,15 +15,18 @@ export function getAllPixels(ilgi_id) {
     payload: axios.get(`/api/pixels/${ilgi_id}`)
   };
 }
-export function updatePixel(id, text, img, colorValue, ilgi_id) {
-  //console.log(id, text, img, colorValue);
-  //I'm getting right data
+export function sendIlgiToReducer(ilgi) {
+  return {
+    type: SEND_ILGI_TO_REDUCER,
+    payload: ilgi
+  };
+}
+export function updatePixel(id, text, img, ilgi_id) {
   return {
     type: UPDATE_PIXEL,
     payload: axios.post(`/api/pixel/${ilgi_id}/${id}`, {
       text,
-      img,
-      colorValue
+      img
     })
   };
 }
@@ -36,6 +41,7 @@ export function updateCurrentPixel(pixel) {
 export default function pixelReducer(state = initialState, action) {
   switch (action.type) {
     case "UPDATE_CURRENTPIXEL":
+      console.log(action.payload);
       return { ...state, currentPixel: action.payload };
 
     case `${GET_ALL_PIXELS}_FULFILLED`:
@@ -48,7 +54,8 @@ export default function pixelReducer(state = initialState, action) {
         ...state,
         pixels: action.payload.data
       };
-
+    case "SEND_ILGI_TO_REDUCER":
+      return { ...state, ilgi: action.payload };
     default:
       return state;
   }

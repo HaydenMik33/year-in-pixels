@@ -20,6 +20,8 @@ const {
   updatePixel
 } = require(`${__dirname}/controllers/pixelCtrl`);
 
+const { addColor, updateColor } = require(`${__dirname}/controllers/colorCtrl`);
+
 const port = process.env.PORT || 3001;
 
 const app = express();
@@ -90,6 +92,11 @@ app.post("/api/pixel", addPixel);
 app.get("/api/pixels/:ilgi_id", getAllPixels);
 app.get("/api/pixel/:id", getPixel);
 app.post("/api/pixel/:ilgi_id/:id", updatePixel);
+
+// color endpoints
+
+app.post("/api/color", addColor);
+app.post("/api/color/:id", updateColor);
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

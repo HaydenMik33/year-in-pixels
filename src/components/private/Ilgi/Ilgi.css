@@ -1,24 +1,39 @@
 .grid-container {
   display: grid;
   /* background-color: #d7e1e5; */
-  grid-gap: 3px;
+  grid-gap: 4px;
   justify-content: center;
   grid-template-columns: 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw;
 }
 .grid-item {
-  padding: 1px;
+  padding: 0px;
   background-color: white;
 }
 .grid-item-custom {
-  padding: 20px;
+  padding: 25px;
   border-bottom: 3px solid #d7e1e5;
 }
 .daysIndicator {
-  padding: 11px;
+  padding: 15px;
   border-bottom: 3px solid #d7e1e5;
 }
 .Ilgi {
-  height: 1700px;
+  height: 2000px;
+  font-family: "Rajdhani", sans-serif;
+}
+.Ilgi_h1 {
+  font-family: "Rajdhani", sans-serif;
+  font-size: 3em;
+  font-weight: 700;
+  padding: 0;
+  margin: 0;
+}
+.Ilgi_by {
+  margin-left: 10vw;
+  font-family: "Work Sans", sans-serif;
+}
+.Ilgi_now {
+  margin: 25px;
 }
 .Ilgi_containerBackground {
   padding-top: 10px;
@@ -27,3 +42,6 @@
   width: 85vw;
   margin: 0 auto;
 }
+
+@import url("https://fonts.googleapis.com/css?family=Rajdhani:600,700");
+@import url("https://fonts.googleapis.com/css?family=Work+Sans:300");

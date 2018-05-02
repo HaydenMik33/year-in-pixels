@@ -1,1 +1,4 @@
-SELECT * FROM pixels WHERE pixel_unique = $1;
+SELECT * FROM pixels p
+join colors c on p.pixel_unique = c.pixel_unique
+WHERE id = $1;
+

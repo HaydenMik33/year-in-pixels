@@ -16,12 +16,22 @@
   grid-gap: 3px;
   grid-template-columns: 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw;
 }
+.edit {
+  height: 1100px;
+}
+.card {
+  padding-bottom: 20px;
+}
 .edit_grid-item {
   padding: 15px;
   border: solid 1px grey;
 }
+.edit_slider {
+  width: 500px;
+  margin: 0 auto;
+}
 .anger {
-  background-color: #e16161;
+  background-color: #e60000;
 }
 .excited {
   background-color: #fdc513;

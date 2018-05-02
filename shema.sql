@@ -10,8 +10,7 @@ CREATE TABLE pixels (
     id SERIAL PRIMARY KEY,
     text VARCHAR(50),
     img VARCHAR(200),
-    colorValue VARCHAR(10),
-    ilgi_id integer references Ilgi(id)
+    ilgi_id integer references Ilgi(id) 
 );
  
  Create table Ilgi(
@@ -19,11 +18,9 @@ CREATE TABLE pixels (
  )
 CREATE TABLE colors(
     id SERIAL PRIMARY KEY,
-    colorValue VARCHAR(10),
-    opacity decimal,
-    type VARCHAR(7),
-    description VARCHAR(15),
-    date VARCHAR(10)
+    colorvalue integer,
+    opacity decimal
+    pixel_unique integer
 );
 
 

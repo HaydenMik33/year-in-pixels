@@ -17,7 +17,20 @@
   transition: 0.2s;
   padding-top: 60px;
 }
-
+.Home {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 25px;
+}
+.home_top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  padding: 25px;
+}
 .sidenav a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
@@ -38,6 +51,22 @@
   font-size: 36px;
   margin-left: 50px;
 }
+.Home {
+  font-family: "Montserrat", sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+@font-face {
+  font-family: "LLPixel";
+  font-style: normal;
+  font-weight: normal;
+  src: local("LLPixel"),
+    url("../../public/Welcome/LLPIXEL_.woff") format("woff");
+}
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat:300|Syncopate");
+@import url("https://fonts.googleapis.com/css?family=Rajdhani:600,700");
 
 @media screen and (max-height: 450px) {
   .sidenav {

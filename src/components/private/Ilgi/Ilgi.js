@@ -1,81 +1,62 @@
 import React, { Component } from "react";
 import "./Ilgi.css";
 import * as moment from "moment";
-import { getAllPixels, updateCurrentPixel } from "../../../ducks/pixelReducer";
+import { updateCurrentPixel } from "../../../ducks/pixelReducer";
 import { connect } from "react-redux";
 import axios from "axios";
 class Ilgi extends Component {
-  constructor() {
-    super();
-    this.state = {
-      Ilgi: []
-    };
-    this.createNewPixelWithEmptyValue = this.createNewPixelWithEmptyValue.bind(
-      this
-    );
-  }
-
   componentDidMount() {
-    const { getAllPixels, user } = this.props;
-    axios
-      .get(`/api/ilgi/${user.id}`)
-      .then(res => {
-        if (res.data[0]) {
-          this.setState({ Ilgi: res.data[0] });
-          getAllPixels(res.data[0].id);
-        } else {
-          this.props.history.push("/home/start");
-        }
-      })
-      .catch(console.log);
+    console.log(this.props);
   }
 
   createNewPixelWithEmptyValue(pixel_unique) {
-    const { img, colorValue, text, updateCurrentPixel } = this.props;
-    const { Ilgi } = this.state;
-    let ilgi_id = Ilgi.id;
-    axios
-      .post("/api/pixel", { text, img, colorValue, ilgi_id, pixel_unique })
-      .then(pixel => {
-        updateCurrentPixel(pixel.data);
-      })
-      .then(() => this.props.history.push("/home/ilgi/edit"))
-      .catch(error => {
-        console.log(error);
-      });
+    const { updateCurrentPixel, ilgi } = this.props;
+    let ilgi_id = ilgi.id;
+    axios.post("/api/pixel", { ilgi_id, pixel_unique }).then(res => {
+      console.log(res);
+      axios.post("/api/color", { pixel_unique }).then(() =>
+        axios
+          .get(`/api/pixel/${res.data[0].id}`)
+          .then(pixel => {
+            console.log(pixel.data[0]);
+            updateCurrentPixel(pixel.data[0]);
+          })
+          .then(() => this.props.history.push("/home/ilgi/edit"))
+          .catch(error => {
+            console.log(error);
+          })
+          .catch(err => console.log(err))
+      );
+    });
   }
 
   render() {
-    let now = moment().format("LLLL");
+    let now = moment().format("MMMM Do YYYY, h:mm:ss a");
     const whatdateIsToday = moment().date();
-    const whatmonth = moment().month();
+    const whatmonth = moment().month() + 1;
     const { pixels } = this.props;
     /////////////////////////////////////////////////////
-    const test = startNum => {
-      let pixelid = startNum;
+    const test = pixelid => {
       let tables = [];
       let howManyDays = moment(
-        `2018-0${startNum / 100}`,
+        `2018-0${pixelid / 100}`,
         "YYYY-MM"
       ).daysInMonth();
       for (let i = 1; i < howManyDays + 1; i++) {
         let index = pixels.findIndex(el => el.pixel_unique === pixelid + i);
         let pixelStyle = {
-          backgroundColor:
-            pixels[index] &&
-            (pixels[index].colorvalue === "anger"
-              ? "#e16161"
-              : pixels[index].colorvalue === "excited"
-                ? "#fdc513"
-                : pixels[index].colorvalue === "love"
-                  ? "#ffd1d1"
-                  : pixels[index].colorvalue === "sad"
-                    ? "#c6c6c8"
-                    : pixels[index].colorvalue === "chill"
-                      ? "#eafbfa"
-                      : pixels[index].colorvalue === "nervous"
-                        ? "#94acff"
-                        : "transparent")
+          opacity: pixels[index] ? pixels[index].opacity : null,
+          backgroundColor: pixels[index]
+            ? pixels[index].colorvalue
+            : "transparent",
+          border:
+            pixelid + i === whatmonth * 100 + whatdateIsToday
+              ? "2px solid rgba(81, 203, 238, 1)"
+              : null,
+          boxShadow:
+            pixelid + i === whatmonth * 100 + whatdateIsToday
+              ? "0 0 7px rgba(81, 203, 238, 1)"
+              : null
         };
         tables.push(
           <div
@@ -83,20 +64,21 @@ class Ilgi extends Component {
             className="grid-item-custom"
             style={pixelStyle}
             onClick={() => {
-              console.log(pixelid + i);
+              console.log(index);
               if (index === -1) {
                 this.createNewPixelWithEmptyValue(pixelid + i);
               } else {
                 axios
-                  .get(`/api/pixel/${pixelid + i}`)
+                  .get(`/api/pixel/${pixels[index].id}`)
                   .then(pixel => {
-                    this.props.updateCurrentPixel(pixel.data);
+                    console.log(pixel);
+                    this.props.updateCurrentPixel(pixel.data[0]);
                   })
-                  .then(() => this.props.history.push("/home/ilgi/edit"));
+                  .then(() => this.props.history.push("/home/ilgi/edit"))
+                  .catch(err => console.log(err));
               }
             }}
           />
-          // </Link>
         );
       }
       return tables;
@@ -116,8 +98,11 @@ class Ilgi extends Component {
 
     return (
       <div className="Ilgi">
-        <h1>{this.state.Ilgi.title}</h1>
-        <p>{now}</p>
+        <div className="Ilgi_header">
+          <h1 className="Ilgi_h1">{this.props.ilgi.title}</h1>
+          <p className="Ilgi_by">by {this.props.user.displayname}</p>
+          <p className="Ilgi_now">{now}</p>
+        </div>
         <div className="Ilgi_containerBackground">
           <div className="grid-container">
             <div className="grid-item">
@@ -167,15 +152,15 @@ class Ilgi extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { pixels, currentPixel } = state.pixelReducer;
+  const { pixels, currentPixel, ilgi } = state.pixelReducer;
   const { user } = state.userReducer;
   return {
     pixels,
     currentPixel,
-    user
+    user,
+    ilgi
   };
 }
 export default connect(mapStateToProps, {
-  getAllPixels,
   updateCurrentPixel
 })(Ilgi);

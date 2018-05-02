@@ -15,7 +15,6 @@ class Profile extends Component {
         <Switch>
           <Route path="/home/profile/setting" component={Setting} />
         </Switch>
-        <p>This is my Profile table</p>
         <p>
           Username :{this.props.user.displayname}
           <br />

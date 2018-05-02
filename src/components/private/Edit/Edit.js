@@ -3,166 +3,229 @@ import "./Edit.css";
 import { connect } from "react-redux";
 import { updatePixel, updateCurrentPixel } from "../../../ducks/pixelReducer";
 import axios from "axios";
+import basic from "./basic.jpg";
+import heart from "./heart.png";
+import {
+  Card,
+  CardActions,
+  CardHeader,
+  CardMedia,
+  CardTitle,
+  CardText
+} from "material-ui/Card";
+import Slider from "material-ui/Slider";
+import RaisedButton from "material-ui/RaisedButton";
+import DisplayContent from "./DisplayContent/DisplayContent";
 
 class Edit extends Component {
   constructor() {
     super();
-    this.refs = {
-      love: React.createRef()
-    };
     this.state = {
+      displayContent: true,
       id: "",
       ilgi_id: "",
       text: "",
-      colorValue: "",
+      colorvalue: "",
       img: "",
       savedText: "How was your day",
       savedImgUrl: "Img url",
-      readonly: true,
-      clicked: 0,
+      opacity: 0.5,
       divBorder: "1px solid grey",
-      inputBorder: "none",
-      inputBoxShadow: "none"
+      colorClicked: false
     };
-    this.colorValueSelector = this.colorValueSelector.bind(this);
-    this.handleConfirm = this.handleConfirm.bind(this);
-    this.reset = this.reset.bind(this);
+    this.colorvalueSelector = this.colorvalueSelector.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
   componentDidMount() {
     const { currentPixel } = this.props;
+    console.log(currentPixel);
+    let p = currentPixel;
     this.setState({
-      id: currentPixel[0].id,
-      ilgi_id: currentPixel[0].ilgi_id,
-      text: currentPixel[0].text,
-      img: currentPixel[0].img
-      // colorValue: currentPixel[0].colorvalue
+      id: p.id,
+      ilgi_id: p.ilgi_id,
+      text: p.text,
+      img: p.img,
+      opacity: p.opacity
     });
-    this.colorValueSelector(currentPixel[0].colorvalue);
+    this.colorvalueSelector(p.colorvalue);
   }
-  colorValueSelector(ref) {
+  colorvalueSelector(colorvalue) {
     this.setState({
-      colorValue: ref,
+      colorvalue: colorvalue,
       divBorder: "2px solid rgba(81, 203, 238, 1)",
-      inputBoxShadow: "0 0 7px rgba(81, 203, 238, 1)"
+      inputBoxShadow: "0 0 7px rgba(81, 203, 238, 1)",
+      colorClicked: true
     });
   }
-  reset() {
-    this.setState({
-      text: "",
-      img: "",
-      colorValue: ""
-    });
+  handleEdit() {
+    this.setState({ displayContent: !this.state.displayContent });
   }
-  handleConfirm() {
-    const { id, ilgi_id, text, img, colorValue } = this.state;
-    const { updateCurrentPixel, updatePixel } = this.props;
-    updateCurrentPixel([{ text, img, colorValue }]);
-    updatePixel(id, text, img, colorValue, ilgi_id);
-    this.props.history.push("/home/ilgi");
+  handleSave() {
+    const { id, ilgi_id, text, img, colorvalue, opacity } = this.state;
+    const { updatePixel, currentPixel } = this.props;
+    axios
+      .post(`/api/color/${currentPixel.pixel_unique}`, { colorvalue, opacity })
+      .then(() => {
+        updatePixel(id, text, img, ilgi_id).then(() =>
+          this.props.history.push("/home/ilgi")
+        );
+        // this.props.history.push("/home/ilgi");
+      });
   }
 
   render() {
     const {
       text,
       img,
-      readonly,
-      clicked,
       savedImgUrl,
       savedText,
-      colorValue
+      colorvalue,
+      displayContent
     } = this.state;
+
     const { currentPixel } = this.props;
     const styles = {
-      inputStyle: {
-        border: this.state.inputBorder
-      },
       colorBoxStyle: {
+        opacity: this.state.opacity
+      },
+      colorBoxBorderStyle: {
         border: this.state.divBorder,
         boxShadow: this.state.inputBoxShadow
       }
     };
-    const { colorBoxStyle, inputStyle } = styles;
+    const { colorBoxStyle, colorBoxBorderStyle } = styles;
+
     return (
       <div className="edit">
-        <p>double click to edit your Ilgi</p>
-        <div className="edit_grid-container">
-          <div
-            className="edit_grid-item #e16161 anger"
-            onClick={() => this.colorValueSelector("anger")}
-            style={colorValue === "anger" ? colorBoxStyle : null}
-          />
-          <div
-            className="edit_grid-item #fdc513 excited"
-            onClick={() => this.colorValueSelector("excited")}
-            style={colorValue === "excited" ? colorBoxStyle : null}
-          />
-          <div
-            className="edit_grid-item #ffd1d1 love"
-            onClick={() => this.colorValueSelector("love")}
-            style={colorValue === "love" ? colorBoxStyle : null}
-          />
-          <div
-            className="edit_grid-item #c6c6c8 sad"
-            onClick={() => this.colorValueSelector("sad")}
-            style={colorValue === "sad" ? colorBoxStyle : null}
-          />
-          <div
-            className="edit_grid-item #eafbfa chill"
-            onClick={() => this.colorValueSelector("chill")}
-            style={colorValue === "chill" ? colorBoxStyle : null}
-          />
-          <div
-            className="edit_grid-item 	#94acff nervous"
-            onClick={() => this.colorValueSelector("nervous")}
-            style={colorValue === "nervous" ? colorBoxStyle : null}
-          />
-          <div className="edit_grid-item" />
-          <div className="edit_grid-item" />
-          <div className="edit_grid-item" />
-          <div className="edit_grid-item" />
-          <div className="edit_grid-item" />
-          <div className="edit_grid-item" />
-        </div>
-        <input
-          className="edit_input"
-          onChange={e =>
-            this.setState({
-              img: e.target.value
-            })
-          }
-          defaultValue={
-            currentPixel[0].img !== null ? currentPixel[0].img : savedImgUrl
-          }
-        />
-        {currentPixel[0].img ? (
+        {displayContent ? (
           <div>
-            <img src={currentPixel[0].img} alt="image.jpg" />
+            <DisplayContent currentPixel={currentPixel} />
+            <CardActions>
+              <RaisedButton label="EDIT" onClick={() => this.handleEdit()} />
+            </CardActions>
+            {/* have this have quote generator by tags keyword or mood and then save into my inbox */}
           </div>
-        ) : null}
-
-        <input
-          className="edit_textArea edit_input"
-          readOnly={readonly}
-          style={inputStyle}
-          onChange={e => this.setState({ text: e.target.value })}
-          onClick={() => {
-            this.setState({
-              clicked: clicked + 1
-            });
-            clicked === 2
-              ? this.setState({
-                  readonly: !readonly,
-                  clicked: 0,
-                  inputBorder: "1px solid grey"
+        ) : (
+          <Card className="card">
+            <CardMedia
+              overlay={<CardTitle title="wheather icon" subtitle="weather" />}
+            >
+              {currentPixel.img ? (
+                <img src={currentPixel.img} alt="image.jpg" />
+              ) : (
+                <img src={basic} alt="defaultimage.jpg" />
+              )}
+            </CardMedia>
+            <CardTitle title="name you pixel" subtitle="Card subtitle" />
+            <CardText>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
+              mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec
+              vulputate interdum sollicitudin. Nunc lacinia auctor quam sed
+              pellentesque. Aliquam dui mauris, mattis quis lacus id,
+              pellentesque lobortis odio.
+            </CardText>;
+            <div className="edit_grid-container">
+              <div
+                style={colorvalue === "#e60000" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item anger"
+                  onClick={() => this.colorvalueSelector("#e60000")}
+                  style={colorvalue === "#e60000" ? colorBoxStyle : null}
+                />
+              </div>
+              <div
+                style={colorvalue === "#fdc513" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item excited"
+                  onClick={() => this.colorvalueSelector("#fdc513")}
+                  style={colorvalue === "#fdc513" ? colorBoxStyle : null}
+                />
+              </div>
+              <div
+                style={colorvalue === "#ffd1d1" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item love"
+                  onClick={() => this.colorvalueSelector("#ffd1d1")}
+                  style={colorvalue === "#ffd1d1" ? colorBoxStyle : null}
+                />
+              </div>
+              <div
+                style={colorvalue === "#c6c6c8" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item sad"
+                  onClick={() => this.colorvalueSelector("#c6c6c8")}
+                  style={colorvalue === "#c6c6c8" ? colorBoxStyle : null}
+                />
+              </div>
+              <div
+                style={colorvalue === "#eafbfa" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item  chill"
+                  onClick={() => this.colorvalueSelector("#eafbfa")}
+                  style={colorvalue === "#eafbfa" ? colorBoxStyle : null}
+                />
+              </div>
+              <div
+                style={colorvalue === "#94acff" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item nervous"
+                  onClick={() => this.colorvalueSelector("#94acff")}
+                  style={colorvalue === "#94acff" ? colorBoxStyle : null}
+                />
+              </div>
+              <div className="edit_grid-item" />
+              <div className="edit_grid-item" />
+              <div className="edit_grid-item" />
+              <div className="edit_grid-item" />
+              <div className="edit_grid-item" />
+              <div className="edit_grid-item" />
+            </div>
+            {this.state.colorClicked ? (
+              <Slider
+                className="edit_slider"
+                min={0.1}
+                max={1.0}
+                step={0.1}
+                defaultValue={0.5}
+                value={this.state.opacity}
+                onChange={(e, value) => this.setState({ opacity: value })}
+              />
+            ) : null}
+            <input
+              className="edit_input"
+              onChange={e =>
+                this.setState({
+                  img: e.target.value
                 })
-              : null;
-          }}
-          defaultValue={
-            currentPixel[0].text !== null ? currentPixel[0].text : savedText
-          }
-        />
-
-        <button onClick={() => this.handleConfirm()}>Confirm</button>
+              }
+              defaultValue={
+                currentPixel.img !== null ? currentPixel.img : savedImgUrl
+              }
+            />
+            <input
+              className="edit_textArea edit_input"
+              onChange={e => this.setState({ text: e.target.value })}
+              onClick={() => {
+                this.setState({
+                  inputBorder: "1px solid grey"
+                });
+              }}
+              defaultValue={
+                currentPixel.text !== null ? currentPixel.text : savedText
+              }
+            />
+            <CardActions>
+              <RaisedButton label="SAVE" onClick={() => this.handleSave()} />
+            </CardActions>
+          </Card>
+        )}
       </div>
     );
   }

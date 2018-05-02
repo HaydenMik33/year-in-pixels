@@ -1,0 +1,1 @@
+INSERT INTO colors (colorvalue,opacity,pixel_unique) VALUES ($1, $2,$3) RETURNING *;

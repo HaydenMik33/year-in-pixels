@@ -1,9 +1,9 @@
 const addPixel = (req, res) => {
   console.log("Hit the post => /api/pixel");
-  const { text, img, colorValue, ilgi_id, pixel_unique } = req.body;
+  const { ilgi_id, pixel_unique } = req.body;
   req.app
     .get("db")
-    .addPixel([text, img, colorValue, ilgi_id, pixel_unique])
+    .addPixel(["", "", ilgi_id, pixel_unique])
     .then(pixel => {
       res.status(200).json(pixel);
     })
@@ -29,10 +29,14 @@ const getAllPixels = (req, res) => {
 const getPixel = (req, res) => {
   console.log("Hit the get =>/api/pixel ");
   const { id } = req.params;
+  console.log(id);
   req.app
     .get("db")
     .getPixel(id)
-    .then(pixel => res.status(200).send(pixel))
+    .then(pixel => {
+      console.log(pixel);
+      res.status(200).send(pixel);
+    })
     .catch(() => {
       res.status(500).send();
     });
@@ -43,16 +47,17 @@ const updatePixel = (req, res) => {
   console.log(req.params);
   console.log(req.body);
   const { id, ilgi_id } = req.params;
-  const { text, img, colorValue } = req.body;
+  const { text, img } = req.body;
 
   req.app
     .get("db")
-    .updatePixel([id, text, img, colorValue, ilgi_id])
+    .updatePixel([id, text, img, ilgi_id])
     .then(pixels => {
       res.status(200).send(pixels);
     })
-    .catch(() => {
-      res.status(500).send();
+    .catch(err => {
+      // res.status(500).send();
+      console.log(err);
     });
 };
 module.exports = {
