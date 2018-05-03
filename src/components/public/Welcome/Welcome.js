@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Welcome.css";
-import RaisedButton from "material-ui/RaisedButton";
 const Welcome = () => {
   /////use the link below for my logo
   /////https://open.spotify.com/track/6XInw1uowvKHrJZaiFd8sY?si=ZG_Rhxz0SiCV6HSynbhm8w

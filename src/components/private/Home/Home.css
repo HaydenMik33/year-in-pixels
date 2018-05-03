@@ -17,6 +17,9 @@
   transition: 0.2s;
   padding-top: 60px;
 }
+.Home_snackBar {
+  width: 50vw;
+}
 .Home {
   display: flex;
   flex-direction: column;

@@ -71,7 +71,6 @@ class Ilgi extends Component {
                 axios
                   .get(`/api/pixel/${pixels[index].id}`)
                   .then(pixel => {
-                    console.log(pixel);
                     this.props.updateCurrentPixel(pixel.data[0]);
                   })
                   .then(() => this.props.history.push("/home/ilgi/edit"))

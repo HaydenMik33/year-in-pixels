@@ -5,11 +5,15 @@ import {
   BottomNavigationItem
 } from "material-ui/BottomNavigation";
 import FontIcon from "material-ui/FontIcon";
-import IconLocationOn from "material-ui/svg-icons/communication/location-on";
 import Paper from "material-ui/Paper";
-const yearIcon = <FontIcon className="material-icons">By year</FontIcon>;
-const monthIcon = <FontIcon className="material-icons">By month</FontIcon>;
-const colorIcon = <FontIcon className="material-icons">By color</FontIcon>;
+import { connect } from "react-redux";
+import { getAllQuote } from "../../ducks/quoteReducer";
+import Gallery from "./Gallery/Gallery";
+import Event from "./Event/Event";
+import Quote from "./Quote/Quote";
+const GalleryIcon = <FontIcon className="material-icons">GalleryIcon</FontIcon>;
+const QuoteIcon = <FontIcon className="material-icons">QuoteIcon</FontIcon>;
+const EventIcon = <FontIcon className="material-icons">EventIcon </FontIcon>;
 
 class Inbox extends Component {
   state = {
@@ -17,38 +21,47 @@ class Inbox extends Component {
   };
 
   select = index => this.setState({ selectedIndex: index });
-
+  componentDidMount() {
+    const { getAllQuote, ilgi, quotes } = this.props;
+    getAllQuote(ilgi.id);
+  }
   render() {
     return (
       <div className="Inbox">
         <Paper zDepth={1}>
           <BottomNavigation selectedIndex={this.state.selectedIndex}>
             <BottomNavigationItem
-              label=""
-              icon={yearIcon}
+              label="Gallery"
+              icon={GalleryIcon}
               onClick={() => this.select(0)}
             />
             <BottomNavigationItem
-              label="월별"
-              icon={monthIcon}
+              label="My Quote"
+              icon={QuoteIcon}
               onClick={() => this.select(1)}
             />
             <BottomNavigationItem
-              label="색깔별"
-              icon={colorIcon}
+              label="Event"
+              icon={EventIcon}
               onClick={() => this.select(2)}
             />
           </BottomNavigation>
         </Paper>
         {this.state.selectedIndex === 0 ? (
-          <div>first one</div>
+          <Gallery />
         ) : this.state.selectedIndex === 1 ? (
-          <div> second one</div>
+          <Quote quotes={this.props.quotes} />
         ) : this.state.selectedIndex === 2 ? (
-          <div>third one</div>
+          <Event />
         ) : null}
       </div>
     );
   }
 }
-export default Inbox;
+function mapStateToProps(state) {
+  return {
+    quotes: state.quoteReducer.quotes,
+    ilgi: state.pixelReducer.ilgi
+  };
+}
+export default connect(mapStateToProps, { getAllQuote })(Inbox);

@@ -1,6 +1,7 @@
 update pixels
 set text=$2,
-img=$3
+img=$3,
+quote_id= $5
 where id=$1;
 select * from pixels p
 join colors c on p.pixel_unique = c.pixel_unique

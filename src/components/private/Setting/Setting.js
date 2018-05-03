@@ -5,7 +5,17 @@ import Subheader from "material-ui/Subheader";
 import Divider from "material-ui/Divider";
 import Checkbox from "material-ui/Checkbox";
 import Toggle from "material-ui/Toggle";
+import { connect } from "react-redux";
+import axios from "axios";
 class Setting extends Component {
+  deleteIlgi(ilgi_id) {
+    axios.delete(`/api/ilgi/${ilgi_id}`).then(() => {
+      this.props.history.push("/home");
+    });
+  }
+  ////////////
+  //////////        inside of setting put profile on
+  //////////////
   render() {
     const styles = {
       root: {
@@ -13,6 +23,7 @@ class Setting extends Component {
         flexWrap: "wrap"
       }
     };
+    console.log(this.props);
     return (
       <div style={styles.root}>
         <List>
@@ -27,25 +38,6 @@ class Setting extends Component {
           />
         </List>
         <Divider />
-        <List>
-          <Subheader>Hangout Notifications</Subheader>
-          <ListItem
-            leftCheckbox={<Checkbox />}
-            primaryText="Notifications"
-            secondaryText="Allow notifications"
-          />
-          <ListItem
-            leftCheckbox={<Checkbox />}
-            primaryText="Sounds"
-            secondaryText="Hangouts message"
-          />
-          <ListItem
-            leftCheckbox={<Checkbox />}
-            primaryText="Video sounds"
-            secondaryText="Hangouts video call"
-          />
-        </List>
-
         <List>
           <ListItem
             primaryText="When calls and notifications arrive"
@@ -69,9 +61,26 @@ class Setting extends Component {
           <ListItem primaryText="Sounds" leftCheckbox={<Checkbox />} />
           <ListItem primaryText="Video sounds" leftCheckbox={<Checkbox />} />
         </List>
+        <Divider />
+        <p
+          onClick={() => {
+            if (
+              window.confirm(
+                "Are you sure you wish to delete your whole Ilgi for this year?"
+              )
+            )
+              this.deleteIlgi(this.props.ilgi.id);
+          }}
+        >
+          Delete 2018 Ilgi
+        </p>
       </div>
     );
   }
 }
-
-export default Setting;
+function mapStateToProps(state) {
+  return {
+    ilgi: state.pixelReducer.ilgi
+  };
+}
+export default connect(mapStateToProps)(Setting);

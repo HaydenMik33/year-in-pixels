@@ -47,11 +47,11 @@ const updatePixel = (req, res) => {
   console.log(req.params);
   console.log(req.body);
   const { id, ilgi_id } = req.params;
-  const { text, img } = req.body;
+  const { text, img, quote_id } = req.body;
 
   req.app
     .get("db")
-    .updatePixel([id, text, img, ilgi_id])
+    .updatePixel([id, text, img, ilgi_id, quote_id])
     .then(pixels => {
       res.status(200).send(pixels);
     })

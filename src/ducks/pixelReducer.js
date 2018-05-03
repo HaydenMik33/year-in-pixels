@@ -21,12 +21,13 @@ export function sendIlgiToReducer(ilgi) {
     payload: ilgi
   };
 }
-export function updatePixel(id, text, img, ilgi_id) {
+export function updatePixel(id, text, img, ilgi_id, quote_id) {
   return {
     type: UPDATE_PIXEL,
     payload: axios.post(`/api/pixel/${ilgi_id}/${id}`, {
       text,
-      img
+      img,
+      quote_id
     })
   };
 }
@@ -41,7 +42,6 @@ export function updateCurrentPixel(pixel) {
 export default function pixelReducer(state = initialState, action) {
   switch (action.type) {
     case "UPDATE_CURRENTPIXEL":
-      console.log(action.payload);
       return { ...state, currentPixel: action.payload };
 
     case `${GET_ALL_PIXELS}_FULFILLED`:

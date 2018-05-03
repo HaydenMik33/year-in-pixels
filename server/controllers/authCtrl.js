@@ -52,11 +52,20 @@ const getIlgi = (req, res) => {
     })
     .catch(err => res.status(500).send(err));
 };
-
+const deleteAll = (req, res) => {
+  const { ilgi_id } = req.params;
+  req.app
+    .get("db")
+    .deleteIlgi([ilgi_id])
+    .then(response => {
+      res.status(200).send(response);
+    });
+};
 module.exports = {
   strat,
   getUser,
   logout,
   newIlgi,
-  getIlgi
+  getIlgi,
+  deleteAll
 };

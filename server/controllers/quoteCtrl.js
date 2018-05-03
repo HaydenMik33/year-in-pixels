@@ -1,23 +1,37 @@
+const axios = require("axios");
 const addQuote = (req, res) => {
   console.log("Hit the post => /api/quote");
-  const { text, img, colorvalue, ilgi_id, Quote_unique } = req.body;
+  /////add quote to the database
+  const { text, author, tags, ilgi_id } = req.body;
   req.app
     .get("db")
-    .addQuote([text, img, colorvalue, ilgi_id, Quote_unique])
-    .then(Quote => {
-      res.status(200).json(Quote);
+    .addQuote([text, author, tags, ilgi_id])
+    .then(quote => {
+      res.status(200).json(quote);
     })
     .catch(err => {
       res.status(500).send(err);
     });
 };
-
-const getAllQuote = (req, res) => {
-  console.log("Hit the get => /api/quotes");
-  const { ilgi_id } = req.params;
+const getQuoteById = (req, res) => {
+  const { id } = req.params;
   req.app
     .get("db")
-    .getAllQuotes(ilgi_id)
+    .getQuoteByid(id)
+    .then(quote => {
+      res.status(200).send(quote);
+    })
+    .catch(() => {
+      res.status(500).send();
+    });
+};
+const getAllQuotes = (req, res) => {
+  //////get all quotes from your database
+  console.log("Hit the get => /api/quotes");
+  const { id } = req.params;
+  req.app
+    .get("db")
+    .getAllQuotes(id)
     .then(quotes => {
       res.status(200).send(quotes);
     })
@@ -27,6 +41,7 @@ const getAllQuote = (req, res) => {
 };
 
 const deleteQuote = (req, res) => {
+  ////delete Quote to your data base
   console.log("Hit the post =>/api/quote");
   console.log(req.params);
   console.log(req.body);
@@ -44,11 +59,19 @@ const deleteQuote = (req, res) => {
     });
 };
 const getQuote = (req, res) => {
-  /////get quote from api addresses.........
+  axios
+    .get("https://talaikis.com/api/quotes/random/")
+    .then(quote => {
+      console.log(quote);
+      res.status(200).json(quote.data);
+    })
+    .catch(res => res.status(500).json(res));
 };
 
 module.exports = {
   addQuote,
   getAllQuotes,
-  deleteQuote
+  deleteQuote,
+  getQuote,
+  getQuoteById
 };

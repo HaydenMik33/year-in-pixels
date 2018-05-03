@@ -2,20 +2,21 @@ import React, { Component } from "react";
 import "./Edit.css";
 import { connect } from "react-redux";
 import { updatePixel, updateCurrentPixel } from "../../../ducks/pixelReducer";
+import { getAllQuote } from "../../../ducks/quoteReducer";
 import axios from "axios";
 import basic from "./basic.jpg";
-import heart from "./heart.png";
 import {
   Card,
   CardActions,
-  CardHeader,
   CardMedia,
   CardTitle,
   CardText
 } from "material-ui/Card";
+import Paper from "material-ui/Paper";
 import Slider from "material-ui/Slider";
 import RaisedButton from "material-ui/RaisedButton";
 import DisplayContent from "./DisplayContent/DisplayContent";
+import Snackbar from "material-ui/Snackbar";
 
 class Edit extends Component {
   constructor() {
@@ -24,23 +25,37 @@ class Edit extends Component {
       displayContent: true,
       id: "",
       ilgi_id: "",
+      quote_id: "",
       text: "",
       colorvalue: "",
       img: "",
-      savedText: "How was your day",
-      savedImgUrl: "Img url",
       opacity: 0.5,
       divBorder: "1px solid grey",
-      colorClicked: false
+      colorClicked: false,
+      showResult: false,
+      showQuotesFromInbox: false,
+      keyword: "",
+      photos: [],
+      quote: {},
+      snackbarShow_photo: false,
+      snackbarShow_quote: false
     };
     this.colorvalueSelector = this.colorvalueSelector.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.searchPhotos = this.searchPhotos.bind(this);
   }
   componentDidMount() {
-    const { currentPixel } = this.props;
+    const { currentPixel, getAllQuote } = this.props;
     console.log(currentPixel);
     let p = currentPixel;
+    getAllQuote(p.ilgi_id);
+    p.quote_id !== null
+      ? axios.get(`/api/quote/${p.quote_id}`).then(res => {
+          console.log(res.data);
+          this.setState({ quote: res.data });
+        })
+      : null;
     this.setState({
       id: p.id,
       ilgi_id: p.ilgi_id,
@@ -62,27 +77,53 @@ class Edit extends Component {
     this.setState({ displayContent: !this.state.displayContent });
   }
   handleSave() {
-    const { id, ilgi_id, text, img, colorvalue, opacity } = this.state;
+    const {
+      id,
+      ilgi_id,
+      quote_id,
+      text,
+      img,
+      colorvalue,
+      opacity
+    } = this.state;
     const { updatePixel, currentPixel } = this.props;
     axios
       .post(`/api/color/${currentPixel.pixel_unique}`, { colorvalue, opacity })
       .then(() => {
-        updatePixel(id, text, img, ilgi_id).then(() =>
+        updatePixel(id, text, img, ilgi_id, quote_id).then(() =>
           this.props.history.push("/home/ilgi")
         );
         // this.props.history.push("/home/ilgi");
       });
   }
+  off;
+  searchPhotos() {
+    const { keyword, showResult } = this.state;
+    axios.get(`/api/photos/${keyword}`).then(res => {
+      this.setState({ photos: res.data.results, showResult: !showResult });
+    });
+  }
+  select(url) {
+    this.setState({
+      img: url,
+      showResult: !this.state.showResult,
+      snackbarShow_photo: true
+    });
+  }
+  selectQuote(quote_id, quote) {
+    this.setState({
+      quote_id: quote_id,
+      quote: quote,
+      showQuotesFromInbox: false,
+      snackbarShow_quote: true
+    });
+  }
+  bringQuotes() {
+    this.setState({ showQuotesFromInbox: true });
+  }
 
   render() {
-    const {
-      text,
-      img,
-      savedImgUrl,
-      savedText,
-      colorvalue,
-      displayContent
-    } = this.state;
+    const { colorvalue, displayContent } = this.state;
 
     const { currentPixel } = this.props;
     const styles = {
@@ -95,35 +136,60 @@ class Edit extends Component {
       }
     };
     const { colorBoxStyle, colorBoxBorderStyle } = styles;
-
+    const quote_searchResult = this.props.quotes.map((el, i) => {
+      return (
+        <Paper
+          zDepth={1}
+          className="Edit_quote_search_result"
+          key={i}
+          onClick={() => this.selectQuote(el.id, el)}
+        >
+          <p>{el.text}</p>
+          <p>-By {el.author}</p>
+        </Paper>
+      );
+    });
+    const displaySearchResult = this.state.photos.map((el, i) => {
+      return (
+        <Paper
+          zDepth={1}
+          className="Edit_photo_search_result"
+          key={i}
+          onClick={() => this.select(el.urls.regular)}
+        >
+          <img src={el.urls.small} />
+        </Paper>
+      );
+    });
     return (
       <div className="edit">
         {displayContent ? (
           <div>
-            <DisplayContent currentPixel={currentPixel} />
+            <DisplayContent
+              currentPixel={currentPixel}
+              quote={this.state.quote}
+            />
             <CardActions>
               <RaisedButton label="EDIT" onClick={() => this.handleEdit()} />
             </CardActions>
             {/* have this have quote generator by tags keyword or mood and then save into my inbox */}
           </div>
         ) : (
-          <Card className="card">
-            <CardMedia
-              overlay={<CardTitle title="wheather icon" subtitle="weather" />}
-            >
-              {currentPixel.img ? (
-                <img src={currentPixel.img} alt="image.jpg" />
+          <Card>
+            <CardMedia>
+              {this.state.img ? (
+                <img src={this.state.img} alt="myImage.jpg" />
               ) : (
                 <img src={basic} alt="defaultimage.jpg" />
               )}
             </CardMedia>
             <CardTitle title="name you pixel" subtitle="Card subtitle" />
             <CardText>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-              mattis pretium massa. Aliquam erat volutpat. Nulla facilisi. Donec
-              vulputate interdum sollicitudin. Nunc lacinia auctor quam sed
-              pellentesque. Aliquam dui mauris, mattis quis lacus id,
-              pellentesque lobortis odio.
+              <input
+                className="edit_textArea"
+                onChange={e => this.setState({ text: e.target.value })}
+                defaultValue={currentPixel.text}
+              />
             </CardText>;
             <div className="edit_grid-container">
               <div
@@ -198,32 +264,58 @@ class Edit extends Component {
                 onChange={(e, value) => this.setState({ opacity: value })}
               />
             ) : null}
-            <input
-              className="edit_input"
-              onChange={e =>
-                this.setState({
-                  img: e.target.value
-                })
-              }
-              defaultValue={
-                currentPixel.img !== null ? currentPixel.img : savedImgUrl
-              }
-            />
-            <input
-              className="edit_textArea edit_input"
-              onChange={e => this.setState({ text: e.target.value })}
-              onClick={() => {
-                this.setState({
-                  inputBorder: "1px solid grey"
-                });
-              }}
-              defaultValue={
-                currentPixel.text !== null ? currentPixel.text : savedText
-              }
-            />
+            <Paper zDepth={1}>
+              <input
+                className="edit_search_img_input"
+                defaultValue="type keywords to search up images"
+                onChange={e => this.setState({ keyword: e.target.value })}
+              />
+              <RaisedButton
+                label="search"
+                onClick={() => this.searchPhotos()}
+              />
+              {this.state.showResult ? (
+                <Paper
+                  zDepth={1}
+                  className="Edit_photo_search_result_container"
+                >
+                  {displaySearchResult}
+                </Paper>
+              ) : null}
+            </Paper>
+            <Paper>
+              <p>You haven't added quotes in this pixel</p>
+              <RaisedButton
+                label="Change Quote"
+                onClick={() => this.bringQuotes()}
+              />
+              {this.state.showQuotesFromInbox ? (
+                <div className="Edit_search_quote_result_container">
+                  {quote_searchResult}
+                </div>
+              ) : null}
+            </Paper>
             <CardActions>
               <RaisedButton label="SAVE" onClick={() => this.handleSave()} />
             </CardActions>
+            <Snackbar
+              className="Edit_snackBar"
+              open={this.state.snackbarShow_photo}
+              message="Your pixel photo just changed!"
+              autoHideDuration={4000}
+              onRequestClose={() =>
+                this.setState({ snackbarShow_photo: false })
+              }
+            />
+            <Snackbar
+              className="Edit_snackBar"
+              open={this.state.snackbarShow_quote}
+              message="Quote just added in this pixel"
+              autoHideDuration={4000}
+              onRequestClose={() =>
+                this.setState({ snackbarShow_quote: false })
+              }
+            />
           </Card>
         )}
       </div>
@@ -233,10 +325,12 @@ class Edit extends Component {
 
 function mapStateToProps(state) {
   return {
-    currentPixel: state.pixelReducer.currentPixel
+    currentPixel: state.pixelReducer.currentPixel,
+    quotes: state.quoteReducer.quotes
   };
 }
 export default connect(mapStateToProps, {
   updatePixel,
-  updateCurrentPixel
+  updateCurrentPixel,
+  getAllQuote
 })(Edit);

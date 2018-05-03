@@ -11,7 +11,8 @@ const {
   logout,
   getUser,
   newIlgi,
-  getIlgi
+  getIlgi,
+  deleteAll
 } = require(`${__dirname}/controllers/authCtrl`);
 const {
   addPixel,
@@ -21,7 +22,13 @@ const {
 } = require(`${__dirname}/controllers/pixelCtrl`);
 
 const { addColor, updateColor } = require(`${__dirname}/controllers/colorCtrl`);
-
+const {
+  getQuote,
+  addQuote,
+  getAllQuotes,
+  getQuoteById
+} = require(`${__dirname}/controllers/quoteCtrl`);
+const { searchPhoto } = require(`${__dirname}/controllers/unsplashCtrl`);
 const port = process.env.PORT || 3001;
 
 const app = express();
@@ -86,6 +93,7 @@ app.get("/logout", logout);
 app.get("/api/me", getUser);
 app.post("/api/ilgi", newIlgi);
 app.get("/api/ilgi/:id", getIlgi);
+app.delete("/api/ilgi/:ilgi_id", deleteAll);
 
 // PIXEL ENDPOINTS
 app.post("/api/pixel", addPixel);
@@ -97,7 +105,13 @@ app.post("/api/pixel/:ilgi_id/:id", updatePixel);
 
 app.post("/api/color", addColor);
 app.post("/api/color/:id", updateColor);
+/////quote
+app.get("/api/quote", getQuote);
+app.get("/api/quote/:id", getQuoteById);
+app.post("/api/quote", addQuote);
+app.get("/api/quotes/:id", getAllQuotes);
 
+app.get("/api/photos/:id", searchPhoto);
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });

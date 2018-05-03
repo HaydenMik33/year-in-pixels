@@ -5,10 +5,8 @@ import {
   BottomNavigationItem
 } from "material-ui/BottomNavigation";
 import FontIcon from "material-ui/FontIcon";
-import IconLocationOn from "material-ui/svg-icons/communication/location-on";
 import Paper from "material-ui/Paper";
 import { connect } from "react-redux";
-import { isString } from "util";
 const yearIcon = <FontIcon className="material-icons">By year</FontIcon>;
 const monthIcon = <FontIcon className="material-icons">By month</FontIcon>;
 const colorIcon = <FontIcon className="material-icons">By color</FontIcon>;
@@ -35,68 +33,96 @@ class Graph extends Component {
         return yValue;
       }
     };
-    const check_xValue = pixel_unique => {
-      let xValue = "";
-      pixel_unique < 150
-        ? (xValue = "52.8")
-        : pixel_unique > 150 && pixel_unique < 250
-          ? (xValue = `${52.8 * 2}`)
-          : pixel_unique > 250 && pixel_unique < 350
-            ? (xValue = `${52.8 * 3}`)
-            : pixel_unique > 350 && pixel_unique < 450
-              ? (xValue = `${52.8 * 4}`)
-              : pixel_unique > 450 && pixel_unique < 550
-                ? (xValue = `${52.8 * 5}`)
-                : pixel_unique > 550 && pixel_unique < 650
-                  ? (xValue = `${52.8 * 6}`)
-                  : pixel_unique > 650 && pixel_unique < 750
-                    ? (xValue = `${52.8 * 7}`)
-                    : pixel_unique > 750 && pixel_unique < 850
-                      ? (xValue = `${52.8 * 8}`)
-                      : pixel_unique > 850 && pixel_unique < 950
-                        ? (xValue = `${52.8 * 9}`)
-                        : pixel_unique > 950 && pixel_unique < 1050
-                          ? (xValue = `${52.8 * 10}`)
-                          : pixel_unique > 1050 && pixel_unique < 1150
-                            ? (xValue = `${52.8 * 11}`)
-                            : pixel_unique > 1150
-                              ? (xValue = `${52.8 * 12}`)
-                              : null;
-      return xValue;
+    const months = {
+      1: [],
+      2: [],
+      3: [],
+      4: [],
+      5: [],
+      6: [],
+      7: [],
+      8: [],
+      9: [],
+      10: [],
+      11: [],
+      12: []
     };
-    const point = this.props.pixels.map((pixel, i) => {
-      return (
-        <circle
-          key={i}
-          fill="#eef5ee"
-          cx={check_xValue(pixel.pixel_unique)}
-          cy={check_yValue(pixel.colorvalue, pixel.opacity)}
-          r="4"
-        />
-      );
-    });
-    const line = this.props.pixels.map((pixel, i, pixels) => {
-      return (
-        <line
-          key={i}
-          fill="none"
-          stroke="#b5d1f1"
-          strokeWidth="2"
-          x1={check_xValue(pixel.pixel_unique)}
-          y1={check_yValue(pixel.colorvalue, pixel.opacity)}
-          x2={
-            i === pixels.length - 1
-              ? check_xValue(pixel.pixel_unique)
-              : check_xValue(pixels[i + 1].pixel_unique)
-          }
-          y2={
-            i === pixels.length - 1
-              ? check_yValue(pixel.colorvalue, pixel.opacity)
-              : check_yValue(pixels[i + 1].colorvalue, pixels[i + 1].opacity)
-          }
-        />
-      );
-    });
+    let avgYValue = 0;
+    const assignMonth = () => {
+      this.props.pixels.map(pixel => {
+        let p = pixel.pixel_unique;
+        p < 150
+          ? months[1].push(pixel)
+          : p > 150 && p < 250
+            ? months[2].push(pixel)
+            : p > 250 && p < 350
+              ? months[3].push(pixel)
+              : p > 350 && p < 450
+                ? months[4].push(pixel)
+                : p > 450 && p < 550
+                  ? months[5].push(pixel)
+                  : p > 550 && p < 650
+                    ? months[6].push(pixel)
+                    : p > 650 && p < 750
+                      ? months[7].push(pixel)
+                      : p > 750 && p < 850
+                        ? months[8].push(pixel)
+                        : p > 850 && p < 950
+                          ? months[9].push(pixel)
+                          : p > 950 && p < 1050
+                            ? months[10].push(pixel)
+                            : p > 1050 && p < 1150
+                              ? months[11].push(pixel)
+                              : p > 1150 && p < 1250
+                                ? months[12].push(pixel)
+                                : null;
+      });
+    };
+    const generateCircle = () => {
+      assignMonth();
+      for (let key in months) {
+        // months[key].reduce((acc, cur) => {
+        //   avgYValue =
+        //     (check_yValue(acc.colorvalue, acc.opacity) +
+        //       check_yValue(cur.colorvalue, cur.opacity)) /
+        //     months.key.length;
+        //   console.log(avgYValue);
+        // });
+        return (
+          <circle
+            key={key}
+            fill="#eef5ee"
+            cx={`${52.8 * key}`}
+            cy={`${avgYValue}`}
+            r="4"
+          />
+        );
+      }
+    };
+    // const generateLine = () =>
+
+    // const line = this.props.pixels.map((pixel, i, pixels) => {
+    //   return (
+    //     <line
+    //       key={i}
+    //       fill="none"
+    //       stroke="#b5d1f1"
+    //       strokeWidth="2"
+    //       x1={check_xValue(pixel.pixel_unique)}
+    //       y1={check_yValue(pixel.colorvalue, pixel.opacity)}
+    //       x2={
+    //         i === pixels.length - 1
+    //           ? check_xValue(pixel.pixel_unique)
+    //           : check_xValue(pixels[i + 1].pixel_unique)
+    //       }
+    //       y2={
+    //         i === pixels.length - 1
+    //           ? check_yValue(pixel.colorvalue, pixel.opacity)
+    //           : check_yValue(pixels[i + 1].colorvalue, pixels[i + 1].opacity)
+    //       }
+    //     />
+    //   );
+    // });
     const pixels = this.props.pixels.map((pixel, i) => {
       return (
         <div key={i}>
@@ -128,8 +154,8 @@ class Graph extends Component {
           <div className="Graph_year">
             <div>
               <svg fill="#244769" viewBox="0 0 741 450">
-                {line}
-                <g>{point}</g>
+                {/* {line} */}
+                {/* <g>{generateCircle()}</g> */}
               </svg>
             </div>
             <Paper zDepth={2}>
