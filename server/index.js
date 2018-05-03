@@ -1,10 +1,11 @@
+const express = require("express");
+const app = express();
+app.use(express.static(`${__dirname}/../build`));
 const path = require("path");
 app.get("*", (req, res, next) => {
   res.sendFile(path.join(__dirname, "/../build/index.html"));
 });
-app.use(express.static(`${__dirname}/../build`));
 require("dotenv").config();
-const express = require("express");
 const { json } = require("body-parser");
 const cors = require("cors");
 const session = require("express-session");
@@ -35,8 +36,6 @@ const {
 } = require(`${__dirname}/controllers/quoteCtrl`);
 const { searchPhoto } = require(`${__dirname}/controllers/unsplashCtrl`);
 const port = process.env.PORT || 3001;
-
-const app = express();
 
 massive(process.env.CONNECTION_STRING)
   .then(db => app.set("db", db))
