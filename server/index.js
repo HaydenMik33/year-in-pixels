@@ -1,3 +1,8 @@
+const path = require("path");
+app.get("*", (req, res, next) => {
+  res.sendFile(path.join(__dirname, "/../build/index.html"));
+});
+app.use(express.static(`${__dirname}/../build`));
 require("dotenv").config();
 const express = require("express");
 const { json } = require("body-parser");
