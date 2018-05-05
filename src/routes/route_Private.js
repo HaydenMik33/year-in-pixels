@@ -8,6 +8,7 @@ import Edit from "../components/private/Edit/Edit";
 import Setting from "../components/private/Setting/Setting";
 import Graph from "../components/private/Graph/Graph";
 import Inbox from "../components/MyExtras/Inbox";
+import Event_Add from "../components/MyExtras/Event/Event_Add/Event_Add";
 export default (
   <Switch>
     <Route path="/home/ilgi/edit" component={Edit} />
@@ -16,6 +17,7 @@ export default (
     <Route path="/home/profile" component={Profile} />
     <Route path="/home/start" component={Start} />
     <Route path="/home/graph" component={Graph} />
+    <Route path="/home/inbox/addEvent" component={Event_Add} />
     <Route path="/home/inbox" component={Inbox} />
   </Switch>
 );

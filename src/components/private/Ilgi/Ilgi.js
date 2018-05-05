@@ -13,12 +13,12 @@ class Ilgi extends Component {
     const { updateCurrentPixel, ilgi } = this.props;
     let ilgi_id = ilgi.id;
     axios.post("/api/pixel", { ilgi_id, pixel_unique }).then(res => {
-      console.log(res);
-      axios.post("/api/color", { pixel_unique }).then(() =>
+      console.log(pixel_unique, ilgi_id);
+      axios.post("/api/color", { pixel_unique, ilgi_id }).then(() =>
         axios
           .get(`/api/pixel/${res.data[0].id}`)
           .then(pixel => {
-            console.log(pixel.data[0]);
+            console.log(pixel.data);
             updateCurrentPixel(pixel.data[0]);
           })
           .then(() => this.props.history.push("/home/ilgi/edit"))
@@ -64,7 +64,7 @@ class Ilgi extends Component {
             className="grid-item-custom"
             style={pixelStyle}
             onClick={() => {
-              console.log(index);
+              console.log(index, pixels[index]);
               if (index === -1) {
                 this.createNewPixelWithEmptyValue(pixelid + i);
               } else {

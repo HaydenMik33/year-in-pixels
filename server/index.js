@@ -1,10 +1,8 @@
 const express = require("express");
 const app = express();
-app.use(express.static(`${__dirname}/../build`));
 const path = require("path");
-app.get("*", (req, res, next) => {
-  res.sendFile(path.join(__dirname, "/../build/index.html"));
-});
+// app.use(express.static(path.join(__dirname, "../build")));
+
 require("dotenv").config();
 const { json } = require("body-parser");
 const cors = require("cors");
@@ -26,7 +24,11 @@ const {
   getPixel,
   updatePixel
 } = require(`${__dirname}/controllers/pixelCtrl`);
-
+const {
+  addEvent,
+  updateEvent,
+  getAllEvents
+} = require(`${__dirname}/controllers/eventCtrl`);
 const { addColor, updateColor } = require(`${__dirname}/controllers/colorCtrl`);
 const {
   getQuote,
@@ -116,6 +118,16 @@ app.post("/api/quote", addQuote);
 app.get("/api/quotes/:id", getAllQuotes);
 
 app.get("/api/photos/:id", searchPhoto);
+
+///event endpoints
+app.post("/api/event", addEvent);
+app.get("/api/events/:id", getAllEvents);
+app.post("/api/event/:id", updateEvent);
+
+// app.get("*", (req, res, next) => {
+//   res.sendFile(path.join(__dirname, "/../build/index.html"));
+// });
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });

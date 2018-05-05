@@ -1,1 +1,1 @@
-INSERT INTO pixels (text,img,ilgi_id,pixel_unique) VALUES ($1, $2,$3,$4) RETURNING *;
+INSERT INTO pixels (ilgi_id,pixel_unique) VALUES ($1, $2) RETURNING *;

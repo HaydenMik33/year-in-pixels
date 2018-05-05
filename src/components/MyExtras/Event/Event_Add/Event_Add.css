@@ -1,0 +1,47 @@
+.Event_Add {
+  height: 100%;
+  margin-top: 20px;
+}
+.Event_Add_container {
+  height: 80vh;
+  width: 55vw;
+  margin: 0 auto;
+}
+.Event_Add_input {
+  display: block;
+  width: 45vw;
+  margin: 2vh auto;
+  border: #bdbdbd solid 0.8px;
+  color: #616161;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  padding: 1vh;
+}
+.Event_Add_input-title {
+  font-size: 28px;
+  font-weight: 300;
+}
+.Event_Add_header {
+  width: 100%;
+  padding: 1.5vh 0;
+  display: block;
+  background-color: #e1f5fe;
+  text-align: left;
+}
+.Event_Add_input-text {
+  height: 40vh;
+}
+
+.Event_DatePicker {
+  text-align: left;
+  padding-left: 4vw;
+}
+@media screen and (max-width: 768px) {
+  .Event_Add .Event_Add_container {
+    width: 90vw;
+  }
+  .Event_Add .Event_Add_container .Event_Add_input {
+    width: 80vw;
+  }
+}

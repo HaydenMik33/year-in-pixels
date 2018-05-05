@@ -6,11 +6,11 @@ const Gallery = props => {
   console.log(props.pixels);
 
   const photosList = props.pixels.map((el, i) => {
-    return (
+    return el.img ? (
       <Paper zDepth={1} key={i} className="Gallery_box">
         <img src={el.img} />
       </Paper>
-    );
+    ) : null;
   });
   return (
     <div className="Gallery">

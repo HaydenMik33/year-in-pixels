@@ -1,0 +1,15 @@
+.EventAdder_input {
+  border: #b0bec5 solid;
+  padding: 5px 3px;
+}
+.EventAdder_input_title {
+  padding: 10px 3px;
+}
+.EventAdder_whole_container {
+  width: 90vw;
+  margin: 10px auto;
+}
+.EventAdder {
+  width: 100vw;
+  text-align: center;
+}

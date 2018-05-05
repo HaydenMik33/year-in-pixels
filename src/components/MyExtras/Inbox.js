@@ -11,7 +11,7 @@ import { getAllQuote } from "../../ducks/quoteReducer";
 import Gallery from "./Gallery/Gallery";
 import Event from "./Event/Event";
 import Quote from "./Quote/Quote";
-const GalleryIcon = <FontIcon className="material-icons">GalleryIcon</FontIcon>;
+const GalleryIcon = <FontIcon className="material-icons" />;
 const QuoteIcon = <FontIcon className="material-icons">QuoteIcon</FontIcon>;
 const EventIcon = <FontIcon className="material-icons">EventIcon </FontIcon>;
 
@@ -19,13 +19,13 @@ class Inbox extends Component {
   state = {
     selectedIndex: 0
   };
-
   select = index => this.setState({ selectedIndex: index });
   componentDidMount() {
     const { getAllQuote, ilgi, quotes } = this.props;
     getAllQuote(ilgi.id);
   }
   render() {
+    console.log(this.props);
     return (
       <div className="Inbox">
         <Paper zDepth={1}>
@@ -33,20 +33,27 @@ class Inbox extends Component {
             <BottomNavigationItem
               label="Gallery"
               icon={GalleryIcon}
-              onClick={() => this.select(0)}
+              onClick={() => {
+                this.select(0);
+              }}
             />
             <BottomNavigationItem
               label="My Quote"
               icon={QuoteIcon}
-              onClick={() => this.select(1)}
+              onClick={() => {
+                this.select(1);
+              }}
             />
             <BottomNavigationItem
               label="Event"
               icon={EventIcon}
-              onClick={() => this.select(2)}
+              onClick={() => {
+                this.select(2);
+              }}
             />
           </BottomNavigation>
         </Paper>
+
         {this.state.selectedIndex === 0 ? (
           <Gallery />
         ) : this.state.selectedIndex === 1 ? (

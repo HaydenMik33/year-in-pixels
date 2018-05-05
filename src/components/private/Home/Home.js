@@ -1,35 +1,41 @@
 import React, { Component } from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
-import Footer from "../Footer/Footer";
 import route_Private from "../../../routes/route_Private";
 import { connect } from "react-redux";
 import { Card, CardText, CardActions } from "material-ui/Card";
 import { getUser } from "../../../ducks/userReducer";
 import { getAllPixels, sendIlgiToReducer } from "../../../ducks/pixelReducer";
+import { getAllEvents } from "../../../ducks/eventReducer";
 import axios from "axios";
-import { RaisedButton } from "material-ui";
+import { FlatButton } from "material-ui";
 import Snackbar from "material-ui/Snackbar";
+import Drawer from "material-ui/Drawer";
 class Home extends Component {
-  constructor() {
-    super();
-    this.state = {
-      navSwitch: false,
-      ilgi: [],
-      quote: {},
-      openSnackbar: false
-    };
-    this.toggleNav = this.toggleNav.bind(this);
-  }
+  state = {
+    ilgi: [],
+    quote: {},
+    openSnackbar: false,
+    open: false
+  };
+
+  handleToggle = () => this.setState({ open: !this.state.open });
+  handleClose = () => this.setState({ open: false });
   componentDidMount() {
-    this.props
-      .getUser()
+    const {
+      getUser,
+      getAllEvents,
+      getAllPixels,
+      sendIlgiToReducer
+    } = this.props;
+    getUser()
       .then(user => {
         axios.get(`/api/ilgi/${user.value.data.id}`).then(res => {
           if (res.data[0]) {
             this.setState({ ilgi: res.data[0] });
-            this.props.sendIlgiToReducer(res.data[0]);
-            this.props.getAllPixels(res.data[0].id);
+            sendIlgiToReducer(res.data[0]);
+            getAllPixels(res.data[0].id);
+            getAllEvents(res.data[0].id);
             axios.get("/api/quote").then(quote => {
               this.setState({ quote: quote.data });
             });
@@ -40,9 +46,7 @@ class Home extends Component {
       })
       .catch(console.log);
   }
-  toggleNav() {
-    this.setState({ navSwitch: !this.state.navSwitch });
-  }
+
   saveQuote() {
     const { quote, ilgi } = this.state;
     let text = quote.quote;
@@ -62,105 +66,143 @@ class Home extends Component {
 
   render() {
     const { navSwitch } = this.state;
+    const styles = {
+      Drawer: {
+        background: "#263238"
+      }
+    };
     return (
-      <div>
-        {navSwitch ? (
-          <div className="sidenav">
-            <a
-              href="javascript:void(0)"
-              className="closebtn"
-              onClick={this.toggleNav}
-            >
-              &times;
-            </a>
-            <Link to="/home" onClick={this.toggleNav}>
-              Home
-            </Link>
-            <Link to="/home/ilgi" onClick={this.toggleNav}>
-              2018 in Pixels
-            </Link>
-            <Link to="/home/graph" onClick={this.toggleNav}>
-              2018 in graphs
-            </Link>
-            <Link to="/home/inbox" onClick={this.toggleNav}>
-              Inbox
-            </Link>
-            <Link to="/home/profile" onClick={this.toggleNav}>
-              Profile
-            </Link>
-            <Link to="/home/setting" onClick={this.toggleNav}>
-              Setting
-            </Link>
-            <a href={process.env.REACT_APP_LOGOUT}>Logout</a>
-          </div>
-        ) : null}
-        <span className="nav" onClick={this.toggleNav}>
-          &#9776; OPEN
-        </span>
+      <div className="container-for-privateComponents">
+        <div className="Home_header">
+          <span className="hamburger" onClick={this.handleToggle}>
+            &#9776;
+          </span>
+        </div>
+        <Drawer
+          docked={false}
+          width={250}
+          open={this.state.open}
+          containerStyle={styles.Drawer}
+          onRequestChange={open => this.setState({ open })}
+        >
+          <Link
+            className="Home_nav-link Home_nav-link1"
+            to="/home"
+            onClick={this.handleClose}
+          >
+            HOME
+          </Link>
+          <Link
+            className="Home_nav-link"
+            to="/home/ilgi"
+            onClick={this.handleClose}
+          >
+            2018 IN PIXELS
+          </Link>
+          <Link
+            className="Home_nav-link"
+            to="/home/graph"
+            onClick={this.handleClose}
+          >
+            2018 IN GRAPHS
+          </Link>
+          <Link
+            className="Home_nav-link"
+            to="/home/inbox"
+            onClick={this.handleClose}
+          >
+            INBOX
+          </Link>
+          <Link
+            className="Home_nav-link"
+            to="/home/profile"
+            onClick={this.handleClose}
+          >
+            PROFILE
+          </Link>
+          <Link
+            className="Home_nav-link"
+            to="/home/setting"
+            onClick={this.handleClose}
+          >
+            SETTING
+          </Link>
+          <a
+            className="Home_nav-link"
+            href={process.env.REACT_APP_LOGOUT}
+            onClick={this.handleClose}
+          >
+            LOGOUT
+          </a>
+        </Drawer>
+
         {this.props.history.location.pathname === "/home" ? (
           <div className="Home">
             <div className="home_top">
               <div className="home_left">
-                <Card className="Home_Gallery">
-                  <CardText>someText for my Gallery</CardText>
-                </Card>
-
                 <Card className="Home_Event">
-                  <CardText>someTextMemo card</CardText>
+                  <CardText>upcomimg event</CardText>
+                  <div />
                 </Card>
               </div>
-              <Card className="Home_Quote">
-                <div className="Home_quoteBox">
-                  <p className="Home_quoteBox_quote">
-                    {this.state.quote.quote}
-                  </p>
-                  <p className="Home_quoteBox_author">{`-By  ${
-                    this.state.quote.author
-                  }`}</p>
-                  <CardActions>
-                    <RaisedButton
-                      label="Save"
-                      onClick={() => this.saveQuote()}
-                    />
-                    <RaisedButton
-                      label="Refresh"
-                      onClick={() => {
-                        this.refresh();
-                      }}
-                    />
-                    <Snackbar
-                      className="Home_snackBar"
-                      open={this.state.openSnackbar}
-                      message="Quote just added to your inbox"
-                      autoHideDuration={4000}
-                      onRequestClose={() =>
-                        this.setState({ openSnackbar: false })
-                      }
-                    />
-                  </CardActions>
-                </div>
-              </Card>
+              <div className="Home_right">
+                <Card className="Home_RecentMood">
+                  <CardText>recent mood</CardText>
+                </Card>
+                <Card className="Home_Quote">
+                  <div className="Home_quoteBox">
+                    <p className="Home_quoteBox_quote">
+                      {this.state.quote.quote}
+                    </p>
+                    <p className="Home_quoteBox_author">{`-By  ${
+                      this.state.quote.author
+                    }`}</p>
+                    <CardActions>
+                      <FlatButton
+                        label="Save"
+                        onClick={() => this.saveQuote()}
+                      />
+                      <FlatButton
+                        label="Refresh"
+                        onClick={() => {
+                          this.refresh();
+                        }}
+                      />
+                      <Snackbar
+                        className="Home_snackBar"
+                        open={this.state.openSnackbar}
+                        message="Quote just added to your inbox"
+                        autoHideDuration={4000}
+                        onRequestClose={() =>
+                          this.setState({ openSnackbar: false })
+                        }
+                      />
+                    </CardActions>
+                  </div>
+                </Card>
+              </div>
             </div>
-            <Card className="Recent card">
-              <CardText>recent post</CardText>
+            <Card className="Home_Gallery">
+              <CardText>someText for my Gallery</CardText>
             </Card>
           </div>
         ) : (
-          <div>{route_Private}</div>
+          <div className="Home_route_private">{route_Private}</div>
         )}
-        <Footer />
       </div>
     );
   }
 }
 function mapStateToProps(state) {
   return {
-    ...state.userReducer.user
+    ...state.userReducer.user,
+    ...state.eventReducer.events
   };
 }
 
 export default connect(mapStateToProps, {
   getUser,
   getAllPixels,
-  sendIlgiToReducer
+  sendIlgiToReducer,
+  getAllEvents
 })(Home);

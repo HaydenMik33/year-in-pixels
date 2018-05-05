@@ -3,12 +3,14 @@ import promiseMiddleware from "redux-promise-middleware";
 import pixelReducer from "./ducks/pixelReducer";
 import userReducer from "./ducks/userReducer";
 import quoteReducer from "./ducks/quoteReducer";
+import eventReducer from "./ducks/eventReducer";
 
 const store = createStore(
   combineReducers({
     userReducer,
     pixelReducer,
-    quoteReducer
+    quoteReducer,
+    eventReducer
   }),
   applyMiddleware(promiseMiddleware())
 );

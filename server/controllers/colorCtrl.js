@@ -1,9 +1,9 @@
 const addColor = (req, res) => {
-  console.log("Hit the post => /api/color");
-  const { pixel_unique } = req.body;
+  console.log("Hit the post => /api/color", req.body);
+  const { pixel_unique, ilgi_id } = req.body;
   req.app
     .get("db")
-    .addColor(["", 0.5, pixel_unique])
+    .addColor([0.5, pixel_unique, ilgi_id])
     .then(color => {
       res.status(200).json(color);
     })
@@ -13,13 +13,12 @@ const addColor = (req, res) => {
 };
 
 const updateColor = (req, res) => {
-  console.log("Hit the post =>/api/color");
+  console.log("Hit the post =>/api/color", req.params, req.body);
   const { id } = req.params;
-  const { colorvalue, opacity } = req.body;
-  console.log(id, colorvalue, opacity);
+  const { colorvalue, opacity, ilgi_id } = req.body;
   req.app
     .get("db")
-    .updateColor([id, colorvalue, opacity])
+    .updateColor([id, colorvalue, Number(opacity), ilgi_id])
     .then(pixels => {
       res.status(200).send(pixels);
     })

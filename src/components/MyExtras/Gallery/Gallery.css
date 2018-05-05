@@ -9,7 +9,15 @@
 }
 .Gallery_box {
   width: 30vw;
+  height: 50vh;
   margin: 1vw;
   margin-top: 2vh;
   padding: 2vw;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 800px) {
+  .Gallery .Gallery_display .Gallery_box {
+    width: 46vw;
+  }
 }

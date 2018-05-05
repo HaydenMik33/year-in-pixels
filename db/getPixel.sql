@@ -1,4 +1,4 @@
-SELECT * FROM pixels p
+SELECT p.id,colorvalue,text,img,quote_id,p.ilgi_id,p.pixel_unique,opacity  FROM pixels p
 join colors c on p.pixel_unique = c.pixel_unique
-WHERE id = $1;
+WHERE p.id = $1;
 

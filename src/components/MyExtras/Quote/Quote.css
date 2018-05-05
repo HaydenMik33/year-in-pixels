@@ -3,7 +3,8 @@
   font-family: "Oswald", sans-serif;
 }
 .Quote {
-  height: 120vh;
+  height: 100%;
+  width: 100%;
 }
 
 .Quote_by {
@@ -23,7 +24,7 @@
   padding: 2vw;
 }
 .Quote_display {
-  width: 100vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

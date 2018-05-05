@@ -1,0 +1,24 @@
+.Event_add_button {
+  position: fixed;
+  right: 2vw;
+  bottom: 2vw;
+}
+.Event_container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  align-content: stretch;
+}
+.Event {
+  width: 100%;
+  height: 100%;
+}
+.Event_box {
+  width: 46vw;
+  margin: 1vw;
+  margin-top: 2vh;
+  padding: 2vw;
+}

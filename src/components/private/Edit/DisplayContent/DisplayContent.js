@@ -23,7 +23,7 @@ const DisplayContent = props => {
   const day = date === 1 ? "Monday" : null;
   return (
     <div className="DisplayContent">
-      <Card className>
+      <Card>
         <div className="DisplayContent_top">
           <CardMedia overlay={<CardTitle title="haven't added any event" />}>
             {currentPixel.img ? (

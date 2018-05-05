@@ -18,28 +18,34 @@ CREATE TABLE pixels (
  Create table Ilgi(
      id serial PRIMARY key
  );
- CREATE TABLE quotes (
+CREATE TABLE colors(
     id SERIAL PRIMARY KEY,
-    text VARCHAR(50),
-    author VARCHAR(30),
-    tags VARCHAR(50),
+    colorvalue VARCHAR(10),
+    opacity decimal,
+    pixel_unique integer,
     ilgi_id integer references Ilgi(id) 
 );
+
  CREATE TABLE events (
+    CREATE TABLE events (
     id SERIAL PRIMARY KEY,
-    title VARCHAR(30)
-    text VARCHAR(200),
+    title VARCHAR(30),
+    text VARCHAR(800),
+   location VARCHAR(100),
+    important boolean,
+    date VARCHAR(10),
     month integer,
-    date integer,
-    day VARCHAR(10),
-    pixel_unique integer
-);  
+    day integer,
+    pixel_unique integer,
+    ilgi_id integer references Ilgi(id) 
+); 
  
 CREATE TABLE colors(
     id SERIAL PRIMARY KEY,
     colorvalue integer,
-    opacity decimal
-    pixel_unique integer
+    opacity decimal,
+    pixel_unique integer,
+    ilgi_id integer references Ilgi(id) 
 );
 
 

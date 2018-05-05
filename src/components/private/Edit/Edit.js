@@ -17,15 +17,17 @@ import Slider from "material-ui/Slider";
 import RaisedButton from "material-ui/RaisedButton";
 import DisplayContent from "./DisplayContent/DisplayContent";
 import Snackbar from "material-ui/Snackbar";
+import EventAdder from "./EventAdder/EventAdder";
+import { EventEmitter } from "events";
 
 class Edit extends Component {
   constructor() {
     super();
     this.state = {
       displayContent: true,
-      id: "",
-      ilgi_id: "",
-      quote_id: "",
+      id: null,
+      ilgi_id: null,
+      quote_id: null,
       text: "",
       colorvalue: "",
       img: "",
@@ -88,7 +90,11 @@ class Edit extends Component {
     } = this.state;
     const { updatePixel, currentPixel } = this.props;
     axios
-      .post(`/api/color/${currentPixel.pixel_unique}`, { colorvalue, opacity })
+      .post(`/api/color/${currentPixel.pixel_unique}`, {
+        colorvalue,
+        opacity,
+        ilgi_id
+      })
       .then(() => {
         updatePixel(id, text, img, ilgi_id, quote_id).then(() =>
           this.props.history.push("/home/ilgi")
@@ -295,6 +301,7 @@ class Edit extends Component {
                 </div>
               ) : null}
             </Paper>
+            <EventAdder currentPixel={currentPixel} />
             <CardActions>
               <RaisedButton label="SAVE" onClick={() => this.handleSave()} />
             </CardActions>
