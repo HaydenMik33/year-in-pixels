@@ -20,7 +20,9 @@ class DisplayContent extends Component {
       Hayden: function() {
         return (
           <div>
-            <h1>No Event in this pixel</h1>
+            <h1>
+              No Event <br />in this pixel
+            </h1>
             <Link to="/home/inbox/addEvent">
               <FlatButton label="Add One" secondary={true} />
             </Link>
@@ -85,6 +87,22 @@ class DisplayContent extends Component {
       CardHeader: {
         fontFamily: "'Open Sans', sans-serif",
         fontSize: "36px"
+      },
+      image: {
+        height: "600px",
+        objectFit: "contain"
+      },
+      cardTitle: {
+        // bottom: "-70px"
+      },
+      CardMedia: {
+        // margin: "25px",
+        // bottom: "-60px",
+        fontFamily: "'Open Sans', sans-serif"
+      },
+      Haydenbox: {
+        background: this.props.currentPixel.colorvalue,
+        opacity: this.props.currentPixel.opacity
       }
     };
 
@@ -92,24 +110,26 @@ class DisplayContent extends Component {
       <div className="DisplayContent">
         <Card style={styles.Paper} className="DisplayContent_body">
           <div className="DisplayContent_first">
-            <CardMedia
-              overlay={
-                <CardTitle
-                  title="haven't added any event"
-                  style={styles.Paper}
-                />
-              }
-              style={styles.Paper}
-            >
+            <CardMedia style={styles.CardMedia}>
               {currentPixel.img ? (
-                <img src={currentPixel.img} alt="myImage.jpg" />
+                <img
+                  src={currentPixel.img}
+                  style={styles.image}
+                  alt="myImage.jpg"
+                />
               ) : (
                 <img src={basic} alt="defaultimage.jpg" />
               )}
+              <div className="Haydenhaha">
+                <h1>
+                  You are in the mood of "
+                  <div class="HaydenBox" style={styles.Haydenbox} />
+                  "
+                </h1>
+              </div>
             </CardMedia>
           </div>
           <div className="DisplayContent_second">
-            <div className="DisplayContent_second_top">mood display</div>
             <div className="DisplayContent_second-bottom">
               <div className="DisplayContent_left">
                 <div className="DisplayContent_paper">
@@ -133,11 +153,7 @@ class DisplayContent extends Component {
                 </div>
               </div>
               <div className="DisplayContent_right">
-                <Paper
-                  zDepth={2}
-                  style={styles.Paper}
-                  className="DisplayContent_Quote"
-                >
+                <div style={styles.Paper} className="DisplayContent_Quote">
                   <i className="fas fa-quote-left" />
                   <p className="DisplayContent_Quote-quote">
                     {this.props.quote[0]
@@ -150,15 +166,15 @@ class DisplayContent extends Component {
                       ? `-By ${this.props.quote[0].author}`
                       : null}
                   </p>
-                </Paper>
+                </div>
 
-                <Paper
+                <div
                   zDepth={1}
                   style={styles.Paper}
                   className="DisplayContent_Event"
                 >
                   {this.state.Hayden()}
-                </Paper>
+                </div>
               </div>
             </div>
           </div>

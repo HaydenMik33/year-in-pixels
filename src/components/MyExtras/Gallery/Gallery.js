@@ -4,11 +4,17 @@ import Paper from "material-ui/Paper";
 import { connect } from "react-redux";
 const Gallery = props => {
   console.log(props.pixels);
-
+  const styles = {
+    image: {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover"
+    }
+  };
   const photosList = props.pixels.map((el, i) => {
     return el.img ? (
       <Paper zDepth={1} key={i} className="Gallery_box">
-        <img src={el.img} />
+        <img src={el.img} style={styles.image} />
       </Paper>
     ) : null;
   });

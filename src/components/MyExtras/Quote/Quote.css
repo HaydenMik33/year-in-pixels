@@ -6,7 +6,12 @@
   height: 100%;
   width: 100%;
 }
-
+.Quote_right {
+  font-size: 32px;
+}
+.Quote_left {
+  font-size: 32px;
+}
 .Quote_by {
   font-family: "Assistant", sans-serif;
   font-size: 17px;

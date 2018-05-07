@@ -18,6 +18,8 @@ class Home extends Component {
     user: [],
     ilgi: [],
     quote: {},
+    recentColor: "",
+    recentColorOpacity: "",
     openSnackbar: false,
     open: false,
     Hayden: function() {
@@ -46,7 +48,12 @@ class Home extends Component {
             axios.get("/api/quote").then(quote => {
               this.setState({
                 quote: quote.data,
-                Hayden: this.calculate()
+                Hayden: this.calculate(),
+                recentColor: this.props.pixels[this.props.pixels.length - 1]
+                  .colorvalue,
+                recentColorOpacity: this.props.pixels[
+                  this.props.pixels.length - 1
+                ].opacity
               });
             });
           } else {
@@ -120,6 +127,11 @@ class Home extends Component {
       },
       elDate: {
         color: "RoyalBlue"
+      },
+      mood: {
+        background: this.state.recentColor,
+        color: "white",
+        opacity: this.state.recentColorOpacity
       }
     };
 
@@ -221,7 +233,9 @@ class Home extends Component {
               {this.state.Hayden}
             </Card>
             <Card className="Home_RecentMood" style={styles.Paper}>
-              <CardText>recent mood</CardText>
+              <div className="Home_RecentMood_container" style={styles.mood}>
+                <h3> Your Recent color </h3>
+              </div>
             </Card>
             <Card className="Home_Quote" style={styles.Paper}>
               <div className="Home_quoteBox">

@@ -155,6 +155,10 @@ class Edit extends Component {
       },
       Paper: {
         fontFamily: "'Open Sans', sans-serif"
+      },
+      image: {
+        height: "600px",
+        objectFit: "contain"
       }
     };
     const { colorBoxStyle, colorBoxBorderStyle } = styles;
@@ -202,7 +206,11 @@ class Edit extends Component {
           <Card style={styles.Paper}>
             <CardMedia>
               {this.state.img ? (
-                <img src={this.state.img} alt="myImage.jpg" />
+                <img
+                  style={styles.image}
+                  src={this.state.img}
+                  alt="myImage.jpg"
+                />
               ) : (
                 <img src={basic} alt="defaultimage.jpg" />
               )}
@@ -367,75 +375,75 @@ class Edit extends Component {
               <img src={dull} className="emotion_icons" />
             </div>
             {this.state.colorClicked ? (
-              <Slider
-                className="edit_slider"
-                min={0.1}
-                max={1.0}
-                step={0.1}
-                defaultValue={0.5}
-                value={this.state.opacity}
-                onChange={(e, value) => this.setState({ opacity: value })}
-              />
+              <div className="HaydenSlider">
+                <Slider
+                  className="edit_slider"
+                  min={0.1}
+                  max={1.0}
+                  step={0.1}
+                  defaultValue={0.5}
+                  value={this.state.opacity}
+                  onChange={(e, value) => this.setState({ opacity: value })}
+                />
+              </div>
             ) : null}
-            <div className="edit_paper">
-              <div className="edit_paper-lines">
-                <div className="edit_vl" />
-                <div
-                  className="edit_paper-text"
-                  contentEditable
-                  spellCheck="false"
-                  onChange={e => this.setState({ text: e.target.value })}
-                >
-                  {currentPixel.text}
-                  jelly beans sweet roll cupcake lollipop. Powder carrot cake
-                  toffee brownie. Marshmallow sweet roll donut. Chocolate cake
-                  apple pie candy canes tiramisu dragée wafer. Croissant cookie
-                  lemon drops tiramisu jelly-o donut. Sweet gummi bears ice
-                  cream
+            <div className="edit_editToolContainer">
+              <div className="edit_paper">
+                <div className="edit_paper-lines">
+                  <div className="edit_vl" />
+                  <div
+                    className="edit_paper-text"
+                    contentEditable
+                    spellCheck="false"
+                    onChange={e => this.setState({ text: e.target.value })}
+                  >
+                    <h4>Did any interesting thing happen today?</h4>
+                    <h1>Write your ilgi</h1>
+                    {currentPixel.text}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div>
-              {/* <input
+              {/* <div>
+              <input
                 className="edit_textArea"
                 onChange={e => this.setState({ text: e.target.value })}
                 defaultValue={currentPixel.text}
-              /> */}
-            </div>
-            <Paper zDepth={1} style={styles.Paper}>
-              <input
-                className="edit_search_img_input"
-                onChange={e => this.setState({ keyword: e.target.value })}
-                style={styles.Paper}
               />
-              <RaisedButton
-                label="search"
-                onClick={() => this.searchPhotos()}
-              />
-              {this.state.showResult ? (
-                <Paper
-                  zDepth={1}
-                  className="Edit_photo_search_result_container"
-                >
-                  {displaySearchResult}
-                </Paper>
-              ) : null}
-            </Paper>
-            <Paper style={styles.Paper}>
-              <p>You haven't added quotes in this pixel</p>
-              <RaisedButton
-                label="Change Quote"
-                onClick={() => this.bringQuotes()}
-              />
-              {this.state.showQuotesFromInbox ? (
-                <div className="Edit_search_quote_result_container">
-                  {quote_searchResult}
-                </div>
-              ) : null}
-            </Paper>
-            <CardActions>
+            </div> */}
+              <Paper zDepth={1} style={styles.Paper} className="edit_Unsplash">
+                <h3>Add photo on your pixel</h3>
+                <input
+                  className="edit_search_img_input"
+                  onChange={e => this.setState({ keyword: e.target.value })}
+                  style={styles.Paper}
+                />
+                <RaisedButton
+                  label="search"
+                  onClick={() => this.searchPhotos()}
+                />
+                {this.state.showResult ? (
+                  <Paper
+                    zDepth={1}
+                    className="Edit_photo_search_result_container"
+                  >
+                    {displaySearchResult}
+                  </Paper>
+                ) : null}
+              </Paper>
+              <Paper style={styles.Paper} className="edit_Quote">
+                <h3>Add Quote that inspires you</h3>
+                <RaisedButton
+                  label="Change Quote"
+                  onClick={() => this.bringQuotes()}
+                />
+                {this.state.showQuotesFromInbox ? (
+                  <div className="Edit_search_quote_result_container">
+                    {quote_searchResult}
+                  </div>
+                ) : null}
+              </Paper>
               <RaisedButton label="SAVE" onClick={() => this.handleSave()} />
-            </CardActions>
+            </div>
             <Snackbar
               className="Edit_snackBar"
               open={this.state.snackbarShow_photo}

@@ -26,7 +26,7 @@ class Start extends Component {
       .then(res => {
         console.log(res.data);
       })
-      .then(this.props.history.push("/home/ilgi"))
+      .then(this.props.history.push("/home"))
       .catch(console.log);
   }
   render() {

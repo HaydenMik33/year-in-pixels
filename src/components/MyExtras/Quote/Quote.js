@@ -15,9 +15,9 @@ class Quote extends Component {
       return (
         <Paper zDepth={1} key={i} className="Quote_box">
           <div className="Quote_close" onClick={() => this.Qdelete(el.id)} />
-          <span className="Quote_doubleQ">" </span>
-          <p className="Quote_text">{el.text}</p>
-          <span className="Quote_doubleQ"> "</span>
+          <i className="fas fa-quote-left Quote_left" />
+          <p className="Quote_text ">{el.text}</p>
+          <i className="fas fa-quote-right Quote_right" />
           <p className="Quote_by">-By {el.author}</p>
           <p className="Quote_tag"># {el.tags}</p>
         </Paper>
