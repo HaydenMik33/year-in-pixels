@@ -1,6 +1,5 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-
 import Profile from "../components/private/Profile/Profile";
 import Start from "../components/private/Start/Start";
 import Ilgi from "../components/private/Ilgi/Ilgi";

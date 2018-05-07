@@ -12,13 +12,66 @@
   align-items: stretch;
   align-content: stretch;
 }
+
 .Event {
   width: 100%;
   height: 100%;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+}
+.Event_text {
+  width: 60%;
+  margin: 20px auto;
+}
+.Event_bookmark {
+  position: relative;
+  left: 90px;
+  top: -50px;
+  font-size: 25px;
+  color: steelblue;
+}
+.Event_bookmark:hover {
+  transition: 0.3s;
+  position: relative;
+  left: 90px;
+  top: -55px;
+}
+.Event_edit {
+  font-size: 23px;
+  color: grey;
+}
+.Event_edit:hover {
+  color: black;
+  transition: 0.3s;
 }
 .Event_box {
   width: 46vw;
   margin: 1vw;
   margin-top: 2vh;
   padding: 2vw;
+}
+.Event_close {
+  position: relative;
+  left: 0vw;
+  width: 32px;
+  height: 32px;
+  opacity: 0.06;
+}
+.Event_close:hover {
+  opacity: 1;
+}
+.Event_close:before,
+.Event_close:after {
+  position: absolute;
+  left: 15px;
+  content: " ";
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.Event_close:before {
+  transform: rotate(45deg);
+}
+.Event_close:after {
+  transform: rotate(-45deg);
 }

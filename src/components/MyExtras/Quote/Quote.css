@@ -32,6 +32,31 @@
   align-items: stretch;
   align-content: stretch;
 }
+.Quote_close {
+  position: relative;
+  left: 0vw;
+  width: 32px;
+  height: 32px;
+  opacity: 0.06;
+}
+.Quote_close:hover {
+  opacity: 1;
+}
+.Quote_close:before,
+.Quote_close:after {
+  position: absolute;
+  left: 15px;
+  content: " ";
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.Quote_close:before {
+  transform: rotate(45deg);
+}
+.Quote_close:after {
+  transform: rotate(-45deg);
+}
 @import url("https://fonts.googleapis.com/css?family=Assistant:300|Catamaran|Lora");
 @import url("https://fonts.googleapis.com/css?family=Exo+2:200");
 @import url("https://fonts.googleapis.com/css?family=Oswald");

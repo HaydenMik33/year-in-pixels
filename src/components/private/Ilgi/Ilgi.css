@@ -1,9 +1,11 @@
 .grid-container {
+  padding: 0;
   display: grid;
+  width: 100%;
   /* background-color: #d7e1e5; */
-  grid-gap: 4px;
+  grid-gap: 3px;
   justify-content: center;
-  grid-template-columns: 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw 6vw;
+  grid-template-columns: 7.5% 7.5% 7.5% 7.5% 7.5% 7.5% 7.5% 7.5% 7.5% 7.5% 7.5% 7.5% 7.5%;
 }
 .grid-item {
   padding: 0px;
@@ -14,19 +16,35 @@
   border-bottom: 3px solid #d7e1e5;
 }
 .daysIndicator {
-  padding: 15px;
+  padding: 14px;
   border-bottom: 3px solid #d7e1e5;
 }
 .Ilgi {
   height: 100%;
-  margin: 25px;
+  margin: 0;
+  padding: 0;
+}
+.Ilgi_header {
+  position: relative;
+  top: 50px;
 }
 .Ilgi_h1 {
-  font-family: "Rajdhani", sans-serif;
-  font-size: 3em;
-  font-weight: 700;
   padding: 0;
   margin: 0;
+  font-size: 60px;
+  font-family: "LLPixel";
+  color: #263238;
+
+  text-shadow: 5px 5px 5px lightsteelblue;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+@font-face {
+  font-family: "LLPixel";
+  font-style: normal;
+  font-weight: normal;
+  src: local("LLPixel"),
+    url("../../public/Welcome/LLPIXEL_.woff") format("woff");
 }
 .Ilgi_by {
   margin-left: 10vw;
@@ -36,12 +54,10 @@
   margin: 25px;
 }
 .Ilgi_containerBackground {
-  padding-top: 10px;
-  padding-bottom: 10px;
   background-color: #d7e1e5;
-  width: 85vw;
-  margin: 0 auto;
+  width: 100%;
+  margin: 110px 0;
+  padding: 0;
 }
 
-@import url("https://fonts.googleapis.com/css?family=Rajdhani:600,700");
 @import url("https://fonts.googleapis.com/css?family=Work+Sans:300");

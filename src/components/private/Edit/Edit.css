@@ -1,6 +1,6 @@
 .edit_TextArea {
-  height: 20vh;
-  width: 40vw;
+  height: 20%;
+  width: 100%;
   text-align: center;
 }
 .Edit_photo_search_result {
@@ -8,12 +8,16 @@
   margin: 0.5vw;
 }
 .edit_grid-container {
-  width: 50vw;
+  width: 80%;
   margin: 0 auto;
   display: grid;
   justify-content: center;
-  grid-gap: 3px;
-  grid-template-columns: 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw 5vw;
+  grid-gap: 1%;
+  grid-template-columns: 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5% 5%;
+}
+.edit_emotion_color {
+  padding: 0;
+  margin: 0;
 }
 .Edit_photo_search_result_container {
   width: 100vw;
@@ -35,34 +39,117 @@ Edit_search_quote_result_container {
 }
 .edit {
   height: 200vh;
+  font-family: "Open Sans", sans-serif;
 }
 .edit_search_img_input {
   display: inline;
   margin: 15px auto;
 }
 .edit_grid-item {
-  padding: 15px;
+  width: 100%;
+  height: 50px;
   border: solid 1px grey;
 }
 .edit_slider {
   width: 500px;
   margin: 0 auto;
 }
-.anger {
-  background-color: #e60000;
+.emotion_icons {
+  width: 90%;
+  margin-top: 1vh;
 }
-.excited {
-  background-color: #fdc513;
+.annoyed {
+  background-color: #d92121;
+}
+.dizzy {
+  background-color: #ff6037;
 }
 .love {
-  background-color: #ffd1d1;
+  background-color: #ff3399;
+}
+.happy {
+  background-color: #fcd705;
+}
+
+.excited {
+  background-color: #9dff00;
+}
+.good {
+  background-color: #00ebef;
+}
+
+.frustrated {
+  background-color: #8e03b5;
+}
+
+.hateful {
+  background-color: #3c2c4c;
+}
+.heartbroken {
+  background-color: #4f7f9e;
+}
+.hilarious {
+  background-color: #4af9b6;
+}
+
+.nervous {
+  background-color: #2243b6;
 }
 .sad {
-  background-color: #c6c6c8;
+  background-color: #5dadec;
 }
-.chill {
-  background-color: #eafbfa;
+.sick {
+  background-color: #5e8c31;
 }
-.nervous {
-  background-color: #94acff;
+.sleepy {
+  background-color: #33cc99;
+}
+.dull {
+  background-color: #bfafb2;
+}
+
+.edit_paper {
+  position: relative;
+  height: 600px;
+  width: 500px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.9);
+  margin: -275px -225px;
+  left: 65%;
+  top: 250px;
+  box-shadow: 0px 0px 5px 0px #888;
+}
+.pedit_paper::before {
+  content: "";
+  position: absolute;
+  left: 45px;
+  height: 100%;
+  width: 2px;
+  background: rgba(255, 0, 0, 0.4);
+}
+.edit_paper-lines {
+  margin-top: 40px;
+  height: calc(100% - 40px);
+  width: 100%;
+  background-image: repeating-linear-gradient(
+    white 0px,
+    white 24px,
+    steelblue 25px
+  );
+}
+.edit_paper-text {
+  position: absolute;
+  top: 65px;
+  left: 55px;
+  bottom: 10px;
+  right: 10px;
+  line-height: 25px;
+  font-family: "Indie Flower";
+  overflow: hidden;
+  outline: none;
+}
+.edit_vl {
+  border-left: 1px solid red;
+  height: 109%;
+  margin-left: 10%;
 }

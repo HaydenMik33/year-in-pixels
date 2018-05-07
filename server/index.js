@@ -27,14 +27,16 @@ const {
 const {
   addEvent,
   updateEvent,
-  getAllEvents
+  getAllEvents,
+  deleteEvent
 } = require(`${__dirname}/controllers/eventCtrl`);
 const { addColor, updateColor } = require(`${__dirname}/controllers/colorCtrl`);
 const {
   getQuote,
   addQuote,
   getAllQuotes,
-  getQuoteById
+  getQuoteById,
+  deleteQuote
 } = require(`${__dirname}/controllers/quoteCtrl`);
 const { searchPhoto } = require(`${__dirname}/controllers/unsplashCtrl`);
 const port = process.env.PORT || 3001;
@@ -116,13 +118,15 @@ app.get("/api/quote", getQuote);
 app.get("/api/quote/:id", getQuoteById);
 app.post("/api/quote", addQuote);
 app.get("/api/quotes/:id", getAllQuotes);
+app.delete("/api/quote/:id", deleteQuote);
 
 app.get("/api/photos/:id", searchPhoto);
 
 ///event endpoints
 app.post("/api/event", addEvent);
 app.get("/api/events/:id", getAllEvents);
-app.post("/api/event/:id", updateEvent);
+app.post("/api/event/:id/:ilgi_id", updateEvent);
+app.delete("/api/event/:id", deleteEvent);
 
 // app.get("*", (req, res, next) => {
 //   res.sendFile(path.join(__dirname, "/../build/index.html"));

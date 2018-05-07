@@ -11,10 +11,12 @@ import { getAllQuote } from "../../ducks/quoteReducer";
 import Gallery from "./Gallery/Gallery";
 import Event from "./Event/Event";
 import Quote from "./Quote/Quote";
-const GalleryIcon = <FontIcon className="material-icons" />;
-const QuoteIcon = <FontIcon className="material-icons">QuoteIcon</FontIcon>;
-const EventIcon = <FontIcon className="material-icons">EventIcon </FontIcon>;
-
+import PhotoLibrary from "material-ui/svg-icons/image/photo-library";
+import FormatQuote from "material-ui/svg-icons/editor/format-quote";
+import EventNote from "material-ui/svg-icons/notification/event-note";
+const GalleryIcon = <PhotoLibrary />;
+const QuoteIcon = <FormatQuote />;
+const EventIcon = <EventNote />;
 class Inbox extends Component {
   state = {
     selectedIndex: 0
@@ -26,6 +28,11 @@ class Inbox extends Component {
   }
   render() {
     console.log(this.props);
+    const styles = {
+      Paper: {
+        fontFamily: "'Open Sans', sans-serif"
+      }
+    };
     return (
       <div className="Inbox">
         <Paper zDepth={1}>
@@ -36,6 +43,7 @@ class Inbox extends Component {
               onClick={() => {
                 this.select(0);
               }}
+              style={styles.Paper}
             />
             <BottomNavigationItem
               label="My Quote"
@@ -43,6 +51,7 @@ class Inbox extends Component {
               onClick={() => {
                 this.select(1);
               }}
+              style={styles.Paper}
             />
             <BottomNavigationItem
               label="Event"
@@ -50,6 +59,7 @@ class Inbox extends Component {
               onClick={() => {
                 this.select(2);
               }}
+              style={styles.Paper}
             />
           </BottomNavigation>
         </Paper>

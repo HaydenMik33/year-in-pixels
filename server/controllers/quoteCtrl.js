@@ -41,18 +41,13 @@ const getAllQuotes = (req, res) => {
 };
 
 const deleteQuote = (req, res) => {
-  ////delete Quote to your data base
-  console.log("Hit the post =>/api/quote");
-  console.log(req.params);
-  console.log(req.body);
-  const { id, ilgi_id } = req.params;
-  const { text, img, colorvalue } = req.body;
-
+  console.log("Hit the delete =>/api/quote");
+  const { id } = req.params;
   req.app
     .get("db")
-    .deleteQuote([id, text, img, colorvalue, ilgi_id])
-    .then(quotes => {
-      res.status(200).send(quotes);
+    .deleteQuote([id])
+    .then(quote => {
+      res.status(200).send(quote);
     })
     .catch(() => {
       res.status(500).send();

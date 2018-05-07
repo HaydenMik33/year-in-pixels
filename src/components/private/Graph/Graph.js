@@ -50,50 +50,57 @@ class Graph extends Component {
     let avgYValue = 0;
     const assignMonth = () => {
       this.props.pixels.map(pixel => {
-        let p = pixel.pixel_unique;
-        p < 150
-          ? months[1].push(pixel)
-          : p > 150 && p < 250
-            ? months[2].push(pixel)
-            : p > 250 && p < 350
-              ? months[3].push(pixel)
-              : p > 350 && p < 450
-                ? months[4].push(pixel)
-                : p > 450 && p < 550
-                  ? months[5].push(pixel)
-                  : p > 550 && p < 650
-                    ? months[6].push(pixel)
-                    : p > 650 && p < 750
-                      ? months[7].push(pixel)
-                      : p > 750 && p < 850
-                        ? months[8].push(pixel)
-                        : p > 850 && p < 950
-                          ? months[9].push(pixel)
-                          : p > 950 && p < 1050
-                            ? months[10].push(pixel)
-                            : p > 1050 && p < 1150
-                              ? months[11].push(pixel)
-                              : p > 1150 && p < 1250
-                                ? months[12].push(pixel)
-                                : null;
+        if (pixel.colorvalue) {
+          let p = pixel.pixel_unique;
+          p < 150
+            ? months[1].push(pixel)
+            : p > 150 && p < 250
+              ? months[2].push(pixel)
+              : p > 250 && p < 350
+                ? months[3].push(pixel)
+                : p > 350 && p < 450
+                  ? months[4].push(pixel)
+                  : p > 450 && p < 550
+                    ? months[5].push(pixel)
+                    : p > 550 && p < 650
+                      ? months[6].push(pixel)
+                      : p > 650 && p < 750
+                        ? months[7].push(pixel)
+                        : p > 750 && p < 850
+                          ? months[8].push(pixel)
+                          : p > 850 && p < 950
+                            ? months[9].push(pixel)
+                            : p > 950 && p < 1050
+                              ? months[10].push(pixel)
+                              : p > 1050 && p < 1150
+                                ? months[11].push(pixel)
+                                : p > 1150 && p < 1250
+                                  ? months[12].push(pixel)
+                                  : null;
+        } else {
+          null;
+        }
       });
     };
     const generateCircle = () => {
       assignMonth();
+      let sumOfYvalue = 0;
+      let curY = 0;
+      let sum = 0;
       for (let key in months) {
-        // months[key].reduce((acc, cur) => {
-        //   avgYValue =
-        //     (check_yValue(acc.colorvalue, acc.opacity) +
-        //       check_yValue(cur.colorvalue, cur.opacity)) /
-        //     months.key.length;
-        //   console.log(avgYValue);
-        // });
+        sumOfYvalue = months[key].map((el, i) => {
+          let curY = check_yValue(el.colorvalue, el.opacity);
+          sum += Number(curY);
+          console.log(sum);
+          return sum;
+        });
+        console.log(sumOfYvalue, months[key].length);
         return (
           <circle
             key={key}
             fill="#eef5ee"
             cx={`${52.8 * key}`}
-            cy={`${avgYValue}`}
+            cy={`${sumOfYvalue[sumOfYvalue.length - 1] / months[key].length}`}
             r="4"
           />
         );
@@ -132,6 +139,11 @@ class Graph extends Component {
         </div>
       );
     });
+    const styles = {
+      Paper: {
+        fontFamily: "'Open Sans', sans-serif"
+      }
+    };
     return (
       <div className="Graph">
         <Paper zDepth={1}>
@@ -139,14 +151,17 @@ class Graph extends Component {
             <BottomNavigationItem
               icon={yearIcon}
               onClick={() => this.select(0)}
+              style={styles.Paper}
             />
             <BottomNavigationItem
               icon={monthIcon}
               onClick={() => this.select(1)}
+              style={styles.Paper}
             />
             <BottomNavigationItem
               icon={colorIcon}
               onClick={() => this.select(2)}
+              style={styles.Paper}
             />
           </BottomNavigation>
         </Paper>
@@ -155,10 +170,10 @@ class Graph extends Component {
             <div>
               <svg fill="#244769" viewBox="0 0 741 450">
                 {/* {line} */}
-                {/* <g>{generateCircle()}</g> */}
+                <g>{generateCircle()}</g>
               </svg>
             </div>
-            <Paper zDepth={2}>
+            <Paper zDepth={2} style={styles.Paper}>
               Information Tracker (for developer)
               {pixels}
             </Paper>

@@ -32,6 +32,14 @@
 .Event_Add_input-text {
   height: 40vh;
 }
+.Event_star {
+  position: relative;
+  top: 7px;
+  right: -450px;
+}
+.Event_starSolid {
+  opacity: 0.7;
+}
 
 .Event_DatePicker {
   text-align: left;

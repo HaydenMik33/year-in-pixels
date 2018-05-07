@@ -17,8 +17,21 @@ import Slider from "material-ui/Slider";
 import RaisedButton from "material-ui/RaisedButton";
 import DisplayContent from "./DisplayContent/DisplayContent";
 import Snackbar from "material-ui/Snackbar";
-import EventAdder from "./EventAdder/EventAdder";
-import { EventEmitter } from "events";
+import annoyed from "./png64px/annoyed.png";
+import dizzy from "./png64px/dizzy.png";
+import dull from "./png64px/dull.png";
+import excited from "./png64px/excited.png";
+import frustrated from "./png64px/frustrated.png";
+import good from "./png64px/happy.png";
+import happy from "./png64px/happy.png";
+import hateful from "./png64px/hateful.png";
+import heartbroken from "./png64px/heartbroken.png";
+import hilarious from "./png64px/hilarious.png";
+import love from "./png64px/love.png";
+import nervous from "./png64px/nervous.png";
+import sad from "./png64px/sad.png";
+import sick from "./png64px/sick.png";
+import sleepy from "./png64px/sleepy.png";
 
 class Edit extends Component {
   constructor() {
@@ -139,12 +152,16 @@ class Edit extends Component {
       colorBoxBorderStyle: {
         border: this.state.divBorder,
         boxShadow: this.state.inputBoxShadow
+      },
+      Paper: {
+        fontFamily: "'Open Sans', sans-serif"
       }
     };
     const { colorBoxStyle, colorBoxBorderStyle } = styles;
     const quote_searchResult = this.props.quotes.map((el, i) => {
       return (
         <Paper
+          style={styles.Paper}
           zDepth={1}
           className="Edit_quote_search_result"
           key={i}
@@ -167,6 +184,7 @@ class Edit extends Component {
         </Paper>
       );
     });
+
     return (
       <div className="edit">
         {displayContent ? (
@@ -181,7 +199,7 @@ class Edit extends Component {
             {/* have this have quote generator by tags keyword or mood and then save into my inbox */}
           </div>
         ) : (
-          <Card>
+          <Card style={styles.Paper}>
             <CardMedia>
               {this.state.img ? (
                 <img src={this.state.img} alt="myImage.jpg" />
@@ -189,75 +207,164 @@ class Edit extends Component {
                 <img src={basic} alt="defaultimage.jpg" />
               )}
             </CardMedia>
-            <CardTitle title="name you pixel" subtitle="Card subtitle" />
-            <CardText>
-              <input
-                className="edit_textArea"
-                onChange={e => this.setState({ text: e.target.value })}
-                defaultValue={currentPixel.text}
-              />
-            </CardText>;
+            <CardTitle title="Edit your title" subtitle="Color your day" />
+
             <div className="edit_grid-container">
               <div
-                style={colorvalue === "#e60000" ? colorBoxBorderStyle : null}
+                style={colorvalue === " #d92121" ? colorBoxBorderStyle : null}
               >
                 <div
-                  className="edit_grid-item anger"
-                  onClick={() => this.colorvalueSelector("#e60000")}
-                  style={colorvalue === "#e60000" ? colorBoxStyle : null}
+                  className="edit_grid-item annoyed"
+                  onClick={() => this.colorvalueSelector(" #d92121")}
+                  style={colorvalue === " #d92121" ? colorBoxStyle : null}
                 />
               </div>
               <div
-                style={colorvalue === "#fdc513" ? colorBoxBorderStyle : null}
+                style={colorvalue === "#ff6037" ? colorBoxBorderStyle : null}
               >
                 <div
-                  className="edit_grid-item excited"
-                  onClick={() => this.colorvalueSelector("#fdc513")}
-                  style={colorvalue === "#fdc513" ? colorBoxStyle : null}
+                  className="edit_grid-item dizzy"
+                  onClick={() => this.colorvalueSelector("#ff6037")}
+                  style={colorvalue === "#ff6037" ? colorBoxStyle : null}
                 />
               </div>
               <div
-                style={colorvalue === "#ffd1d1" ? colorBoxBorderStyle : null}
+                style={colorvalue === "#ff3399" ? colorBoxBorderStyle : null}
               >
                 <div
                   className="edit_grid-item love"
-                  onClick={() => this.colorvalueSelector("#ffd1d1")}
-                  style={colorvalue === "#ffd1d1" ? colorBoxStyle : null}
+                  onClick={() => this.colorvalueSelector("#ff3399")}
+                  style={colorvalue === "#ff3399" ? colorBoxStyle : null}
                 />
               </div>
               <div
-                style={colorvalue === "#c6c6c8" ? colorBoxBorderStyle : null}
+                style={colorvalue === "#fcd705" ? colorBoxBorderStyle : null}
               >
                 <div
-                  className="edit_grid-item sad"
-                  onClick={() => this.colorvalueSelector("#c6c6c8")}
-                  style={colorvalue === "#c6c6c8" ? colorBoxStyle : null}
+                  className="edit_grid-item happy"
+                  onClick={() => this.colorvalueSelector("#fcd705")}
+                  style={colorvalue === "#fcd705" ? colorBoxStyle : null}
                 />
               </div>
+
               <div
-                style={colorvalue === "#eafbfa" ? colorBoxBorderStyle : null}
+                style={colorvalue === "#9dff00" ? colorBoxBorderStyle : null}
               >
                 <div
-                  className="edit_grid-item  chill"
-                  onClick={() => this.colorvalueSelector("#eafbfa")}
-                  style={colorvalue === "#eafbfa" ? colorBoxStyle : null}
+                  className="edit_grid-item excited"
+                  onClick={() => this.colorvalueSelector("#9dff00")}
+                  style={colorvalue === "#9dff00" ? colorBoxStyle : null}
                 />
               </div>
               <div
-                style={colorvalue === "#94acff" ? colorBoxBorderStyle : null}
+                style={colorvalue === "#00ebef" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item good"
+                  onClick={() => this.colorvalueSelector("#00ebef")}
+                  style={colorvalue === "#00ebef" ? colorBoxStyle : null}
+                />
+              </div>
+              <div
+                style={colorvalue === "#8e03b5" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item frustrated"
+                  onClick={() => this.colorvalueSelector("#8e03b5")}
+                  style={colorvalue === "#8e03b5" ? colorBoxStyle : null}
+                />
+              </div>
+
+              <div
+                style={colorvalue === "#3c2c4c" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item hateful"
+                  onClick={() => this.colorvalueSelector("#3c2c4c")}
+                  style={colorvalue === "#3c2c4c" ? colorBoxStyle : null}
+                />
+              </div>
+              <div
+                style={colorvalue === "#4f7f9e" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item heartbroken"
+                  onClick={() => this.colorvalueSelector("#4f7f9e")}
+                  style={colorvalue === "#4f7f9e" ? colorBoxStyle : null}
+                />
+              </div>
+              <div
+                style={colorvalue === "#4af9b6" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item hilarious"
+                  onClick={() => this.colorvalueSelector("#4af9b6")}
+                  style={colorvalue === "#4af9b6" ? colorBoxStyle : null}
+                />
+              </div>
+
+              <div
+                style={colorvalue === "#2243b6" ? colorBoxBorderStyle : null}
               >
                 <div
                   className="edit_grid-item nervous"
-                  onClick={() => this.colorvalueSelector("#94acff")}
-                  style={colorvalue === "#94acff" ? colorBoxStyle : null}
+                  onClick={() => this.colorvalueSelector("#2243b6")}
+                  style={colorvalue === "#2243b6" ? colorBoxStyle : null}
                 />
               </div>
-              <div className="edit_grid-item" />
-              <div className="edit_grid-item" />
-              <div className="edit_grid-item" />
-              <div className="edit_grid-item" />
-              <div className="edit_grid-item" />
-              <div className="edit_grid-item" />
+              <div
+                style={colorvalue === "#5dadec" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item sad"
+                  onClick={() => this.colorvalueSelector("#5dadec")}
+                  style={colorvalue === "#5dadec" ? colorBoxStyle : null}
+                />
+              </div>
+              <div
+                style={colorvalue === "#5e8c31" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item sick"
+                  onClick={() => this.colorvalueSelector("#5e8c31")}
+                  style={colorvalue === "#5e8c31" ? colorBoxStyle : null}
+                />
+              </div>
+              <div
+                style={colorvalue === "#33cc99" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item sleepy"
+                  onClick={() => this.colorvalueSelector("#33cc99")}
+                  style={colorvalue === "#33cc99" ? colorBoxStyle : null}
+                />
+              </div>
+              <div
+                style={colorvalue === "#bfafb2" ? colorBoxBorderStyle : null}
+              >
+                <div
+                  className="edit_grid-item dull"
+                  onClick={() => this.colorvalueSelector("#bfafb2")}
+                  style={colorvalue === "#bfafb2" ? colorBoxStyle : null}
+                />
+              </div>
+            </div>
+            <div className="edit_grid-container">
+              <img src={annoyed} className="emotion_icons" />
+              <img src={dizzy} className="emotion_icons" />
+              <img src={love} className="emotion_icons" />
+              <img src={happy} className="emotion_icons" />
+              <img src={excited} className="emotion_icons" />
+              <img src={good} className="emotion_icons" />
+              <img src={frustrated} className="emotion_icons" />
+              <img src={hateful} className="emotion_icons" />
+              <img src={heartbroken} className="emotion_icons" />
+              <img src={hilarious} className="emotion_icons" />
+              <img src={nervous} className="emotion_icons" />
+              <img src={sad} className="emotion_icons" />
+              <img src={sick} className="emotion_icons" />
+              <img src={sleepy} className="emotion_icons" />
+              <img src={dull} className="emotion_icons" />
             </div>
             {this.state.colorClicked ? (
               <Slider
@@ -270,11 +377,36 @@ class Edit extends Component {
                 onChange={(e, value) => this.setState({ opacity: value })}
               />
             ) : null}
-            <Paper zDepth={1}>
+            <div className="edit_paper">
+              <div className="edit_paper-lines">
+                <div className="vl" />
+                <div
+                  className="edit_paper-text"
+                  contentEditable
+                  spellCheck="false"
+                  onChange={e => this.setState({ text: e.target.value })}
+                >
+                  {currentPixel.text}
+                  jelly beans sweet roll cupcake lollipop. Powder carrot cake
+                  toffee brownie. Marshmallow sweet roll donut. Chocolate cake
+                  apple pie candy canes tiramisu dragée wafer. Croissant cookie
+                  lemon drops tiramisu jelly-o donut. Sweet gummi bears ice
+                  cream
+                </div>
+              </div>
+            </div>
+            <div>
+              {/* <input
+                className="edit_textArea"
+                onChange={e => this.setState({ text: e.target.value })}
+                defaultValue={currentPixel.text}
+              /> */}
+            </div>
+            <Paper zDepth={1} style={styles.Paper}>
               <input
                 className="edit_search_img_input"
-                defaultValue="type keywords to search up images"
                 onChange={e => this.setState({ keyword: e.target.value })}
+                style={styles.Paper}
               />
               <RaisedButton
                 label="search"
@@ -289,7 +421,7 @@ class Edit extends Component {
                 </Paper>
               ) : null}
             </Paper>
-            <Paper>
+            <Paper style={styles.Paper}>
               <p>You haven't added quotes in this pixel</p>
               <RaisedButton
                 label="Change Quote"
@@ -301,7 +433,6 @@ class Edit extends Component {
                 </div>
               ) : null}
             </Paper>
-            <EventAdder currentPixel={currentPixel} />
             <CardActions>
               <RaisedButton label="SAVE" onClick={() => this.handleSave()} />
             </CardActions>

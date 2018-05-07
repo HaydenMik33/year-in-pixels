@@ -98,7 +98,7 @@ class Ilgi extends Component {
     return (
       <div className="Ilgi">
         <div className="Ilgi_header">
-          <h1 className="Ilgi_h1">{this.props.ilgi.title}</h1>
+          <h1 className="Ilgi_h1">[ ilgi :{this.props.ilgi.title} ]</h1>
           <p className="Ilgi_by">by {this.props.user.displayname}</p>
           <p className="Ilgi_now">{now}</p>
         </div>
