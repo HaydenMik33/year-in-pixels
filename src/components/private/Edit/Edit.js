@@ -442,7 +442,9 @@ class Edit extends Component {
                   </div>
                 ) : null}
               </Paper>
-              <RaisedButton label="SAVE" onClick={() => this.handleSave()} />
+              <div className="edit_final_saveB">
+                <RaisedButton label="SAVE" onClick={() => this.handleSave()} />
+              </div>
             </div>
             <Snackbar
               className="Edit_snackBar"

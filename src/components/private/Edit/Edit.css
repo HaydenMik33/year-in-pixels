@@ -40,6 +40,10 @@ Edit_search_quote_result_container {
 .edit_Quote {
   padding: 25px;
 }
+.edit_final_saveB {
+  padding-top: 30px;
+  padding-bottom: 50px;
+}
 .edit {
   height: 200vh;
   font-family: "Open Sans", sans-serif;

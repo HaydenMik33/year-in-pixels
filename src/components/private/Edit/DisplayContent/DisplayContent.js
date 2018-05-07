@@ -143,11 +143,6 @@ class DisplayContent extends Component {
                         avatar="https://thumbs.dreamstime.com/b/pixel-art-style-rainbow-homosexual-heart-sign-71899821.jpg"
                       />
                       {currentPixel.text}
-                      jelly beans sweet roll cupcake lollipop. Powder carrot
-                      cake toffee brownie. Marshmallow sweet roll donut.
-                      Chocolate cake apple pie candy canes tiramisu dragée
-                      wafer. Croissant cookie lemon drops tiramisu jelly-o
-                      donut. Sweet gummi bears ice cream
                     </div>
                   </div>
                 </div>
