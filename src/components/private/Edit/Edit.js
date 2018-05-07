@@ -379,7 +379,7 @@ class Edit extends Component {
             ) : null}
             <div className="edit_paper">
               <div className="edit_paper-lines">
-                <div className="vl" />
+                <div className="edit_vl" />
                 <div
                   className="edit_paper-text"
                   contentEditable

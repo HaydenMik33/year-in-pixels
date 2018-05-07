@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-// app.use(express.static(path.join(__dirname, "../build")));
+app.use(express.static(path.join(__dirname, "../build")));
 
 require("dotenv").config();
 const { json } = require("body-parser");
@@ -93,8 +93,8 @@ passport.deserializeUser((user, done) => {
 app.get(
   "/auth",
   passport.authenticate("auth0", {
-    successRedirect: "http://localhost:3000/#/home",
-    failureRedirect: "http://localhost:3000/#/"
+    successRedirect: "/#/home",
+    failureRedirect: "/#/"
   })
 );
 app.get("/logout", logout);
@@ -128,9 +128,9 @@ app.get("/api/events/:id", getAllEvents);
 app.post("/api/event/:id/:ilgi_id", updateEvent);
 app.delete("/api/event/:id", deleteEvent);
 
-// app.get("*", (req, res, next) => {
-//   res.sendFile(path.join(__dirname, "/../build/index.html"));
-// });
+app.get("*", (req, res, next) => {
+  res.sendFile(path.join(__dirname, "/../build/index.html"));
+});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
