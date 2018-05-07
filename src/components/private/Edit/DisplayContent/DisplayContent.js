@@ -118,7 +118,7 @@ class DisplayContent extends Component {
                   alt="myImage.jpg"
                 />
               ) : (
-                <img src={basic} alt="defaultimage.jpg" />
+                <img src={basic} alt="defaultimage.jpg" width />
               )}
               <div className="Haydenhaha">
                 <h1>

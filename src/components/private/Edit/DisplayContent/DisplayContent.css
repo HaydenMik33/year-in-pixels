@@ -47,7 +47,7 @@
 }
 .DisplayContent-left {
 }
-.DisplayContent-right {
+.DisplayContent_right {
   width: 40%;
   position: relative;
   right: -793px;
@@ -113,7 +113,7 @@
 }
 .DisplayContent_paper-text {
   position: relative;
-  top: 0px;
+  top: -600px;
   left: 55px;
   bottom: 10px;
   right: 10px;
