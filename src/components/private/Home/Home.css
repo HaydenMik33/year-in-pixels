@@ -344,3 +344,9 @@ p.Home_css-button-text {
     transform: skew(-42deg) translate(300px, -0px);
   }
 }
+
+.logo_DirectToHome {
+  font-size: 24px;
+  padding: 5px auto;
+  height: 35px;
+}

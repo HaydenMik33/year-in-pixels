@@ -146,7 +146,7 @@ class Graph extends Component {
     };
     return (
       <div className="Graph">
-        <Paper zDepth={1}>
+        {/* <Paper zDepth={1}>
           <BottomNavigation selectedIndex={this.state.selectedIndex}>
             <BottomNavigationItem
               icon={yearIcon}
@@ -170,7 +170,7 @@ class Graph extends Component {
             <div>
               <svg fill="#244769" viewBox="0 0 741 450">
                 {/* {line} */}
-                <g>{generateCircle()}</g>
+        {/* <g>{generateCircle()}</g>
               </svg>
             </div>
             <Paper zDepth={2} style={styles.Paper}>
@@ -182,7 +182,7 @@ class Graph extends Component {
           <div> second one</div>
         ) : this.state.selectedIndex === 2 ? (
           <div>third one</div>
-        ) : null}
+        ) : null} */}
       </div>
     );
   }

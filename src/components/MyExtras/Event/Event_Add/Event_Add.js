@@ -107,23 +107,18 @@ class Event_Add extends Component {
 
           <input
             className="Event_Add_input Event_Add_input-title"
-            defaultValue="Event name"
-            value={this.state.title}
-            onClick={() => this.setState({ title: "" })}
+            placeHolder="Event name"
             onChange={e => this.setState({ title: e.target.value })}
           />
           <div className="Event_DatePicker">
             <DatePicker
               hintText="Select date"
-              value={this.state.date}
               onChange={(e, date) => this.setState({ date: date })}
             />
           </div>
           <input
             className="Event_Add_input Event_Add_input-location"
-            defaultValue="Location"
-            value={this.state.location}
-            onClick={() => this.setState({ location: "" })}
+            placeHolder="Location"
             onChange={e => this.setState({ location: e.target.value })}
           />
           <textarea

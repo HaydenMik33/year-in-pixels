@@ -269,7 +269,10 @@ class Home extends Component {
             </Card>
           </div>
         ) : (
-          <div className="Home_route_private">{route_Private}</div>
+          <div className="Home_route_private">
+            <span className="logo_DirectToHome">ilgi</span>
+            {route_Private}
+          </div>
         )}
       </div>
     );
