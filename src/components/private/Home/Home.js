@@ -1,18 +1,16 @@
 import React, { Component } from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
-import route_Private from "../../../routes/route_Private";
 import { connect } from "react-redux";
-import { Card, CardText, CardActions } from "material-ui/Card";
 import { getUser } from "../../../ducks/userReducer";
 import { getAllPixels, sendIlgiToReducer } from "../../../ducks/pixelReducer";
 import { getAllEvents } from "../../../ducks/eventReducer";
 import axios from "axios";
 import { FlatButton } from "material-ui";
 import Snackbar from "material-ui/Snackbar";
-import Drawer from "material-ui/Drawer";
 import moment from "moment";
-import { colors } from "material-ui/styles";
+import route_Private from "../../../routes/route_Private";
+import Nav from "../../public/Nav/Nav";
 class Home extends Component {
   state = {
     user: [],
@@ -21,14 +19,11 @@ class Home extends Component {
     recentColor: "",
     recentColorOpacity: "",
     openSnackbar: false,
-    open: false,
     Hayden: function() {
       return <div>dkak</div>;
     }
   };
 
-  handleToggle = () => this.setState({ open: !this.state.open });
-  handleClose = () => this.setState({ open: false });
   componentDidMount() {
     const {
       getUser,
@@ -114,139 +109,66 @@ class Home extends Component {
   }
 
   render() {
-    const { navSwitch } = this.state;
     const styles = {
-      Drawer: {
-        background: "#263238"
-      },
-      Paper: {
-        fontFamily: "'Open Sans',sans serif"
-      },
-      elTitle: {
-        fontShadow: "RoyalBlue"
-      },
-      elDate: {
-        color: "RoyalBlue"
-      },
       mood: {
         background: this.state.recentColor,
         color: "white",
         opacity: this.state.recentColorOpacity
       }
     };
-
+    console.log(this.props);
     return (
-      <div className="container-for-privateComponents">
-        <div className="Home_header">
-          <span className="hamburger" onClick={this.handleToggle}>
-            &#9776;
-          </span>
-        </div>
-        <Drawer
-          docked={false}
-          width={250}
-          open={this.state.open}
-          containerStyle={styles.Drawer}
-          onRequestChange={open => this.setState({ open })}
-        >
-          <Link
-            className="Home_nav-link Home_nav-link1"
-            to="/home"
-            onClick={this.handleClose}
-          >
-            HOME
-          </Link>
-          <Link
-            className="Home_nav-link"
-            to="/home/ilgi"
-            onClick={this.handleClose}
-          >
-            2018 IN PIXELS
-          </Link>
-          <Link
-            className="Home_nav-link"
-            to="/home/graph"
-            onClick={this.handleClose}
-          >
-            2018 IN GRAPHS
-          </Link>
-          <Link
-            className="Home_nav-link"
-            to="/home/inbox"
-            onClick={this.handleClose}
-          >
-            INBOX
-          </Link>
-          <Link
-            className="Home_nav-link"
-            to="/home/profile"
-            onClick={this.handleClose}
-          >
-            PROFILE
-          </Link>
-          <Link
-            className="Home_nav-link"
-            to="/home/setting"
-            onClick={this.handleClose}
-          >
-            SETTING
-          </Link>
-          <a
-            className="Home_nav-link"
-            href={process.env.REACT_APP_LOGOUT}
-            onClick={this.handleClose}
-          >
-            LOGOUT
-          </a>
-        </Drawer>
-
-        {this.props.history.location.pathname === "/home" ? (
-          <div className="Home">
-            <div className="Home_animatedHeader Home_animatedHeader-show">
-              <h1 className="Home_animatedHeader_h1">{`Welcome       ${
-                this.state.user.displayname
-              }`}</h1>
-            </div>
-            <div className="Home_titleHeader_outer">
-              <h1 className="Home_titleHeader-h1">[ ilgi ]</h1>
-              <div className="Home_titleHeader" />
-              <p className="Home_titleHeader-p">COLOR YOOUR PIXEL</p>
-              <Link to="/home/ilgi">
-                <div class="Home_css-button">
-                  <p class="Home_css-button-text">Color</p>
-                  <div class="Home_css-button-inner">
-                    <div class="reset-skew">
-                      <p class="Home_css-button-inner-text">>></p>
+      <div className="Main">
+        <Nav />
+        {
+          (this.props.history.location.pathname = "/home" ? (
+            <div className="Home">
+              <div className="Home_animatedHeader Home_animatedHeader-show">
+                <h1 className="Home_animatedHeader_h1">{`Welcome       ${
+                  this.state.user.displayname
+                }`}</h1>
+              </div>
+              <div className="Home_titleHeader_outer">
+                <h1 className="Home_titleHeader-h1">[ ilgi ]</h1>
+                <div className="Home_titleHeader" />
+                <p className="Home_titleHeader-p">COLOR YOOUR PIXEL</p>
+                <Link to="/home/ilgi">
+                  <div class="Home_css-button">
+                    <p class="Home_css-button-text">Color</p>
+                    <div class="Home_css-button-inner">
+                      <div class="reset-skew">
+                        <p class="Home_css-button-inner-text">>></p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Link>
-            </div>
+                </Link>
+              </div>
 
-            <svg className="arrow">
-              <path className="a1" d="M0 0 L30 22 L60 0" />
-              <path className="a2" d="M0 20 L30 42 L60 20" />
-              <path className="a3" d="M0 40 L30 62 L60 40" />
-            </svg>
-            <Card className="Home_Event" style={styles.Paper}>
-              <h1 className="Home_upcoming-h1">Upcoming Event</h1>
-              {this.state.Hayden}
-            </Card>
-            <Card className="Home_RecentMood" style={styles.Paper}>
-              <div className="Home_RecentMood_container" style={styles.mood}>
-                <h3> Your Recent color </h3>
+              <svg className="arrow">
+                <path className="a1" d="M0 0 L30 22 L60 0" />
+                <path className="a2" d="M0 20 L30 42 L60 20" />
+                <path className="a3" d="M0 40 L30 62 L60 40" />
+              </svg>
+              <div className="Home_Event">
+                <h1 className="Home_upcoming-h1">Upcoming Event</h1>
+                {this.state.Hayden}
               </div>
-            </Card>
-            <Card className="Home_Quote" style={styles.Paper}>
-              <div className="Home_quoteBox">
-                <i className="fas fa-quote-left" />
-                <p className="Home_quoteBox_quote">{this.state.quote.quote}</p>
-                <i className="fas fa-quote-right" />
-                <p className="Home_quoteBox_author">{`-By  ${
-                  this.state.quote.author
-                }`}</p>
+              <div className="Home_RecentMood">
+                <div className="Home_RecentMood_container" style={styles.mood}>
+                  <h3> Your Recent color </h3>
+                </div>
               </div>
-              <CardActions>
+              <div className="Home_Quote">
+                <div className="Home_quoteBox">
+                  <i className="fas fa-quote-left" />
+                  <p className="Home_quoteBox_quote">
+                    {this.state.quote.quote}
+                  </p>
+                  <i className="fas fa-quote-right" />
+                  <p className="Home_quoteBox_author">{`-By  ${
+                    this.state.quote.author
+                  }`}</p>
+                </div>
                 <FlatButton
                   label="Save"
                   onClick={() => this.saveQuote()}
@@ -265,15 +187,13 @@ class Home extends Component {
                   autoHideDuration={4000}
                   onRequestClose={() => this.setState({ openSnackbar: false })}
                 />
-              </CardActions>
-            </Card>
-          </div>
-        ) : (
-          <div className="Home_route_private">
-            <span className="logo_DirectToHome">ilgi</span>
-            {route_Private}
-          </div>
-        )}
+              </div>
+            </div>
+          ) : (
+            route_Private
+          ))
+        }
+        }
       </div>
     );
   }
