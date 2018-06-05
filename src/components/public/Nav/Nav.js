@@ -19,11 +19,9 @@ class Nav extends Component {
 
     return (
       <div>
-        <div className="Nav_header">
-          <span className="hamburger" onClick={this.handleToggle}>
-            &#9776;
-          </span>
-        </div>
+        <span className="hamburger" onClick={this.handleToggle}>
+          &#9776;
+        </span>
         <Drawer
           docked={false}
           width={250}
@@ -38,35 +36,19 @@ class Nav extends Component {
           >
             HOME
           </Link>
-          <Link className="Nav_link" to="/home/ilgi" onClick={this.handleClose}>
+          <Link className="Nav_link" to="/ilgi" onClick={this.handleClose}>
             2018 IN PIXELS
           </Link>
-          <Link
-            className="Nav_link"
-            to="/home/graph"
-            onClick={this.handleClose}
-          >
+          <Link className="Nav_link" to="/graph" onClick={this.handleClose}>
             2018 IN GRAPHS
           </Link>
-          <Link
-            className="Nav_link"
-            to="/home/inbox"
-            onClick={this.handleClose}
-          >
+          <Link className="Nav_link" to="/inbox" onClick={this.handleClose}>
             INBOX
           </Link>
-          <Link
-            className="Nav_link"
-            to="/home/profile"
-            onClick={this.handleClose}
-          >
+          <Link className="Nav_link" to="/profile" onClick={this.handleClose}>
             PROFILE
           </Link>
-          <Link
-            className="Nav_link"
-            to="/home/setting"
-            onClick={this.handleClose}
-          >
+          <Link className="Nav_link" to="/setting" onClick={this.handleClose}>
             SETTING
           </Link>
           <a

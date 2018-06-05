@@ -8,16 +8,14 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {
-          (this.props.history.location.pathname = "/" ? (
-            <Welcome />
-          ) : (
-            <div className="Main">
-              <Nav />
-              {route_Private}
-            </div>
-          ))
-        }
+        {this.props.history.location.pathname === "/" ? (
+          <Welcome />
+        ) : (
+          <div className="Main">
+            <Nav />
+            {route_Private}
+          </div>
+        )}
       </div>
     );
   }

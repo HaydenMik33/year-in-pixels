@@ -110,9 +110,9 @@ class Edit extends Component {
       })
       .then(() => {
         updatePixel(id, text, img, ilgi_id, quote_id).then(() =>
-          this.props.history.push("/home/ilgi")
+          this.props.history.push("/ilgi")
         );
-        // this.props.history.push("/home/ilgi");
+        // this.props.history.push("/ilgi");
       });
   }
   off;

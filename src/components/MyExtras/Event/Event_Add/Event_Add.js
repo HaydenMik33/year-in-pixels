@@ -65,7 +65,7 @@ class Event_Add extends Component {
       })
       .then(() => {
         this.props.pushCurrentEvent({});
-        this.props.history.push("/home/inbox");
+        this.props.history.push("/inbox");
       });
   }
 
@@ -85,7 +85,7 @@ class Event_Add extends Component {
               label="cancel"
               onClick={() => {
                 this.props.pushCurrentEvent({});
-                this.props.history.push("/home/inbox");
+                this.props.history.push("/inbox");
               }}
             />
             {this.state.important === false ? (
@@ -133,7 +133,7 @@ class Event_Add extends Component {
 
 function mapStateToProps(state) {
   return {
-    ilgi: state.pixelReducer.ilgi,
+    ilgi: state.userReducer.ilgi,
     currentEvent: state.eventReducer.currentEvent
   };
 }

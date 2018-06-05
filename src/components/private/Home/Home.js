@@ -2,19 +2,16 @@ import React, { Component } from "react";
 import "./Home.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { getUser } from "../../../ducks/userReducer";
-import { getAllPixels, sendIlgiToReducer } from "../../../ducks/pixelReducer";
+import { getUser, getIlgi } from "../../../ducks/userReducer";
+import { getAllPixels } from "../../../ducks/pixelReducer";
 import { getAllEvents } from "../../../ducks/eventReducer";
-import axios from "axios";
 import { FlatButton } from "material-ui";
 import Snackbar from "material-ui/Snackbar";
 import moment from "moment";
-import route_Private from "../../../routes/route_Private";
-import Nav from "../../public/Nav/Nav";
+import axios from "axios";
+import { stat } from "fs";
 class Home extends Component {
   state = {
-    user: [],
-    ilgi: [],
     quote: {},
     recentColor: "",
     recentColorOpacity: "",
@@ -25,21 +22,16 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    const {
-      getUser,
-      getAllEvents,
-      getAllPixels,
-      sendIlgiToReducer
-    } = this.props;
+    const { getUser, getAllEvents, getAllPixels, getIlgi } = this.props;
     getUser()
       .then(user => {
-        this.setState({ user: user.value.data });
-        axios.get(`/api/ilgi/${user.value.data.id}`).then(res => {
-          if (res.data[0]) {
-            this.setState({ ilgi: res.data[0] });
-            sendIlgiToReducer(res.data[0]);
-            getAllPixels(res.data[0].id);
-            getAllEvents(res.data[0].id);
+        let resp = user.value.data;
+        getIlgi(resp.id).then(ilgi => {
+          console.log(ilgi);
+          let res = ilgi.value.data[0];
+          if (res) {
+            getAllPixels(res.id);
+            getAllEvents(res.id);
             axios.get("/api/quote").then(quote => {
               this.setState({
                 quote: quote.data,
@@ -52,7 +44,7 @@ class Home extends Component {
               });
             });
           } else {
-            this.props.history.push("/home/start");
+            this.props.history.push("/start");
           }
         });
       })
@@ -60,155 +52,216 @@ class Home extends Component {
   }
 
   saveQuote() {
-    const { quote, ilgi } = this.state;
+    const { quote } = this.state;
     let text = quote.quote;
     let author = quote.author;
     let tags = quote.cat;
-    let ilgi_id = ilgi.id;
+    let ilgi_id = this.props.ilgi.id;
     this.setState({ openSnackbar: true });
     axios.post("/api/quote", { text, author, tags, ilgi_id });
   }
   refresh() {
     axios.get("/api/quote").then(quote => {
-      console.log(quote);
       this.setState({ quote: quote.data });
     });
   }
 
   calculate() {
-    const DayOfYear = this.props.events.map((el, i) => {
-      return moment(el.date, "DD-MM-YYYY").dayOfYear();
+    console.log("hit");
+    const { events } = this.props;
+    const DayOfYear = events.filter(el => el.date !== null).map(ele => {
+      return moment(ele.date, "DD-MM-YYYY").dayOfYear();
     });
-
     const upComingEvent = Math.min(...DayOfYear);
-    const styles = {
-      elTitle: {
-        textShadow: "3px 3px lightskyblue",
-        fontSize: "36px"
-      },
-      elDate: {
-        color: "RoyalBlue"
-      }
-    };
-    const displayUpcomingEvent = this.props.events
-      .filter(el => moment(el.date, "DD-MM-YYYY").dayOfYear() === upComingEvent)
-      .map((el, i) => {
-        if (moment(el.date, "DD-MM-YYY12Y").dayOfYear() !== upComingEvent) {
-          return null;
-        }
-        return (
-          <div key={i} className="Home_Event_upcomingEvent-div">
-            <h1 style={styles.elTitle}>{el.title}</h1>
-            <h3 style={styles.elDate}>{el.date}</h3>
-            <p>{el.text}</p>
-            <p>{el.location}</p>
+    const e = events.filter(
+      el => moment(el.date, "DD-MM-YYYY").dayOfYear() === upComingEvent
+    );
+    console.log(e);
+
+    if (events[0])
+      return (
+        <div key={0} className="Home_upcoming-center">
+          <div style={{ width: "50%", background: "#263238", padding: "50px" }}>
+            <h1 style={{ fontSize: "50px" }}>{e[0].title}</h1>
           </div>
-        );
-      });
-    return displayUpcomingEvent;
+          <div style={{ width: "50%", color: "#263238", padding: "50px" }}>
+            <h3 style={{ fontSize: "30px" }}>{e[0].date}</h3>
+            <p style={{ fontSize: "20px" }}>{e[0].text}</p>
+            <p style={{ fontSize: "20px" }}>{e[0].location}</p>
+          </div>
+        </div>
+      );
+    else
+      return (
+        <div className="Home_upcoming-center">
+          <h1>No Upcomming Event</h1>
+        </div>
+      );
   }
 
   render() {
     const styles = {
       mood: {
         background: this.state.recentColor,
-        color: "white",
         opacity: this.state.recentColorOpacity
+      },
+      colorBar: {
+        background: this.state.recentColor
+      },
+      colorBar2: {
+        background: this.state.recentColor,
+        opacity: "0.7"
+      },
+      colorBar3: {
+        background: this.state.recentColor,
+        opacity: "0.4"
+      },
+      text: {
+        color: this.state.recentColor
+      },
+      imgBox: {
+        width: "300px",
+        height: "300px",
+        margin: "5px",
+        objectFit: "cover"
       }
     };
-    console.log(this.props);
+    const displayGallery =
+      this.props.pixels.filter(e => e.img !== null).length < 1 ? (
+        <h1 style={{ fontWeight: "lighter" }}>
+          ! You haven't added any image on your pixel
+        </h1>
+      ) : (
+        this.props.pixels.filter(e => e.img !== null).map((el, i) => {
+          return i < 9 ? (
+            <img
+              alt="ilgiGallry"
+              style={styles.imgBox}
+              width="200"
+              src={el.img}
+              key={i}
+            />
+          ) : null;
+        })
+      );
     return (
-      <div className="Main">
-        <Nav />
-        {
-          (this.props.history.location.pathname = "/home" ? (
-            <div className="Home">
-              <div className="Home_animatedHeader Home_animatedHeader-show">
-                <h1 className="Home_animatedHeader_h1">{`Welcome       ${
-                  this.state.user.displayname
-                }`}</h1>
-              </div>
-              <div className="Home_titleHeader_outer">
-                <h1 className="Home_titleHeader-h1">[ ilgi ]</h1>
-                <div className="Home_titleHeader" />
-                <p className="Home_titleHeader-p">COLOR YOOUR PIXEL</p>
-                <Link to="/home/ilgi">
-                  <div class="Home_css-button">
-                    <p class="Home_css-button-text">Color</p>
-                    <div class="Home_css-button-inner">
-                      <div class="reset-skew">
-                        <p class="Home_css-button-inner-text">>></p>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </div>
-
-              <svg className="arrow">
-                <path className="a1" d="M0 0 L30 22 L60 0" />
-                <path className="a2" d="M0 20 L30 42 L60 20" />
-                <path className="a3" d="M0 40 L30 62 L60 40" />
-              </svg>
-              <div className="Home_Event">
-                <h1 className="Home_upcoming-h1">Upcoming Event</h1>
-                {this.state.Hayden}
-              </div>
-              <div className="Home_RecentMood">
-                <div className="Home_RecentMood_container" style={styles.mood}>
-                  <h3> Your Recent color </h3>
+      <div className="Home">
+        <div className="Home_animatedHeader Home_animatedHeader-show">
+          <h1 className="Home_animatedHeader_h1">{`Welcome       ${
+            this.props.user.displayname
+          }`}</h1>
+        </div>
+        <div className="Home_titleHeader_outer">
+          <div className="Home_HeaderNav">
+            <Link className="Home_HeaderNav-item" to="/ilgi">
+              PIXELS
+            </Link>
+            <Link className="Home_HeaderNav-item" to="/blog">
+              BLOG
+            </Link>
+            <h1 className="Home_HeaderNav-h1">[ ilgi ]</h1>
+            <Link className="Home_HeaderNav-item" to="/graph">
+              GRAPH
+            </Link>
+            <Link className="Home_HeaderNav-item" to="/inbox">
+              INBOX
+            </Link>
+          </div>
+          <div className="Home_titleHeader" />
+          <p className="Home_titleHeader-p">COLOR YOOUR PIXEL</p>
+          <Link className="Home_css_buttonBox" to="/ilgi">
+            <div className="Home_css-button">
+              <p className="Home_css-button-text">COLOR</p>
+              <div className="Home_css-button-inner">
+                <div className="reset-skew">
+                  <p className="Home_css-button-inner-text">COLOR</p>
                 </div>
-              </div>
-              <div className="Home_Quote">
-                <div className="Home_quoteBox">
-                  <i className="fas fa-quote-left" />
-                  <p className="Home_quoteBox_quote">
-                    {this.state.quote.quote}
-                  </p>
-                  <i className="fas fa-quote-right" />
-                  <p className="Home_quoteBox_author">{`-By  ${
-                    this.state.quote.author
-                  }`}</p>
-                </div>
-                <FlatButton
-                  label="Save"
-                  onClick={() => this.saveQuote()}
-                  primary={true}
-                />
-                <FlatButton
-                  label="Refresh"
-                  onClick={() => {
-                    this.refresh();
-                  }}
-                />
-                <Snackbar
-                  className="Home_snackBar"
-                  open={this.state.openSnackbar}
-                  message="Quote just added to your inbox"
-                  autoHideDuration={4000}
-                  onRequestClose={() => this.setState({ openSnackbar: false })}
-                />
               </div>
             </div>
-          ) : (
-            route_Private
-          ))
-        }
-        }
+          </Link>
+        </div>
+        <svg className="arrow">
+          <path className="a1" d="M0 0 L30 22 L60 0" />
+          <path className="a2" d="M0 20 L30 42 L60 20" />
+          <path className="a3" d="M0 40 L30 62 L60 40" />
+        </svg>
+        <div className="Home_gallery">
+          <span className="Home_gallery-tag Home-tag">GALLERY</span>
+          <div
+            style={{ backgroundColor: "black", height: "2px", width: "700px" }}
+          />
+          <div className="Home_gallery-boxContainer">{displayGallery}</div>
+        </div>
+        <div className="Home_upcoming">
+          <div className="Home_upcoming-r">
+            <span className="Home_upcoming-tag Home-tag">
+              Your Upcoming<br />
+              <span className="Home_stress">Event</span>
+            </span>
+            <div className="Home_upcoming-line" />
+            {this.state.Hayden}
+          </div>
+        </div>
+        <div className="Home_RecentMood">
+          <span className="Home_RecentMood_tag Home-tag">
+            Your Most Recent<br />
+            <span className="Home_stress">Color</span>{" "}
+            <div className="Home_line" />
+            <span style={styles.text}>{this.state.recentColor}</span>
+          </span>
+          <span className="Home_colorBar-box">
+            <div className="Home_colorBar" style={styles.colorBar} />
+            <div className="Home_colorBar" style={styles.colorBar2} />
+            <div className="Home_colorBar" style={styles.colorBar3} />
+          </span>
+        </div>
+        <div className="Home_Quote">
+          <div className="Home_quoteBox">
+            <i className="fas fa-quote-left" />
+            <p className="Home_quoteBox_quote">{this.state.quote.quote}</p>
+            <i className="fas fa-quote-right" />
+            <p className="Home_quoteBox_author">{`-By  ${
+              this.state.quote.author
+            }`}</p>
+          </div>
+          <FlatButton
+            label="Save"
+            onClick={() => this.saveQuote()}
+            primary={true}
+          />
+          <FlatButton
+            label="Get Another"
+            onClick={() => {
+              this.refresh();
+            }}
+          />
+          <Snackbar
+            className="Home_snackBar"
+            open={this.state.openSnackbar}
+            message="Quote just added to your inbox"
+            autoHideDuration={4000}
+            onRequestClose={() => this.setState({ openSnackbar: false })}
+          />
+        </div>
       </div>
     );
   }
 }
 function mapStateToProps(state) {
   return {
-    ...state.userReducer.user,
+    ilgi: state.userReducer.ilgi,
+    user: state.userReducer.user,
     events: state.eventReducer.events,
     pixels: state.pixelReducer.pixels
   };
 }
 
-export default connect(mapStateToProps, {
-  getUser,
-  getAllPixels,
-  sendIlgiToReducer,
-  getAllEvents
-})(Home);
+export default connect(
+  mapStateToProps,
+  {
+    getUser,
+    getIlgi,
+    getAllPixels,
+    getAllEvents
+  }
+)(Home);

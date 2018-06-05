@@ -78,7 +78,7 @@ class Inbox extends Component {
 function mapStateToProps(state) {
   return {
     quotes: state.quoteReducer.quotes,
-    ilgi: state.pixelReducer.ilgi
+    ilgi: state.userReducer.ilgi
   };
 }
 export default connect(mapStateToProps, { getAllQuote })(Inbox);

@@ -1,42 +1,24 @@
 import React, { Component } from "react";
 import "./Start.css";
 import axios from "axios";
-import { connect } from "react-redux";
-import { getUser } from "../../../ducks/userReducer";
 class Start extends Component {
-  constructor() {
-    super();
-    this.state = {
-      Ilgi: [],
-      title: [],
-      user: []
-    };
-    this.newIlgi = this.newIlgi.bind(this);
-  }
-  componentDidMount() {
-    getUser();
-    console.log(this.props.user);
-    this.setState({
-      user: this.props.user
-    });
-  }
+  state = {
+    title: []
+  };
+
   newIlgi(title) {
     axios
       .post("/api/ilgi", { title })
-      .then(res => {
-        console.log(res.data);
+      .then(ilgi => {
+        console.log(ilgi.data);
+        this.props.history.push("/home");
       })
-      .then(this.props.history.push("/home"))
       .catch(console.log);
   }
   render() {
     return (
       <div className="start">
         <div className="start_content">
-          <h1 className="start_h1">
-            WELCOME TO <span className="start_ILGI">ILGI</span> <br />{" "}
-            {this.state.user.displayname}
-          </h1>
           <h3>
             Name Your <span className="start_ILGI smallerI">ILGI</span>
           </h3>
@@ -49,11 +31,4 @@ class Start extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    user: state.userReducer.user
-  };
-}
-export default connect(mapStateToProps, {
-  getUser
-})(Start);
+export default Start;

@@ -1,6 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Montserrat", sans-serif;
 }
-@import url("https://fonts.googleapis.com/css?family=Montserrat:300|Syncopate");
+div {
+  box-sizing: border-box;
+}

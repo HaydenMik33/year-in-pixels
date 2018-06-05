@@ -14,13 +14,13 @@ export default (
   <Switch>
     <Route exact path="/" component={Welcome} />
     <Route path="/home" component={Home} />
-    <Route path="/home/ilgi/edit" component={Edit} />
-    <Route path="/home/ilgi" component={Ilgi} />
-    <Route path="/home/setting" component={Setting} />
-    <Route path="/home/profile" component={Profile} />
-    <Route path="/home/start" component={Start} />
-    <Route path="/home/graph" component={Graph} />
-    <Route path="/home/inbox/addEvent" component={Event_Add} />
-    <Route path="/home/inbox" component={Inbox} />
+    <Route path="/ilgi/edit" component={Edit} />
+    <Route path="/ilgi" component={Ilgi} />
+    <Route path="/setting" component={Setting} />
+    <Route path="/profile" component={Profile} />
+    <Route path="/start" component={Start} />
+    <Route path="/graph" component={Graph} />
+    <Route path="/inbox/addEvent" component={Event_Add} />
+    <Route path="/inbox" component={Inbox} />
   </Switch>
 );

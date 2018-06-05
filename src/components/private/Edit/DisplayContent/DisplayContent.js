@@ -14,23 +14,20 @@ import { connect } from "react-redux";
 import FlatButton from "material-ui/FlatButton";
 import { Link } from "react-router-dom";
 class DisplayContent extends Component {
-  constructor() {
-    super();
-    this.state = {
-      Hayden: function() {
-        return (
-          <div>
-            <h1>
-              No Event <br />in this pixel
-            </h1>
-            <Link to="/home/inbox/addEvent">
-              <FlatButton label="Add One" secondary={true} />
-            </Link>
-          </div>
-        );
-      }
-    };
-  }
+  state = {
+    Hayden: function() {
+      return (
+        <div>
+          <h1>
+            No Event <br />in this pixel
+          </h1>
+          <Link to="/inbox/addEvent">
+            <FlatButton label="Add One" secondary={true} />
+          </Link>
+        </div>
+      );
+    }
+  };
 
   componentDidMount() {
     console.log(this.props);
@@ -50,7 +47,7 @@ class DisplayContent extends Component {
         console.log(el);
         return (
           <div className="DisplayContent_Event-content" key={i}>
-            <Link to="/home/inbox/addEvent">
+            <Link to="/inbox/addEvent">
               <i className="far fa-edit" />
             </Link>
             <h1>{el.title}</h1>

@@ -16,7 +16,9 @@ CREATE TABLE pixels (
 );
  
  Create table Ilgi(
-     id serial PRIMARY key
+     id serial PRIMARY key,
+     title,
+     ownerid
  );
 CREATE TABLE colors(
     id SERIAL PRIMARY KEY,

@@ -16,8 +16,9 @@ class Event extends Component {
     this.props.getAllEvents(this.props.ilgi.id);
   }
   delete(id) {
-    this.props.deleteEvent(id, this.props.ilgi.id).then(() => {
-      this.props.getAllEvents(this.props.ilgi.id);
+    const { deleteEvent, getAllEvents, ilgi } = this.props;
+    deleteEvent(id, ilgi.id).then(() => {
+      getAllEvents(ilgi.id);
     });
   }
   pushData(event) {
@@ -41,7 +42,7 @@ class Event extends Component {
           {el.important ? (
             <i className="fas fa-bookmark Event_bookmark" />
           ) : null}
-          <Link to="/home/inbox/addEvent">
+          <Link to="/inbox/addEvent">
             <span onClick={() => this.pushData(el)}>
               <i className="fas fa-edit Event_edit" />
             </span>
@@ -60,7 +61,7 @@ class Event extends Component {
     return (
       <div className="Event">
         <div className="Event_container">{eventsList}</div>
-        <Link to="/home/inbox/addEvent">
+        <Link to="/inbox/addEvent">
           <FloatingActionButton className="Event_add_button">
             <ContentAdd />
           </FloatingActionButton>
@@ -72,7 +73,7 @@ class Event extends Component {
 function mapStateToProps(state) {
   return {
     events: state.eventReducer.events,
-    ilgi: state.pixelReducer.ilgi
+    ilgi: state.userReducer.ilgi
   };
 }
 export default connect(mapStateToProps, {

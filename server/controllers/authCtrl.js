@@ -16,9 +16,8 @@ const strat = new Auth0Strategy(
 
 const getUser = (req, res) => {
   if (!req.user) {
-    res.status(401).json({ message: "Not Authorized" });
+    res.redirect("http://localhost:3000/#/");
   } else {
-    console.log("HIT USER /api/me");
     res.status(200).json(req.user);
   }
 };

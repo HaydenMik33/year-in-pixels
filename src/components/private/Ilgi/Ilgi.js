@@ -21,7 +21,7 @@ class Ilgi extends Component {
             console.log(pixel.data);
             updateCurrentPixel(pixel.data[0]);
           })
-          .then(() => this.props.history.push("/home/ilgi/edit"))
+          .then(() => this.props.history.push("/ilgi/edit"))
           .catch(error => {
             console.log(error);
           })
@@ -73,7 +73,7 @@ class Ilgi extends Component {
                   .then(pixel => {
                     this.props.updateCurrentPixel(pixel.data[0]);
                   })
-                  .then(() => this.props.history.push("/home/ilgi/edit"))
+                  .then(() => this.props.history.push("/ilgi/edit"))
                   .catch(err => console.log(err));
               }
             }}
@@ -151,8 +151,8 @@ class Ilgi extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { pixels, currentPixel, ilgi } = state.pixelReducer;
-  const { user } = state.userReducer;
+  const { pixels, currentPixel } = state.pixelReducer;
+  const { user, ilgi } = state.userReducer;
   return {
     pixels,
     currentPixel,
