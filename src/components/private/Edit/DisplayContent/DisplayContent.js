@@ -1,11 +1,5 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardHeader,
-  CardMedia,
-  CardTitle,
-  CardText
-} from "material-ui/Card";
+import { CardHeader, CardMedia } from "material-ui/Card";
 import Paper from "material-ui/Paper";
 import basic from "../basic.jpg";
 import moment from "moment";
@@ -21,7 +15,7 @@ class DisplayContent extends Component {
           <h1>
             No Event <br />in this pixel
           </h1>
-          <Link to="/inbox/addEvent">
+          <Link to="/inbox/addEvent/200">
             <FlatButton label="Add One" secondary={true} />
           </Link>
         </div>
@@ -89,14 +83,6 @@ class DisplayContent extends Component {
         height: "600px",
         objectFit: "contain"
       },
-      cardTitle: {
-        // bottom: "-70px"
-      },
-      CardMedia: {
-        // margin: "25px",
-        // bottom: "-60px",
-        fontFamily: "'Open Sans', sans-serif"
-      },
       Haydenbox: {
         background: this.props.currentPixel.colorvalue,
         opacity: this.props.currentPixel.opacity
@@ -105,9 +91,9 @@ class DisplayContent extends Component {
 
     return (
       <div className="DisplayContent">
-        <Card style={styles.Paper} className="DisplayContent_body">
+        <div style={styles.Paper} className="DisplayContent_body">
           <div className="DisplayContent_first">
-            <CardMedia style={styles.CardMedia}>
+            <CardMedia>
               {currentPixel.img ? (
                 <img
                   src={currentPixel.img}
@@ -115,62 +101,56 @@ class DisplayContent extends Component {
                   alt="myImage.jpg"
                 />
               ) : (
-                <img src={basic} alt="defaultimage.jpg" width />
+                <img src={basic} alt="defaultimage.jpg" />
               )}
-              <div className="Haydenhaha">
-                <h1>
-                  You are in the mood of "
-                  <div class="HaydenBox" style={styles.Haydenbox} />
-                  "
-                </h1>
-              </div>
             </CardMedia>
+            <div className="Haydenhaha">
+              <h1>
+                You are in the mood of "
+                <div className="HaydenBox" style={styles.Haydenbox} />
+                "
+              </h1>
+            </div>
           </div>
           <div className="DisplayContent_second">
-            <div className="DisplayContent_second-bottom">
-              <div className="DisplayContent_left">
-                <div className="DisplayContent_paper">
-                  <div className="DisplayContent_paper-lines">
-                    <div className="vl" />
-                    <div className="DisplayContent_paper-text">
-                      <CardHeader
-                        title={`${month}月 ${date}日 2018`}
-                        subtitle={dayName}
-                        style={styles.CardHeader}
-                        avatar="https://thumbs.dreamstime.com/b/pixel-art-style-rainbow-homosexual-heart-sign-71899821.jpg"
-                      />
-                      {currentPixel.text}
-                    </div>
+            <div className="DisplayContent_left">
+              <div className="DisplayContent_paper">
+                <div className="DisplayContent_paper-lines">
+                  <div className="vl" />
+                  <div className="DisplayContent_paper-text">
+                    <CardHeader
+                      title={`${month}月 ${date}日 2018`}
+                      subtitle={dayName}
+                      style={styles.CardHeader}
+                      avatar="https://thumbs.dreamstime.com/b/pixel-art-style-rainbow-homosexual-heart-sign-71899821.jpg"
+                    />
+                    {currentPixel.text}
                   </div>
                 </div>
               </div>
-              <div className="DisplayContent_right">
-                <div style={styles.Paper} className="DisplayContent_Quote">
-                  <i className="fas fa-quote-left" />
-                  <p className="DisplayContent_Quote-quote">
-                    {this.props.quote[0]
-                      ? this.props.quote[0].text
-                      : "You haven't added any quote in this pixel"}
-                  </p>
-                  <i className="fas fa-quote-right" />
-                  <p>
-                    {this.props.quote[0]
-                      ? `-By ${this.props.quote[0].author}`
-                      : null}
-                  </p>
-                </div>
+            </div>
+            <div className="DisplayContent_right">
+              <div style={styles.Paper} className="DisplayContent_Quote">
+                <i className="fas fa-quote-left" />
+                <p className="DisplayContent_Quote-quote">
+                  {this.props.quote[0]
+                    ? this.props.quote[0].text
+                    : "You haven't added any quote in this pixel"}
+                </p>
+                <i className="fas fa-quote-right" />
+                <p>
+                  {this.props.quote[0]
+                    ? `-By ${this.props.quote[0].author}`
+                    : null}
+                </p>
+              </div>
 
-                <div
-                  zDepth={1}
-                  style={styles.Paper}
-                  className="DisplayContent_Event"
-                >
-                  {this.state.Hayden()}
-                </div>
+              <div style={styles.Paper} className="DisplayContent_Event">
+                {this.state.Hayden()}
               </div>
             </div>
           </div>
-        </Card>
+        </div>
       </div>
     );
   }

@@ -32,14 +32,13 @@ import nervous from "./png64px/nervous.png";
 import sad from "./png64px/sad.png";
 import sick from "./png64px/sick.png";
 import sleepy from "./png64px/sleepy.png";
-
+import ContentEditable from "react-contenteditable";
 class Edit extends Component {
   constructor() {
     super();
     this.state = {
       displayContent: true,
       id: null,
-      ilgi_id: null,
       quote_id: null,
       text: "",
       colorvalue: "",
@@ -73,7 +72,6 @@ class Edit extends Component {
       : null;
     this.setState({
       id: p.id,
-      ilgi_id: p.ilgi_id,
       text: p.text,
       img: p.img,
       opacity: p.opacity
@@ -92,30 +90,19 @@ class Edit extends Component {
     this.setState({ displayContent: !this.state.displayContent });
   }
   handleSave() {
-    const {
-      id,
-      ilgi_id,
-      quote_id,
-      text,
-      img,
-      colorvalue,
-      opacity
-    } = this.state;
+    const { id, quote_id, text, img, colorvalue, opacity } = this.state;
     const { updatePixel, currentPixel } = this.props;
     axios
       .post(`/api/color/${currentPixel.pixel_unique}`, {
         colorvalue,
-        opacity,
-        ilgi_id
+        opacity
       })
       .then(() => {
-        updatePixel(id, text, img, ilgi_id, quote_id).then(() =>
+        updatePixel(id, text, img, quote_id).then(() =>
           this.props.history.push("/ilgi")
         );
-        // this.props.history.push("/ilgi");
       });
   }
-  off;
   searchPhotos() {
     const { keyword, showResult } = this.state;
     axios.get(`/api/photos/${keyword}`).then(res => {
@@ -188,7 +175,7 @@ class Edit extends Component {
         </Paper>
       );
     });
-
+    console.log(this.state.text);
     return (
       <div className="edit">
         {displayContent ? (
@@ -200,7 +187,6 @@ class Edit extends Component {
             <CardActions>
               <RaisedButton label="EDIT" onClick={() => this.handleEdit()} />
             </CardActions>
-            {/* have this have quote generator by tags keyword or mood and then save into my inbox */}
           </div>
         ) : (
           <Card style={styles.Paper}>
@@ -215,7 +201,7 @@ class Edit extends Component {
                 <img src={basic} alt="defaultimage.jpg" />
               )}
             </CardMedia>
-            <CardTitle title="Edit your title" subtitle="Color your day" />
+            <CardTitle title="Color your day" subtitle="what's your mood" />
 
             <div className="edit_grid-container">
               <div
@@ -358,21 +344,21 @@ class Edit extends Component {
               </div>
             </div>
             <div className="edit_grid-container">
-              <img src={annoyed} className="emotion_icons" />
-              <img src={dizzy} className="emotion_icons" />
-              <img src={love} className="emotion_icons" />
-              <img src={happy} className="emotion_icons" />
-              <img src={excited} className="emotion_icons" />
-              <img src={good} className="emotion_icons" />
-              <img src={frustrated} className="emotion_icons" />
-              <img src={hateful} className="emotion_icons" />
-              <img src={heartbroken} className="emotion_icons" />
-              <img src={hilarious} className="emotion_icons" />
-              <img src={nervous} className="emotion_icons" />
-              <img src={sad} className="emotion_icons" />
-              <img src={sick} className="emotion_icons" />
-              <img src={sleepy} className="emotion_icons" />
-              <img src={dull} className="emotion_icons" />
+              <img alt="emoji" src={annoyed} className="emotion_icons" />
+              <img alt="emoji" src={dizzy} className="emotion_icons" />
+              <img alt="emoji" src={love} className="emotion_icons" />
+              <img alt="emoji" src={happy} className="emotion_icons" />
+              <img alt="emoji" src={excited} className="emotion_icons" />
+              <img alt="emoji" src={good} className="emotion_icons" />
+              <img alt="emoji" src={frustrated} className="emotion_icons" />
+              <img alt="emoji" src={hateful} className="emotion_icons" />
+              <img alt="emoji" src={heartbroken} className="emotion_icons" />
+              <img alt="emoji" src={hilarious} className="emotion_icons" />
+              <img alt="emoji" src={nervous} className="emotion_icons" />
+              <img alt="emoji" src={sad} className="emotion_icons" />
+              <img alt="emoji" src={sick} className="emotion_icons" />
+              <img alt="emoji" src={sleepy} className="emotion_icons" />
+              <img alt="emoji" src={dull} className="emotion_icons" />
             </div>
             {this.state.colorClicked ? (
               <div className="HaydenSlider">
@@ -391,25 +377,19 @@ class Edit extends Component {
               <div className="edit_paper">
                 <div className="edit_paper-lines">
                   <div className="edit_vl" />
-                  <div
-                    className="edit_paper-text"
-                    contentEditable
-                    spellCheck="false"
-                    onChange={e => this.setState({ text: e.target.value })}
-                  >
+                  <div className="place-holder-text">
                     <h4>Did any interesting thing happen today?</h4>
                     <h1>Write your ilgi</h1>
-                    {currentPixel.text}
                   </div>
+                  <ContentEditable
+                    className="edit_paper-text"
+                    html={this.state.text}
+                    disabled={false}
+                    onChange={e => this.setState({ text: e.target.value })}
+                  />
                 </div>
               </div>
-              {/* <div>
-              <input
-                className="edit_textArea"
-                onChange={e => this.setState({ text: e.target.value })}
-                defaultValue={currentPixel.text}
-              />
-            </div> */}
+
               <Paper zDepth={1} style={styles.Paper} className="edit_Unsplash">
                 <h3>Add photo on your pixel</h3>
                 <input
@@ -477,8 +457,11 @@ function mapStateToProps(state) {
     quotes: state.quoteReducer.quotes
   };
 }
-export default connect(mapStateToProps, {
-  updatePixel,
-  updateCurrentPixel,
-  getAllQuote
-})(Edit);
+export default connect(
+  mapStateToProps,
+  {
+    updatePixel,
+    updateCurrentPixel,
+    getAllQuote
+  }
+)(Edit);

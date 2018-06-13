@@ -1,16 +1,12 @@
-.Quote_doubleQ {
-  font-size: 40px;
-  font-family: "Oswald", sans-serif;
-}
 .Quote {
   height: 100%;
   width: 100%;
 }
 .Quote_right {
-  font-size: 25px;
+  font-size: 20px;
 }
 .Quote_left {
-  font-size: 25px;
+  font-size: 20px;
 }
 .Quote_by {
   font-family: "Assistant", sans-serif;
@@ -28,6 +24,10 @@
   margin-top: 2vh;
   padding: 2vw;
 }
+.Quote_box:hover {
+  background-color: slategrey;
+  transition: 0.8s;
+}
 .Quote_display {
   width: 100%;
   display: flex;
@@ -37,7 +37,7 @@
   align-items: stretch;
   align-content: stretch;
 }
-.Quote_close {
+/* .Quote_close {
   position: relative;
   left: 0vw;
   width: 32px;
@@ -61,7 +61,7 @@
 }
 .Quote_close:after {
   transform: rotate(-45deg);
-}
+} */
 @import url("https://fonts.googleapis.com/css?family=Assistant:300|Catamaran|Lora");
 @import url("https://fonts.googleapis.com/css?family=Exo+2:200");
 @import url("https://fonts.googleapis.com/css?family=Oswald");

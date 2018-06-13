@@ -10,31 +10,9 @@ import moment from "moment";
 import axios from "axios";
 import star from "../../../../icon/star.png";
 import starSolid from "../../../../icon/starSolid.png";
-import { pushCurrentEvent } from "../../../../ducks/eventReducer";
 
 class Event_Add extends Component {
-  componentDidMount() {
-    let ilgi_id = this.props.ilgi.id;
-    const { currentEvent, pushCurrentEvent } = this.props;
-    currentEvent
-      ? this.setState({
-          date: currentEvent.date,
-          text: currentEvent.text,
-          title: currentEvent.title,
-          location: currentEvent.location,
-          important: currentEvent.important
-        })
-      : console.log("hit");
-    axios
-      .post("/api/event", {
-        ilgi_id
-      })
-      .then(res => {
-        pushCurrentEvent(res.data[0]);
-      });
-  }
   state = {
-    currentEventID: null,
     date: null,
     title: null,
     text: null,
@@ -45,17 +23,17 @@ class Event_Add extends Component {
     console.log("clicked");
     this.setState({ important: !this.state.important });
   }
-  save() {
-    const { important, text, title, location } = this.state;
-    let ilgi_id = this.props.ilgi.id;
-    let id = this.props.currentEvent.id;
-    const formatDate = moment(this.state.date).format("DD-MM-YYYY");
-    const date = moment(formatDate, "DD-MM-YYYY");
-    let day = date.date();
-    let month = Number(date.month()) + 1;
+  save = () => {
+    const { important, text, title, location, date } = this.state;
+    const { history, match } = this.props;
+    const formatDate = moment(date).format("MM-DD-YYYY");
+    const myDate = moment(formatDate, "MM-DD-YYYY");
+    let day = myDate.date();
+    let month = Number(myDate.month()) + 1;
     let pixel_unique = month * 100 + Number(day);
+    console.log(day, month, pixel_unique, myDate, formatDate);
     axios
-      .post(`/api/event/${id}/${ilgi_id}`, {
+      .post(`/api/event`, {
         formatDate,
         title,
         text,
@@ -64,14 +42,16 @@ class Event_Add extends Component {
         pixel_unique
       })
       .then(() => {
-        this.props.pushCurrentEvent({});
-        this.props.history.push("/inbox");
+        if (match.params.pixel_unique === 200) {
+          history.push("/ilgi");
+        } else {
+          history.push("/inbox");
+        }
       });
-  }
+  };
 
   render() {
-    console.log(this.state.important);
-    console.log(this.props.currentEvent);
+    console.log(this.props);
     return (
       <div className="Event_Add">
         <Paper className="Event_Add_container">
@@ -84,7 +64,6 @@ class Event_Add extends Component {
             <FlatButton
               label="cancel"
               onClick={() => {
-                this.props.pushCurrentEvent({});
                 this.props.history.push("/inbox");
               }}
             />
@@ -107,7 +86,7 @@ class Event_Add extends Component {
 
           <input
             className="Event_Add_input Event_Add_input-title"
-            placeHolder="Event name"
+            placeholder="Event name"
             onChange={e => this.setState({ title: e.target.value })}
           />
           <div className="Event_DatePicker">
@@ -118,7 +97,7 @@ class Event_Add extends Component {
           </div>
           <input
             className="Event_Add_input Event_Add_input-location"
-            placeHolder="Location"
+            placeholder="Location"
             onChange={e => this.setState({ location: e.target.value })}
           />
           <textarea
@@ -132,10 +111,7 @@ class Event_Add extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    ilgi: state.userReducer.ilgi,
-    currentEvent: state.eventReducer.currentEvent
-  };
+  return {};
 }
 
-export default connect(mapStateToProps, { pushCurrentEvent })(Event_Add);
+export default connect(mapStateToProps)(Event_Add);

@@ -121,12 +121,12 @@
   margin: 40px auto;
   font-size: 25px;
 }
-.fa-quote-left {
+.home_dq-r {
   position: relative;
   left: -180px;
   font-size: 40px;
 }
-.fa-quote-right {
+.home_dq-l {
   position: relative;
   left: 180px;
   font-size: 40px;

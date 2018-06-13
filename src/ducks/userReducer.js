@@ -10,10 +10,10 @@ export function getUser() {
   };
 }
 
-export function getIlgi(id) {
+export function getIlgi() {
   return {
     type: GET_ILGI,
-    payload: axios.get(`/api/ilgi/${id}`)
+    payload: axios.get(`/api/ilgi`)
   };
 }
 export function newIlgi(title) {

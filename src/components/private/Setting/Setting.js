@@ -8,8 +8,8 @@ import { connect } from "react-redux";
 import axios from "axios";
 import Profile from "../Profile/Profile";
 class Setting extends Component {
-  deleteIlgi(ilgi_id) {
-    axios.delete(`/api/ilgi/${ilgi_id}`).then(() => {
+  deleteIlgi() {
+    axios.delete(`/api/ilgi`).then(() => {
       this.props.history.push("/home");
     });
   }
@@ -53,7 +53,7 @@ class Setting extends Component {
                     "Are you sure you wish to delete your whole Ilgi for this year?"
                   )
                 )
-                  this.deleteIlgi(this.props.ilgi.id);
+                  this.deleteIlgi();
               }}
               style={styles.p}
             >

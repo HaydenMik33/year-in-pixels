@@ -2,13 +2,10 @@ import React, { Component } from "react";
 import "./Quote.css";
 import Paper from "material-ui/Paper";
 import { connect } from "react-redux";
-import { getAllQuote } from "../../../ducks/quoteReducer";
 import axios from "axios";
 class Quote extends Component {
   Qdelete(id) {
-    axios.delete(`/api/quote/${id}`).then(() => {
-      this.props.getAllQuote(this.props.ilgi.id);
-    });
+    // axios.delete(`/api/quote/${id}`)
   }
   render() {
     const quoteList = this.props.quotes.map((el, i) => {
@@ -33,8 +30,6 @@ class Quote extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    ilgi: state.pixelReducer.ilgi
-  };
+  return { quotes: state.quoteReducer.quotes };
 }
-export default connect(mapStateToProps, { getAllQuote })(Quote);
+export default connect(mapStateToProps)(Quote);

@@ -7,17 +7,17 @@ const GET_ALL_PIXELS = "GET_ALL_PIXELS";
 const UPDATE_PIXEL = "UPDATE_PIXEL";
 const UPDATE_CURRENTPIXEL = "UPDATE_CURRENTPIXEL";
 
-export function getAllPixels(ilgi_id) {
+export function getAllPixels() {
   return {
     type: GET_ALL_PIXELS,
-    payload: axios.get(`/api/pixels/${ilgi_id}`)
+    payload: axios.get(`/api/pixels`)
   };
 }
 
-export function updatePixel(id, text, img, ilgi_id, quote_id) {
+export function updatePixel(id, text, img, quote_id) {
   return {
     type: UPDATE_PIXEL,
-    payload: axios.post(`/api/pixel/${ilgi_id}/${id}`, {
+    payload: axios.post(`/api/pixel/${id}`, {
       text,
       img,
       quote_id

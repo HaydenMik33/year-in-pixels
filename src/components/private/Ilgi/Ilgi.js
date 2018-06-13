@@ -1,20 +1,21 @@
 import React, { Component } from "react";
 import "./Ilgi.css";
 import * as moment from "moment";
-import { updateCurrentPixel } from "../../../ducks/pixelReducer";
+import { updateCurrentPixel, getAllPixels } from "../../../ducks/pixelReducer";
+import { getIlgi } from "../../../ducks/userReducer";
 import { connect } from "react-redux";
 import axios from "axios";
 class Ilgi extends Component {
   componentDidMount() {
-    console.log(this.props);
+    const { getIlgi, getAllPixels } = this.props;
+    getIlgi();
+    getAllPixels();
   }
 
   createNewPixelWithEmptyValue(pixel_unique) {
-    const { updateCurrentPixel, ilgi } = this.props;
-    let ilgi_id = ilgi.id;
-    axios.post("/api/pixel", { ilgi_id, pixel_unique }).then(res => {
-      console.log(pixel_unique, ilgi_id);
-      axios.post("/api/color", { pixel_unique, ilgi_id }).then(() =>
+    const { updateCurrentPixel } = this.props;
+    axios.post("/api/pixel", { pixel_unique }).then(res => {
+      axios.post("/api/color", { pixel_unique }).then(() =>
         axios
           .get(`/api/pixel/${res.data[0].id}`)
           .then(pixel => {
@@ -160,6 +161,11 @@ function mapStateToProps(state) {
     ilgi
   };
 }
-export default connect(mapStateToProps, {
-  updateCurrentPixel
-})(Ilgi);
+export default connect(
+  mapStateToProps,
+  {
+    updateCurrentPixel,
+    getAllPixels,
+    getIlgi
+  }
+)(Ilgi);

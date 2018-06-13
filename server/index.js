@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-app.use(express.static(path.join(__dirname, "../build")));
+// app.use(express.static(path.join(__dirname, "../build")));
 
 require("dotenv").config();
 const { json } = require("body-parser");
@@ -26,7 +26,7 @@ const {
 } = require(`${__dirname}/controllers/pixelCtrl`);
 const {
   addEvent,
-  updateEvent,
+  // updateEvent,
   getAllEvents,
   deleteEvent
 } = require(`${__dirname}/controllers/eventCtrl`);
@@ -54,7 +54,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 100000
+      maxAge: 1000000
     }
   })
 );
@@ -94,43 +94,42 @@ app.get(
   "/auth",
   passport.authenticate("auth0", {
     successRedirect: "http://localhost:3000/#/home",
-    failureRedirect: "/#/"
+    failureRedirect: "http://localhost:3000/#/"
   })
 );
 app.get("/logout", logout);
 app.get("/api/me", getUser);
 app.post("/api/ilgi", newIlgi);
-app.get("/api/ilgi/:id", getIlgi);
-app.delete("/api/ilgi/:ilgi_id", deleteAll);
+app.get("/api/ilgi", getIlgi);
+app.delete("/api/ilgi", deleteAll);
 
 // PIXEL ENDPOINTS
 app.post("/api/pixel", addPixel);
-app.get("/api/pixels/:ilgi_id", getAllPixels);
+app.get("/api/pixels", getAllPixels);
 app.get("/api/pixel/:id", getPixel);
-app.post("/api/pixel/:ilgi_id/:id", updatePixel);
+app.post("/api/pixel/:id", updatePixel);
 
 // color endpoints
 
 app.post("/api/color", addColor);
 app.post("/api/color/:id", updateColor);
 /////quote
-app.get("/api/quote", getQuote);
+app.get("/api/getRandom", getQuote);
 app.get("/api/quote/:id", getQuoteById);
 app.post("/api/quote", addQuote);
-app.get("/api/quotes/:id", getAllQuotes);
+app.get("/api/quotes", getAllQuotes);
 app.delete("/api/quote/:id", deleteQuote);
 
 app.get("/api/photos/:id", searchPhoto);
 
 ///event endpoints
 app.post("/api/event", addEvent);
-app.get("/api/events/:id", getAllEvents);
-app.post("/api/event/:id/:ilgi_id", updateEvent);
+app.get("/api/events", getAllEvents);
 app.delete("/api/event/:id", deleteEvent);
 
-app.get("*", (req, res, next) => {
-  res.sendFile(path.join(__dirname, "/../build/index.html"));
-});
+// app.get("*", (req, res, next) => {
+//   res.sendFile(path.join(__dirname, "/../build/index.html"));
+// });
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

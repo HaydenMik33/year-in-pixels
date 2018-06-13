@@ -9,7 +9,6 @@ import { FlatButton } from "material-ui";
 import Snackbar from "material-ui/Snackbar";
 import moment from "moment";
 import axios from "axios";
-import { stat } from "fs";
 class Home extends Component {
   state = {
     quote: {},
@@ -23,32 +22,26 @@ class Home extends Component {
 
   componentDidMount() {
     const { getUser, getAllEvents, getAllPixels, getIlgi } = this.props;
-    getUser()
-      .then(user => {
-        let resp = user.value.data;
-        getIlgi(resp.id).then(ilgi => {
-          console.log(ilgi);
-          let res = ilgi.value.data[0];
-          if (res) {
-            getAllPixels(res.id);
-            getAllEvents(res.id);
-            axios.get("/api/quote").then(quote => {
-              this.setState({
-                quote: quote.data,
-                Hayden: this.calculate(),
-                recentColor: this.props.pixels[this.props.pixels.length - 1]
-                  .colorvalue,
-                recentColorOpacity: this.props.pixels[
-                  this.props.pixels.length - 1
-                ].opacity
-              });
-            });
-          } else {
-            this.props.history.push("/start");
-          }
+    getUser();
+    getIlgi().then(ilgi => {
+      let res = ilgi.value.data[0];
+      if (res) {
+        getAllPixels();
+        getAllEvents();
+        axios.get("/api/getRandom").then(quote => {
+          this.setState(() => ({
+            quote: quote.data,
+            Hayden: this.calculate(),
+            recentColor: this.props.pixels[this.props.pixels.length - 1]
+              .colorvalue,
+            recentColorOpacity: this.props.pixels[this.props.pixels.length - 1]
+              .opacity
+          }));
         });
-      })
-      .catch(console.log);
+      } else {
+        this.props.history.push("/start");
+      }
+    });
   }
 
   saveQuote() {
@@ -61,7 +54,7 @@ class Home extends Component {
     axios.post("/api/quote", { text, author, tags, ilgi_id });
   }
   refresh() {
-    axios.get("/api/quote").then(quote => {
+    axios.get("/api/getRandom").then(quote => {
       this.setState({ quote: quote.data });
     });
   }
@@ -70,11 +63,11 @@ class Home extends Component {
     console.log("hit");
     const { events } = this.props;
     const DayOfYear = events.filter(el => el.date !== null).map(ele => {
-      return moment(ele.date, "DD-MM-YYYY").dayOfYear();
+      return moment(ele.date, "MM-DD-YYYY").dayOfYear();
     });
     const upComingEvent = Math.min(...DayOfYear);
     const e = events.filter(
-      el => moment(el.date, "DD-MM-YYYY").dayOfYear() === upComingEvent
+      el => moment(el.date, "MM-DD-YYYY").dayOfYear() === upComingEvent
     );
     console.log(e);
 
@@ -217,9 +210,9 @@ class Home extends Component {
         </div>
         <div className="Home_Quote">
           <div className="Home_quoteBox">
-            <i className="fas fa-quote-left" />
+            <i className="fas fa-quote-left home_dq-r" />
             <p className="Home_quoteBox_quote">{this.state.quote.quote}</p>
-            <i className="fas fa-quote-right" />
+            <i className="fas fa-quote-right home_dq-l" />
             <p className="Home_quoteBox_author">{`-By  ${
               this.state.quote.author
             }`}</p>

@@ -20,6 +20,7 @@ export default (
     <Route path="/profile" component={Profile} />
     <Route path="/start" component={Start} />
     <Route path="/graph" component={Graph} />
+    <Route path="/inbox/addEvent/:pixel_unique" component={Event_Add} />
     <Route path="/inbox/addEvent" component={Event_Add} />
     <Route path="/inbox" component={Inbox} />
   </Switch>

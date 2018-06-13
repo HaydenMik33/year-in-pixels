@@ -42,20 +42,19 @@ const newIlgi = (req, res, next) => {
 
 const getIlgi = (req, res) => {
   console.log("HIT the get =>/api/ilgi");
-  const { id } = req.params;
   req.app
     .get("db")
-    .getIlgi([id])
+    .getIlgi([req.user.id])
     .then(Ilgi => {
+      req.session.ilgi = Ilgi[0];
       res.status(200).send(Ilgi);
     })
     .catch(err => res.status(500).send(err));
 };
 const deleteAll = (req, res) => {
-  const { ilgi_id } = req.params;
   req.app
     .get("db")
-    .deleteIlgi([ilgi_id])
+    .deleteIlgi([req.session.ilgi.id])
     .then(response => {
       res.status(200).send(response);
     });

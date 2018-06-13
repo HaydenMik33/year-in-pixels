@@ -1,9 +1,9 @@
 const addPixel = (req, res) => {
   console.log("Hit the post => /api/pixel", req.body);
-  const { ilgi_id, pixel_unique } = req.body;
+  const { pixel_unique } = req.body;
   req.app
     .get("db")
-    .addPixel([Number(ilgi_id), Number(pixel_unique)])
+    .addPixel([req.session.ilgi.id, Number(pixel_unique)])
     .then(pixel => {
       console.log(pixel);
       res.status(200).json(pixel);
@@ -16,10 +16,9 @@ const addPixel = (req, res) => {
 
 const getAllPixels = (req, res) => {
   console.log("Hit the get => /api/pixels");
-  const { ilgi_id } = req.params;
   req.app
     .get("db")
-    .getAllPixels(ilgi_id)
+    .getAllPixels(req.session.ilgi.id)
     .then(pixels => {
       res.status(200).send(pixels);
     })
@@ -35,7 +34,6 @@ const getPixel = (req, res) => {
     .get("db")
     .getPixel(id)
     .then(pixel => {
-      console.log(pixel);
       res.status(200).send(pixel);
     })
     .catch(() => {
@@ -47,17 +45,16 @@ const updatePixel = (req, res) => {
   console.log("Hit the post =>/api/pixel");
   console.log(req.params);
   console.log(req.body);
-  const { id, ilgi_id } = req.params;
+  const { id } = req.params;
   const { text, img, quote_id } = req.body;
 
   req.app
     .get("db")
-    .updatePixel([Number(id), text, img, Number(ilgi_id), quote_id])
+    .updatePixel([Number(id), text, img, req.session.ilgi.id, quote_id])
     .then(pixels => {
       res.status(200).send(pixels);
     })
     .catch(err => {
-      // res.status(500).send();
       console.log(err);
     });
 };

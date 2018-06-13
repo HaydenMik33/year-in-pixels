@@ -28,10 +28,9 @@ const getQuoteById = (req, res) => {
 const getAllQuotes = (req, res) => {
   //////get all quotes from your database
   console.log("Hit the get => /api/quotes");
-  const { id } = req.params;
   req.app
     .get("db")
-    .getAllQuotes(id)
+    .getAllQuotes(req.session.ilgi.id)
     .then(quotes => {
       res.status(200).send(quotes);
     })
@@ -57,7 +56,6 @@ const getQuote = (req, res) => {
   axios
     .get("https://talaikis.com/api/quotes/random/")
     .then(quote => {
-      console.log(quote);
       res.status(200).json(quote.data);
     })
     .catch(res => res.status(500).json(res));

@@ -14,6 +14,7 @@ import Quote from "./Quote/Quote";
 import PhotoLibrary from "material-ui/svg-icons/image/photo-library";
 import FormatQuote from "material-ui/svg-icons/editor/format-quote";
 import EventNote from "material-ui/svg-icons/notification/event-note";
+import { getAllEvents } from "../../ducks/eventReducer";
 const GalleryIcon = <PhotoLibrary />;
 const QuoteIcon = <FormatQuote />;
 const EventIcon = <EventNote />;
@@ -23,9 +24,11 @@ class Inbox extends Component {
   };
   select = index => this.setState({ selectedIndex: index });
   componentDidMount() {
-    const { getAllQuote, ilgi, quotes } = this.props;
-    getAllQuote(ilgi.id);
+    const { getAllQuote, getAllEvents } = this.props;
+    getAllQuote();
+    getAllEvents();
   }
+
   render() {
     console.log(this.props);
     const styles = {
@@ -67,7 +70,7 @@ class Inbox extends Component {
         {this.state.selectedIndex === 0 ? (
           <Gallery />
         ) : this.state.selectedIndex === 1 ? (
-          <Quote quotes={this.props.quotes} />
+          <Quote />
         ) : this.state.selectedIndex === 2 ? (
           <Event />
         ) : null}
@@ -78,7 +81,11 @@ class Inbox extends Component {
 function mapStateToProps(state) {
   return {
     quotes: state.quoteReducer.quotes,
-    ilgi: state.userReducer.ilgi
+    ilgi: state.userReducer.ilgi,
+    events: state.eventReducer.events
   };
 }
-export default connect(mapStateToProps, { getAllQuote })(Inbox);
+export default connect(
+  mapStateToProps,
+  { getAllQuote, getAllEvents }
+)(Inbox);

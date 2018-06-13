@@ -1,20 +1,5 @@
 const addEvent = (req, res) => {
   console.log("Hit the post => /api/event");
-  const { ilgi_id } = req.body;
-  req.app
-    .get("db")
-    .addEvent([ilgi_id])
-    .then(event => {
-      res.status(200).json(event);
-    })
-    .catch(err => {
-      res.status(500).send(err);
-    });
-};
-
-const updateEvent = (req, res) => {
-  console.log("Hit the post =>/api/event/:id");
-  const { id, ilgi_id } = req.params;
   const {
     title,
     text,
@@ -23,32 +8,71 @@ const updateEvent = (req, res) => {
     formatDate,
     pixel_unique
   } = req.body;
-  console.log(ilgi_id);
+  console.log(
+    req.session.ilgi.id,
+    title,
+    text,
+    location,
+    important,
+    formatDate,
+    pixel_unique
+  );
   req.app
     .get("db")
-    .updateEvent([
+    .addEvent([
+      req.session.ilgi.id,
       title,
       text,
       location,
       important,
       formatDate,
-      pixel_unique,
-      id,
-      ilgi_id
+      pixel_unique
     ])
-    .then(pixels => {
-      res.status(200).send(pixels);
+    .then(event => {
+      console.log(event);
+      res.status(200).json(event);
     })
-    .catch(() => {
-      res.status(500).send();
+    .catch(err => {
+      res.status(500).send(err);
     });
 };
+
+// const updateEvent = (req, res) => {
+//   console.log("Hit the post =>/api/event/:id");
+//   const { id } = req.params;
+//   const {
+//     title,
+//     text,
+//     location,
+//     important,
+//     formatDate,
+//     pixel_unique
+//   } = req.body;
+//   console.log(ilgi_id);
+//   req.app
+//     .get("db")
+//     .updateEvent([
+//       title,
+//       text,
+//       location,
+//       important,
+//       formatDate,
+//       pixel_unique,
+//       id,
+//       req.session.ilgi.id
+//     ])
+//     .then(pixels => {
+//       res.status(200).send(pixels);
+//     })
+//     .catch(() => {
+//       res.status(500).send();
+//     });
+// };
 const getAllEvents = (req, res) => {
   console.log("Hit the get =>/api/events");
-  const { id } = req.params;
   req.app
     .get("db")
-    .getAllEvents([id])
+    .getAllEvents([req.session.ilgi.id])
     .then(events => {
       res.status(200).send(events);
     })
@@ -59,11 +83,11 @@ const getAllEvents = (req, res) => {
 const deleteEvent = (req, res) => {
   console.log("Hit the delete =>/api/event/:id");
   const { id } = req.params;
-  const { ilgi_id } = req.body;
   req.app
     .get("db")
-    .deleteEvent([id, ilgi_id])
+    .deleteEvent([id, req.session.ilgi.id])
     .then(events => {
+      console.log(events);
       res.status(200).send(events);
     })
     .catch(() => {
@@ -73,7 +97,6 @@ const deleteEvent = (req, res) => {
 
 module.exports = {
   addEvent,
-  updateEvent,
   getAllEvents,
   deleteEvent
 };

@@ -45,7 +45,8 @@ Edit_search_quote_result_container {
   padding-bottom: 50px;
 }
 .edit {
-  height: 200vh;
+  height: auto;
+  margin: 60px 0;
   font-family: "Open Sans", sans-serif;
 }
 .edit_search_img_input {
@@ -157,11 +158,11 @@ Edit_search_quote_result_container {
 }
 .edit_paper-text {
   position: absolute;
-  top: -5px;
-  left: 200px;
+  top: 65px;
+  left: 90px;
   bottom: 10px;
   right: 10px;
-  line-height: 25px;
+  line-height: 30px;
   overflow: hidden;
   outline: none;
   font-family: "Open Sans", sans-serif;
@@ -174,4 +175,9 @@ Edit_search_quote_result_container {
 .edit_editToolContainer {
   display: flex;
   flex-direction: column;
+}
+.place-holder-text {
+  position: relative;
+  top: -450px;
+  left: 20px;
 }

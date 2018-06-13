@@ -1,9 +1,9 @@
 import axios from "axios";
 const GET_All_QUOTE = "GET_ALL_QUOTE";
-export function getAllQuote(ilgi_id) {
+export function getAllQuote() {
   return {
     type: GET_All_QUOTE,
-    payload: axios.get(`/api/quotes/${ilgi_id}`)
+    payload: axios.get(`/api/quotes`)
   };
 }
 
