@@ -48,9 +48,6 @@ class Nav extends Component {
           <Link className="Nav_link" to="/profile" onClick={this.handleClose}>
             PROFILE
           </Link>
-          <Link className="Nav_link" to="/setting" onClick={this.handleClose}>
-            SETTING
-          </Link>
           <a
             className="Nav_link"
             href={process.env.REACT_APP_LOGOUT}

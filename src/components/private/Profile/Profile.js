@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import "./Profile.css";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import Setting from "../Setting/Setting";
 import { connect } from "react-redux";
-import FlatButton from "material-ui/FlatButton";
 import { List, ListItem } from "material-ui/List";
-import Subheader from "material-ui/Subheader";
 import Divider from "material-ui/Divider";
 class Profile extends Component {
   render() {
     console.log(this.props);
     return (
-      <div>
+      <div className="Profile">
         <Switch>
           <Route path="/profile/setting" component={Setting} />
         </Switch>
@@ -40,9 +38,9 @@ class Profile extends Component {
           </ListItem>
 
           <img src={this.props.user.picture} width="300" alt="profile" />
-          <Link to="/profile">
+          {/* <Link to="/profile">
             <br /> <FlatButton label="Edit" />
-          </Link>
+          </Link> */}
         </List>
         <Divider />
         <List>

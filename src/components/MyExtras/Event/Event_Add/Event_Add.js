@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import "./Event_Add.css";
 import Paper from "material-ui/Paper";
-import FloatingActionButton from "material-ui/FloatingActionButton";
-import ContentAdd, { ContentNextWeek } from "material-ui/svg-icons/content/add";
 import DatePicker from "material-ui/DatePicker";
 import FlatButton from "material-ui/FlatButton";
 import { connect } from "react-redux";
@@ -73,6 +71,7 @@ class Event_Add extends Component {
                 src={star}
                 width="30px"
                 onClick={() => this.markImportant()}
+                alt="star"
               />
             ) : (
               <img
@@ -80,6 +79,7 @@ class Event_Add extends Component {
                 src={starSolid}
                 width="30px"
                 onClick={() => this.markImportant()}
+                alt="starSolid"
               />
             )}
           </div>

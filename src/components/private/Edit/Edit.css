@@ -157,6 +157,9 @@ Edit_search_quote_result_container {
   );
 }
 .edit_paper-text {
+  border: none;
+  width: 60%;
+  background: transparent;
   position: absolute;
   top: 65px;
   left: 90px;

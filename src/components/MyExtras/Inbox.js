@@ -4,7 +4,6 @@ import {
   BottomNavigation,
   BottomNavigationItem
 } from "material-ui/BottomNavigation";
-import FontIcon from "material-ui/FontIcon";
 import Paper from "material-ui/Paper";
 import { connect } from "react-redux";
 import { getAllQuote } from "../../ducks/quoteReducer";

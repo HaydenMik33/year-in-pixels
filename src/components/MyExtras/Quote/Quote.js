@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./Quote.css";
 import Paper from "material-ui/Paper";
 import { connect } from "react-redux";
-import axios from "axios";
 class Quote extends Component {
   Qdelete(id) {
     // axios.delete(`/api/quote/${id}`)

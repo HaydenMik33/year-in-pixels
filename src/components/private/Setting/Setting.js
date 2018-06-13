@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import "./Setting.css";
 import { List, ListItem } from "material-ui/List";
-import Subheader from "material-ui/Subheader";
 import Divider from "material-ui/Divider";
-import Toggle from "material-ui/Toggle";
 import { connect } from "react-redux";
 import axios from "axios";
 import Profile from "../Profile/Profile";

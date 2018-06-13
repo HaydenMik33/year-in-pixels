@@ -149,8 +149,8 @@ class Home extends Component {
             <Link className="Home_HeaderNav-item" to="/ilgi">
               PIXELS
             </Link>
-            <Link className="Home_HeaderNav-item" to="/blog">
-              BLOG
+            <Link className="Home_HeaderNav-item" to="/profile">
+              PROFILE
             </Link>
             <h1 className="Home_HeaderNav-h1">[ ilgi ]</h1>
             <Link className="Home_HeaderNav-item" to="/graph">

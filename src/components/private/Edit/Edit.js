@@ -5,13 +5,7 @@ import { updatePixel, updateCurrentPixel } from "../../../ducks/pixelReducer";
 import { getAllQuote } from "../../../ducks/quoteReducer";
 import axios from "axios";
 import basic from "./basic.jpg";
-import {
-  Card,
-  CardActions,
-  CardMedia,
-  CardTitle,
-  CardText
-} from "material-ui/Card";
+import { Card, CardActions, CardMedia, CardTitle } from "material-ui/Card";
 import Paper from "material-ui/Paper";
 import Slider from "material-ui/Slider";
 import RaisedButton from "material-ui/RaisedButton";
@@ -32,33 +26,26 @@ import nervous from "./png64px/nervous.png";
 import sad from "./png64px/sad.png";
 import sick from "./png64px/sick.png";
 import sleepy from "./png64px/sleepy.png";
-import ContentEditable from "react-contenteditable";
 class Edit extends Component {
-  constructor() {
-    super();
-    this.state = {
-      displayContent: true,
-      id: null,
-      quote_id: null,
-      text: "",
-      colorvalue: "",
-      img: "",
-      opacity: 0.5,
-      divBorder: "1px solid grey",
-      colorClicked: false,
-      showResult: false,
-      showQuotesFromInbox: false,
-      keyword: "",
-      photos: [],
-      quote: {},
-      snackbarShow_photo: false,
-      snackbarShow_quote: false
-    };
-    this.colorvalueSelector = this.colorvalueSelector.bind(this);
-    this.handleSave = this.handleSave.bind(this);
-    this.handleEdit = this.handleEdit.bind(this);
-    this.searchPhotos = this.searchPhotos.bind(this);
-  }
+  state = {
+    displayContent: true,
+    id: null,
+    quote_id: null,
+    text: "",
+    colorvalue: "",
+    img: "",
+    opacity: 0.5,
+    divBorder: "1px solid grey",
+    colorClicked: false,
+    showResult: false,
+    showQuotesFromInbox: false,
+    keyword: "",
+    photos: [],
+    quote: {},
+    snackbarShow_photo: false,
+    snackbarShow_quote: false
+  };
+
   componentDidMount() {
     const { currentPixel, getAllQuote } = this.props;
     console.log(currentPixel);
@@ -66,7 +53,6 @@ class Edit extends Component {
     getAllQuote(p.ilgi_id);
     p.quote_id !== null
       ? axios.get(`/api/quote/${p.quote_id}`).then(res => {
-          console.log(res.data);
           this.setState({ quote: res.data });
         })
       : null;
@@ -171,7 +157,7 @@ class Edit extends Component {
           key={i}
           onClick={() => this.select(el.urls.regular)}
         >
-          <img src={el.urls.small} />
+          <img src={el.urls.small} alt="small" />
         </Paper>
       );
     });
@@ -381,10 +367,9 @@ class Edit extends Component {
                     <h4>Did any interesting thing happen today?</h4>
                     <h1>Write your ilgi</h1>
                   </div>
-                  <ContentEditable
+                  <textarea
                     className="edit_paper-text"
-                    html={this.state.text}
-                    disabled={false}
+                    value={this.state.text}
                     onChange={e => this.setState({ text: e.target.value })}
                   />
                 </div>

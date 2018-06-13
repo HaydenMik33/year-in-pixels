@@ -14,7 +14,7 @@ const Gallery = props => {
   const photosList = props.pixels.map((el, i) => {
     return el.img ? (
       <Paper zDepth={1} key={i} className="Gallery_box">
-        <img src={el.img} style={styles.image} />
+        <img src={el.img} style={styles.image} alt="img" />
       </Paper>
     ) : null;
   });

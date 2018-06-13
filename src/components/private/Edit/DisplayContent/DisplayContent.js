@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { CardHeader, CardMedia } from "material-ui/Card";
-import Paper from "material-ui/Paper";
 import basic from "../basic.jpg";
 import moment from "moment";
 import "./DisplayContent.css";
@@ -67,8 +66,8 @@ class DisplayContent extends Component {
     convertmonth();
     const date = p_u - month * 100;
     const dayName = moment(
-      `2018-${month.length == 2 ? month : `0${month}`}-${
-        date.length == 2 ? date : `0${date}`
+      `2018-${month.length === 2 ? month : `0${month}`}-${
+        date.length === 2 ? date : `0${date}`
       }`
     ).format("dddd");
     const styles = {
