@@ -20,6 +20,7 @@ const getAllPixels = (req, res) => {
     .get("db")
     .getAllPixels(req.session.ilgi.id)
     .then(pixels => {
+      console.log(pixels);
       res.status(200).send(pixels);
     })
     .catch(() => {

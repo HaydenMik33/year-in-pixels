@@ -89,7 +89,7 @@ passport.deserializeUser((user, done) => {
 });
 
 // AUTH ENDPOINTS
-
+// http://localhost:3000
 app.get(
   "/auth",
   passport.authenticate("auth0", {

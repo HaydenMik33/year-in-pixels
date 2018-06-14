@@ -5,6 +5,7 @@ import moment from "moment";
 import "./DisplayContent.css";
 import { connect } from "react-redux";
 import FlatButton from "material-ui/FlatButton";
+import { pushCurrentEvent } from "../../../../ducks/eventReducer";
 import { Link } from "react-router-dom";
 class DisplayContent extends Component {
   state = {
@@ -33,14 +34,19 @@ class DisplayContent extends Component {
       : null;
   }
   calculate = () => {
-    const { currentPixel } = this.props;
-    const displayEvent = this.props.events
+    const { currentPixel, pushCurrentEvent, events } = this.props;
+    const displayEvent = events
       .filter(el => el.pixel_unique === currentPixel.pixel_unique)
       .map((el, i) => {
         console.log(el);
         return (
           <div className="DisplayContent_Event-content" key={i}>
-            <Link to="/inbox/addEvent">
+            <Link
+              to="/inbox/addEvent"
+              onClick={() => {
+                pushCurrentEvent(el);
+              }}
+            >
               <i className="far fa-edit" />
             </Link>
             <h1>{el.title}</h1>
@@ -159,4 +165,7 @@ function mapStateToProps(state) {
     events: state.eventReducer.events
   };
 }
-export default connect(mapStateToProps)(DisplayContent);
+export default connect(
+  mapStateToProps,
+  { pushCurrentEvent }
+)(DisplayContent);
