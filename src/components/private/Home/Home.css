@@ -377,3 +377,7 @@ p.Home_css-button-text {
   padding: 5px auto;
   height: 35px;
 }
+.recentmood_nocolor h2 {
+  font-weight: lighter;
+  margin-left: 300px;
+}

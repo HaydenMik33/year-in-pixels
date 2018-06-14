@@ -21,7 +21,7 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    const { getUser, getAllEvents, getAllPixels, getIlgi } = this.props;
+    const { getUser, getAllEvents, getAllPixels, getIlgi, pixels } = this.props;
     getUser();
     getIlgi().then(ilgi => {
       let res = ilgi.value.data[0];
@@ -32,10 +32,12 @@ class Home extends Component {
           this.setState(() => ({
             quote: quote.data,
             Hayden: this.calculate(),
-            recentColor: this.props.pixels[this.props.pixels.length - 1]
-              .colorvalue,
-            recentColorOpacity: this.props.pixels[this.props.pixels.length - 1]
-              .opacity
+            recentColor: pixels[0]
+              ? pixels[pixels.length - 1].colorvalue
+              : null,
+            recentColorOpacity: pixels[0]
+              ? pixels[pixels.length - 1].opacity
+              : null
           }));
         });
       } else {
@@ -200,7 +202,13 @@ class Home extends Component {
             Your Most Recent<br />
             <span className="Home_stress">Color</span>{" "}
             <div className="Home_line" />
-            <span style={styles.text}>{this.state.recentColor}</span>
+            {this.state.recentColor === null ? (
+              <div className="recentmood_nocolor">
+                <h2>you have no recent color..</h2>
+              </div>
+            ) : (
+              <span style={styles.text}>{this.state.recentColor}</span>
+            )}
           </span>
           <span className="Home_colorBar-box">
             <div className="Home_colorBar" style={styles.colorBar} />

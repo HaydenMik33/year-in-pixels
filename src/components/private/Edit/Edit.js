@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "./Edit.css";
 import { connect } from "react-redux";
 import { updatePixel, updateCurrentPixel } from "../../../ducks/pixelReducer";
@@ -115,16 +116,22 @@ class Edit extends Component {
   }
 
   render() {
-    const { colorvalue, displayContent } = this.state;
+    const {
+      colorvalue,
+      displayContent,
+      opacity,
+      divBorder,
+      inputBoxShadow
+    } = this.state;
 
-    const { currentPixel } = this.props;
+    const { currentPixel, quotes } = this.props;
     const styles = {
       colorBoxStyle: {
-        opacity: this.state.opacity
+        opacity: opacity
       },
       colorBoxBorderStyle: {
-        border: this.state.divBorder,
-        boxShadow: this.state.inputBoxShadow
+        border: divBorder,
+        boxShadow: inputBoxShadow
       },
       Paper: {
         fontFamily: "'Open Sans', sans-serif"
@@ -135,20 +142,27 @@ class Edit extends Component {
       }
     };
     const { colorBoxStyle, colorBoxBorderStyle } = styles;
-    const quote_searchResult = this.props.quotes.map((el, i) => {
-      return (
-        <Paper
-          style={styles.Paper}
-          zDepth={1}
-          className="Edit_quote_search_result"
-          key={i}
-          onClick={() => this.selectQuote(el.id, el)}
-        >
-          <p>{el.text}</p>
-          <p>-By {el.author}</p>
-        </Paper>
-      );
-    });
+    const quote_searchResult = quotes[0] ? (
+      quotes.map((el, i) => {
+        return (
+          <Paper
+            style={styles.Paper}
+            zDepth={1}
+            className="Edit_quote_search_result"
+            key={i}
+            onClick={() => this.selectQuote(el.id, el)}
+          >
+            <p>{el.text}</p>
+            <p>-By {el.author}</p>
+          </Paper>
+        );
+      })
+    ) : (
+      <div>
+        <h2>you haven't saved any quotes in your inbox</h2>
+        <Link to="/home">look for some quotes to add</Link>
+      </div>
+    );
     const displaySearchResult = this.state.photos.map((el, i) => {
       return (
         <Paper
