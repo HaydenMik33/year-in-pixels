@@ -42,7 +42,7 @@ class DisplayContent extends Component {
         return (
           <div className="DisplayContent_Event-content" key={i}>
             <Link
-              to="/inbox/addEvent"
+              to="/inbox/addEvent/300"
               onClick={() => {
                 pushCurrentEvent(el);
               }}

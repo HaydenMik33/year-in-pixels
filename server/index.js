@@ -26,7 +26,7 @@ const {
 } = require(`${__dirname}/controllers/pixelCtrl`);
 const {
   addEvent,
-  // updateEvent,
+  updateEvent,
   getAllEvents,
   deleteEvent
 } = require(`${__dirname}/controllers/eventCtrl`);
@@ -124,6 +124,7 @@ app.get("/api/photos/:id", searchPhoto);
 
 ///event endpoints
 app.post("/api/event", addEvent);
+app.put("/api/event/:id", updateEvent);
 app.get("/api/events", getAllEvents);
 app.delete("/api/event/:id", deleteEvent);
 

@@ -4,4 +4,5 @@ INSERT INTO events (
       location,
       important,
       date,
-      pixel_unique) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *;
+      pixel_unique) VALUES ($1,$2,$3,$4,$5,$6,$7);
+      select * from events where ilgi_id=$1;

@@ -37,37 +37,37 @@ const addEvent = (req, res) => {
     });
 };
 
-// const updateEvent = (req, res) => {
-//   console.log("Hit the post =>/api/event/:id");
-//   const { id } = req.params;
-//   const {
-//     title,
-//     text,
-//     location,
-//     important,
-//     formatDate,
-//     pixel_unique
-//   } = req.body;
-//   console.log(ilgi_id);
-//   req.app
-//     .get("db")
-//     .updateEvent([
-//       title,
-//       text,
-//       location,
-//       important,
-//       formatDate,
-//       pixel_unique,
-//       id,
-//       req.session.ilgi.id
-//     ])
-//     .then(pixels => {
-//       res.status(200).send(pixels);
-//     })
-//     .catch(() => {
-//       res.status(500).send();
-//     });
-// };
+const updateEvent = (req, res) => {
+  console.log("Hit the put =>/api/event/:id");
+  const { id } = req.params;
+  const {
+    title,
+    text,
+    location,
+    important,
+    formatDate,
+    pixel_unique
+  } = req.body;
+  console.log(id, req.body);
+  req.app
+    .get("db")
+    .updateEvent([
+      title,
+      text,
+      location,
+      important,
+      formatDate,
+      pixel_unique,
+      id,
+      req.session.ilgi.id
+    ])
+    .then(pixels => {
+      res.status(200).send(pixels);
+    })
+    .catch(() => {
+      res.status(500).send();
+    });
+};
 const getAllEvents = (req, res) => {
   console.log("Hit the get =>/api/events");
   req.app
@@ -98,5 +98,6 @@ const deleteEvent = (req, res) => {
 module.exports = {
   addEvent,
   getAllEvents,
-  deleteEvent
+  deleteEvent,
+  updateEvent
 };

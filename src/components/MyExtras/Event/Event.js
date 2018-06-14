@@ -42,7 +42,7 @@ class Event extends Component {
               <i className="fas fa-bookmark Event_bookmark" />
             </span>
           ) : null}
-          <Link to="/inbox/addEvent">
+          <Link to="/inbox/addEvent/300">
             <span onClick={() => this.pushData(el)}>
               <i className="fas fa-edit Event_edit" />
             </span>

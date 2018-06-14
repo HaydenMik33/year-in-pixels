@@ -4,8 +4,8 @@ import Paper from "material-ui/Paper";
 import DatePicker from "material-ui/DatePicker";
 import FlatButton from "material-ui/FlatButton";
 import { connect } from "react-redux";
+import { addEvent, updateEvent } from "../../../../ducks/eventReducer";
 import moment from "moment";
-import axios from "axios";
 import star from "../../../../icon/star.png";
 import starSolid from "../../../../icon/starSolid.png";
 
@@ -47,25 +47,35 @@ class Event_Add extends Component {
   }
   save = () => {
     const { important, text, title, location, date } = this.state;
-    const { history, match } = this.props;
+    const { history, match, addEvent, updateEvent, currentEvent } = this.props;
     const formatDate = moment(date).format("MM-DD-YYYY");
     const myDate = moment(formatDate, "MM-DD-YYYY");
     let day = myDate.date();
     let month = Number(myDate.month()) + 1;
     let pixel_unique = month * 100 + Number(day);
     console.log(day, month, pixel_unique, myDate, formatDate);
-    axios
-      .post(`/api/event`, {
-        formatDate,
-        title,
-        text,
-        important,
-        location,
-        pixel_unique
-      })
-      .then(() => {
-        history.goBack();
-      });
+    match.params.pixel_unique === "300"
+      ? updateEvent(
+          currentEvent.id,
+          formatDate,
+          title,
+          text,
+          important,
+          location,
+          pixel_unique
+        ).then(() => {
+          history.goBack();
+        })
+      : addEvent(
+          formatDate,
+          title,
+          text,
+          important,
+          location,
+          pixel_unique
+        ).then(() => {
+          history.goBack();
+        });
   };
 
   render() {
@@ -141,4 +151,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(Event_Add);
+export default connect(
+  mapStateToProps,
+  { addEvent, updateEvent }
+)(Event_Add);
