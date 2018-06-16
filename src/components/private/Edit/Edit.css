@@ -59,8 +59,25 @@ Edit_search_quote_result_container {
   border: solid 1px grey;
 }
 .edit_slider {
-  width: 500px;
+  width: 30%;
   margin: 0 auto;
+}
+@media screen and (max-width: 412px) {
+  .edit_slider {
+    width: 50%;
+  }
+  .edit h1,
+  h3 {
+    font-weight: 400;
+  }
+  .edit_grid-container {
+    width: 90%;
+    grid-gap: 1%;
+    grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  }
+  .emotion_icons {
+    display: none;
+  }
 }
 .emotion_icons {
   width: 90%;
@@ -181,6 +198,6 @@ Edit_search_quote_result_container {
 }
 .place-holder-text {
   position: relative;
-  top: -450px;
-  left: 20px;
+  top: -125%;
+  left: 12%;
 }

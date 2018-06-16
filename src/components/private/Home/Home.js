@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./Home.css";
+import "./Home_animation.css";
+import "./Home_mobile.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getUser, getIlgi } from "../../../ducks/userReducer";
@@ -9,6 +11,7 @@ import { FlatButton } from "material-ui";
 import Snackbar from "material-ui/Snackbar";
 import moment from "moment";
 import axios from "axios";
+
 class Home extends Component {
   state = {
     quote: {},
@@ -26,18 +29,22 @@ class Home extends Component {
     getIlgi().then(ilgi => {
       let res = ilgi.value.data[0];
       if (res) {
-        getAllPixels();
-        getAllEvents();
-        axios.get("/api/getRandom").then(quote => {
+        getAllPixels().then(res => {
+          let pixels = res.action.payload.data;
           this.setState(() => ({
-            quote: quote.data,
-            Hayden: this.calculate(),
             recentColor: pixels[0]
               ? pixels[pixels.length - 1].colorvalue
               : null,
             recentColorOpacity: pixels[0]
               ? pixels[pixels.length - 1].opacity
               : null
+          }));
+        });
+        getAllEvents();
+        axios.get("/api/getRandom").then(quote => {
+          this.setState(() => ({
+            quote: quote.data,
+            Hayden: this.calculate()
           }));
         });
       } else {
@@ -62,7 +69,6 @@ class Home extends Component {
   }
 
   calculate() {
-    console.log("hit");
     const { events } = this.props;
     const DayOfYear = events.filter(el => el.date !== null).map(ele => {
       return moment(ele.date, "MM-DD-YYYY").dayOfYear();
@@ -76,13 +82,13 @@ class Home extends Component {
     if (events[0])
       return (
         <div key={0} className="Home_upcoming-center">
-          <div style={{ width: "50%", background: "#263238", padding: "50px" }}>
-            <h1 style={{ fontSize: "50px" }}>{e[0].title}</h1>
+          <div className="upcoming-mini">
+            <h1 className="upcoming-h1">{e[0].title}</h1>
           </div>
-          <div style={{ width: "50%", color: "#263238", padding: "50px" }}>
-            <h3 style={{ fontSize: "30px" }}>{e[0].date}</h3>
-            <p style={{ fontSize: "20px" }}>{e[0].text}</p>
-            <p style={{ fontSize: "20px" }}>{e[0].location}</p>
+          <div className="upcoming-mini-r">
+            <h3 className="upcoming-h3">{e[0].date}</h3>
+            <p>{e[0].text}</p>
+            <p>{e[0].location}</p>
           </div>
         </div>
       );
@@ -95,24 +101,27 @@ class Home extends Component {
   }
 
   render() {
+    const { pixels, user } = this.props;
+    console.log(pixels, this.state.recentColor);
+    const { recentColor, quote } = this.state;
     const styles = {
       mood: {
-        background: this.state.recentColor,
+        background: recentColor,
         opacity: this.state.recentColorOpacity
       },
       colorBar: {
-        background: this.state.recentColor
+        background: recentColor
       },
       colorBar2: {
-        background: this.state.recentColor,
+        background: recentColor,
         opacity: "0.7"
       },
       colorBar3: {
-        background: this.state.recentColor,
+        background: recentColor,
         opacity: "0.4"
       },
       text: {
-        color: this.state.recentColor
+        color: recentColor
       },
       imgBox: {
         width: "300px",
@@ -122,14 +131,15 @@ class Home extends Component {
       }
     };
     const displayGallery =
-      this.props.pixels.filter(e => e.img !== null).length < 1 ? (
+      pixels.filter(e => e.img !== null).length < 1 ? (
         <h1 style={{ fontWeight: "lighter" }}>
           ! You haven't added any image on your pixel
         </h1>
       ) : (
-        this.props.pixels.filter(e => e.img !== null).map((el, i) => {
+        pixels.filter(e => e.img !== null).map((el, i) => {
           return i < 9 ? (
             <img
+              className="Home_Gallery-img"
               alt="ilgiGallry"
               style={styles.imgBox}
               width="200"
@@ -143,7 +153,7 @@ class Home extends Component {
       <div className="Home">
         <div className="Home_animatedHeader Home_animatedHeader-show">
           <h1 className="Home_animatedHeader_h1">{`Welcome       ${
-            this.props.user.displayname
+            user.displayname
           }`}</h1>
         </div>
         <div className="Home_titleHeader_outer">
@@ -182,9 +192,7 @@ class Home extends Component {
         </svg>
         <div className="Home_gallery">
           <span className="Home_gallery-tag Home-tag">GALLERY</span>
-          <div
-            style={{ backgroundColor: "black", height: "2px", width: "700px" }}
-          />
+          <div className="Home_line" />
           <div className="Home_gallery-boxContainer">{displayGallery}</div>
         </div>
         <div className="Home_upcoming">
@@ -193,21 +201,19 @@ class Home extends Component {
               Your Upcoming<br />
               <span className="Home_stress">Event</span>
             </span>
-            <div className="Home_upcoming-line" />
             {this.state.Hayden}
           </div>
         </div>
         <div className="Home_RecentMood">
           <span className="Home_RecentMood_tag Home-tag">
             Your Most Recent<br />
-            <span className="Home_stress">Color</span>{" "}
-            <div className="Home_line" />
-            {this.state.recentColor === null ? (
+            <span className="Home_stress">Color</span>
+            {recentColor === null ? (
               <div className="recentmood_nocolor">
                 <h2>you have no recent color..</h2>
               </div>
             ) : (
-              <span style={styles.text}>{this.state.recentColor}</span>
+              <div style={styles.text}>{recentColor}</div>
             )}
           </span>
           <span className="Home_colorBar-box">
@@ -219,11 +225,9 @@ class Home extends Component {
         <div className="Home_Quote">
           <div className="Home_quoteBox">
             <i className="fas fa-quote-left home_dq-r" />
-            <p className="Home_quoteBox_quote">{this.state.quote.quote}</p>
+            <p className="Home_quoteBox_quote">{quote.quote}</p>
             <i className="fas fa-quote-right home_dq-l" />
-            <p className="Home_quoteBox_author">{`-By  ${
-              this.state.quote.author
-            }`}</p>
+            <p className="Home_quoteBox_author">{`-By  ${quote.author}`}</p>
           </div>
           <FlatButton
             label="Save"

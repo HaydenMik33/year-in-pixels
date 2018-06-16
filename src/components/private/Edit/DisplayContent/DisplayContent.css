@@ -3,7 +3,9 @@
   margin-top: 30px;
   height: auto;
 }
-
+.DisplayContent_right {
+  margin: auto 0;
+}
 .DisplayContent_body {
   height: auto;
   width: 100%;
@@ -32,7 +34,7 @@
   justify-content: space-around;
 }
 .DisplayContent_Quote {
-  padding: 5%;
+  padding: 14%;
   box-shadow: 3px 2px 5px lightblue;
   margin: 10%;
 }
@@ -41,7 +43,7 @@
   transition: 0.3s;
 }
 .DisplayContent_Event {
-  padding: 5%;
+  padding: 14%;
   transition: 0.3s;
   box-shadow: 3px 2px 5px lightpink;
   margin: 10%;

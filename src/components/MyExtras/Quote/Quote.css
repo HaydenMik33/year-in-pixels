@@ -24,6 +24,19 @@
   margin-top: 2vh;
   padding: 2vw;
 }
+@media screen and (max-width: 500px) {
+  .Quote_box {
+    width: 45vw;
+    margin-right: 2vw;
+  }
+}
+@media screen and (max-width: 400px) {
+  .Quote_box {
+    width: 80vw;
+    margin: 5vw auto 2vw;
+  }
+}
+
 .Quote_box:hover {
   background-color: slategrey;
   transition: 0.8s;

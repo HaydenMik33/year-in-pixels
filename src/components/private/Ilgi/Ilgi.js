@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Ilgi.css";
+import "./ilgi_media.css";
 import * as moment from "moment";
 import { updateCurrentPixel, getAllPixels } from "../../../ducks/pixelReducer";
 import { getIlgi } from "../../../ducks/userReducer";

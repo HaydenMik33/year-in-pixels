@@ -50,6 +50,18 @@
   margin-top: 2vh;
   padding: 2vw;
 }
+@media screen and (max-width: 500px) {
+  .Event_box {
+    width: 45vw;
+    margin-right: 2vw;
+  }
+}
+@media screen and (max-width: 400px) {
+  .Event_box {
+    width: 80vw;
+    margin: 5vw auto 2vw;
+  }
+}
 .Event_close {
   position: relative;
   left: 0vw;

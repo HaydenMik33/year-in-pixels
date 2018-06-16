@@ -5,3 +5,9 @@
 .Main {
   height: auto;
 }
+div,
+span,
+p,
+h1 {
+  box-sizing: border-box;
+}

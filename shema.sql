@@ -31,13 +31,11 @@ CREATE TABLE colors(
  CREATE TABLE events (
     CREATE TABLE events (
     id SERIAL PRIMARY KEY,
-    title VARCHAR(30),
-    text VARCHAR(800),
+    title VARCHAR(200),
+    text VARCHAR(1000),
    location VARCHAR(100),
     important boolean,
     date VARCHAR(10),
-    month integer,
-    day integer,
     pixel_unique integer,
     ilgi_id integer references Ilgi(id) 
 ); 

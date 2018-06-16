@@ -1,0 +1,96 @@
+@media screen and (max-width: 800px) {
+  .Home_upcoming-center {
+    width: 140%;
+    right: 70%;
+  }
+  .upcoming-mini-r {
+    background-color: #263238;
+  }
+  .Home_RecentMood_tag {
+    right: 25%;
+  }
+  .Home_HeaderNav .Home_HeaderNav-item {
+    display: none;
+  }
+  .Home_upcoming {
+    background-size: 900px;
+  }
+  .upcoming-mini h1 {
+    font-size: 30px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .Home_titleHeader_outer .Home_titleHeader {
+    height: 350px;
+    background-size: 550px;
+  }
+  .Home-tag {
+    font-size: 25px;
+  }
+  .Home_upcoming-tag {
+    left: 0%;
+    top: 30px;
+  }
+  .Home_gallery-tag {
+    font-size: 35px;
+  }
+  .Home_stress {
+    font-size: 35px;
+  }
+  .Home_upcoming {
+    background-size: 1000px;
+  }
+  .Home_upcoming-r {
+    background: none;
+  }
+  .Home_upcoming-center {
+    width: 200%;
+    right: 100%;
+  }
+  .upcoming-mini {
+    font-weight: 300;
+  }
+  .upcoming-mini .upcoming-h1 {
+    font-size: 30px;
+  }
+  .Home_colorBar-box .Home_colorBar {
+    height: 200px;
+  }
+  .Home_quoteBox_quote {
+    font-size: 20px;
+  }
+  .home_dq-l {
+    font-size: 25px;
+  }
+  .home_dq-r {
+    font-size: 25px;
+  }
+}
+@media screen and (max-width: 376px) {
+  .Home .Home_gallery {
+    margin: 0 0 10% 7%;
+  }
+  .arrow {
+    height: 100px;
+  }
+}
+.upcoming-h1 {
+  font-size: 40px;
+  text-transform: uppercase;
+}
+.Home_titleHeader {
+  background-position: center;
+  height: 550px;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-image: url("heart.png");
+  margin: 0 auto;
+}
+
+.Home_titleHeader_outer {
+  width: 100%;
+  background: #f9e8e9;
+  height: auto;
+  padding-bottom: 15%;
+}
