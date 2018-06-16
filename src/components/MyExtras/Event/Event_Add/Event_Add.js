@@ -94,21 +94,21 @@ class Event_Add extends Component {
                 this.props.history.goBack();
               }}
             />
-            {this.state.important === false ? (
-              <img
-                className="Event_star"
-                src={star}
-                width="30px"
-                onClick={() => this.markImportant()}
-                alt="star"
-              />
-            ) : (
+            {this.state.important ? (
               <img
                 className="Event_starSolid Event_star"
                 src={starSolid}
                 width="30px"
                 onClick={() => this.markImportant()}
                 alt="starSolid"
+              />
+            ) : (
+              <img
+                className="Event_star"
+                src={star}
+                width="30px"
+                onClick={() => this.markImportant()}
+                alt="star"
               />
             )}
           </div>
@@ -134,7 +134,7 @@ class Event_Add extends Component {
             onChange={e => this.setState({ location: e.target.value })}
           />
           <textarea
-            className="Event_Add_input Event_Add_input-text"
+            className="Event_Add_input"
             value={this.state.text}
             onChange={e => this.setState({ text: e.target.value })}
           />

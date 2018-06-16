@@ -16,7 +16,7 @@ const strat = new Auth0Strategy(
 
 const getUser = (req, res) => {
   if (!req.user) {
-    res.redirect("http://localhost:3000/#/");
+    res.redirect("/#/");
   } else {
     res.status(200).json(req.user);
   }
@@ -24,7 +24,7 @@ const getUser = (req, res) => {
 
 const logout = (req, res) => {
   req.session.destroy(() => {
-    res.redirect("http://localhost:3000/#/");
+    res.redirect("/#/");
   });
 };
 

@@ -1,4 +1,18 @@
-@media screen and (max-width: 430px) {
+@media screen and (max-width: 591px) {
+  .grid-item-custom {
+    padding: 25px 15px 25px 15px;
+  }
+  .Ilgi_containerBackground {
+    margin-top: 15%;
+    width: 120vw;
+    padding: 0 16%;
+  }
+  .grid-container {
+    grid-template-columns: 10% 10% 10% 10% 10% 10% 10% 10% 10% 10% 10% 10% 10%;
+  }
+}
+
+@media screen and (max-width: 488px) {
   .Ilgi_now {
     display: none;
   }
@@ -6,26 +20,32 @@
     padding: 18.2px 0;
     font-size: 10px;
   }
-  .grid-container {
-    grid-template-columns: 9% 9% 9% 9% 9% 9% 9% 9% 9% 9% 9% 9% 9%;
-  }
   .grid_month {
     font-size: 10px;
   }
-}
-@media screen and (max-width: 591px) {
-  .grid-item-custom {
-    padding: 25px 10px 25px 10px;
-  }
-  .Ilgi_containerBackground {
-    margin-top: 20%;
-    padding: 0 48px 0 48px;
-    width: 100vw;
+  .Ilgi_h1 {
+    font-size: 50px;
   }
 }
-
-@media screen and (max-width: 380px) {
+@media screen and (max-width: 436px) {
+  .Ilgi_h1 {
+    font-size: 40px;
+  }
   .Ilgi_containerBackground {
     width: 150vw;
+    padding: 0 20%;
+  }
+}
+@media screen and (max-width: 370px) {
+  .Ilgi_h1 {
+    font-size: 30px;
+    padding-bottom: 5%;
+  }
+  .Ilgi_containerBackground {
+    width: 180vw;
+    padding: 0 25%;
+  }
+  .Ilgi_by {
+    display: none;
   }
 }

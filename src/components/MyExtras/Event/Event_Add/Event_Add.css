@@ -1,11 +1,9 @@
 .Event_Add {
-  height: 100%;
-  margin-top: 80px;
+  margin: 20% 0;
 }
 .Event_Add_container {
-  height: 80vh;
-  width: 55vw;
-  margin: 0 auto;
+  margin: 5% auto;
+  padding-bottom: 5%;
 }
 .Event_Add_input {
   display: block;
@@ -29,13 +27,28 @@
   background-color: #e1f5fe;
   text-align: left;
 }
-.Event_Add_input-text {
-  height: 40vh;
-}
 .Event_star {
-  position: relative;
-  top: 7px;
-  right: -450px;
+  margin-left: 50%;
+}
+@media screen and (max-width: 460px) {
+  .Event_Add_header .Event_star {
+    margin-left: 40%;
+  }
+}
+@media screen and (max-width: 400px) {
+  .Event_Add_header .Event_star {
+    margin-left: 30%;
+  }
+}
+@media screen and (max-width: 350px) {
+  .Event_Add_header .Event_star {
+    margin-left: 20%;
+  }
+}
+@media screen and (max-width: 290px) {
+  .Event_Add_header .Event_star {
+    margin-left: 10%;
+  }
 }
 .Event_starSolid {
   opacity: 0.7;

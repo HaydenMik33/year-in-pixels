@@ -16,8 +16,14 @@
   overflow: hidden;
 }
 
+@media screen and (max-width: 1025px) {
+  .Gallery .Gallery_display .Gallery_box {
+    width: 45vw;
+  }
+}
+
 @media screen and (max-width: 800px) {
   .Gallery .Gallery_display .Gallery_box {
-    width: 46vw;
+    width: 90vw;
   }
 }
