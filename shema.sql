@@ -2,50 +2,49 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     authid VARCHAR(50),
     displayName VARCHAR(50),
-    picture VARCHAR(200),
-    Ilgi_id integer references Ilgiid()
+    profile_pic VARCHAR(200),
+    ilgi_title VARCHAR(25),
+    user_created_at date
 );
-
 CREATE TABLE pixels (
     id SERIAL PRIMARY KEY,
-    text VARCHAR(50),
-    img VARCHAR(200),
-    pixel_unique integer,
-    quote_id integer references quotes(id),
-    ilgi_id integer references Ilgi(id) 
+    owner_id integer references users(id),
+    pixel_date date
 );
- 
- Create table Ilgi(
-     id serial PRIMARY key,
-     title,
-     ownerid
- );
+CREATE TABLE pixel_content(
+    id SERIAL PRIMARY KEY,
+    pixel_id integer references pixels(id),
+    text VARCHAR(1000),
+    img_url VARCHAR(300)
+)
+CREATE TABLE todos(
+    id SERIAL PRIMARY KEY,
+    checked boolean,
+    text VARCHAR(150),
+    pixel_id integer references pixels(id)
+)
 CREATE TABLE colors(
     id SERIAL PRIMARY KEY,
     colorvalue VARCHAR(10),
     opacity decimal,
-    pixel_unique integer,
-    ilgi_id integer references Ilgi(id) 
+    positive boolean,
+    color_data decimal,
+    owner_id integer references users(id)
 );
-
+CREATE TABLE quotes(
+    id SERIAL PRIMARY KEY,
+    text VARCHAR(300),
+    author VARCHAR(100),
+    tags VARCHAR(50),
+    saved_date date
+)
  CREATE TABLE events (
-    CREATE TABLE events (
     id SERIAL PRIMARY KEY,
     title VARCHAR(200),
     text VARCHAR(1000),
-   location VARCHAR(100),
+    location VARCHAR(100),
     important boolean,
-    date VARCHAR(10),
-    pixel_unique integer,
-    ilgi_id integer references Ilgi(id) 
+    event_date date,
+    pixel_id integer references pixels(id)
 ); 
  
-CREATE TABLE colors(
-    id SERIAL PRIMARY KEY,
-    colorvalue integer,
-    opacity decimal,
-    pixel_unique integer,
-    ilgi_id integer references Ilgi(id) 
-);
-
-

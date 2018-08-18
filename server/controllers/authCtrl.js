@@ -7,7 +7,7 @@ const strat = new Auth0Strategy(
     clientSecret: AUTH_CLIENT_SECRET,
     domain: AUTH_DOMAIN,
     scope: "openid profile",
-    callbackURL: "/auth"
+    callbackURL: "http://localhost:3001/auth"
   },
   function(accessToken, refreshToken, extraParams, profile, done) {
     return done(null, profile);
@@ -16,7 +16,7 @@ const strat = new Auth0Strategy(
 
 const getUser = (req, res) => {
   if (!req.user) {
-    res.redirect("/#/");
+    res.redirect("http://localhost:3000/#/");
   } else {
     res.status(200).json(req.user);
   }
@@ -24,7 +24,7 @@ const getUser = (req, res) => {
 
 const logout = (req, res) => {
   req.session.destroy(() => {
-    res.redirect("/#/");
+    res.redirect("http://localhost:3000/#/");
   });
 };
 

@@ -7,8 +7,8 @@ import { connect } from "react-redux";
 import { getUser, getIlgi } from "../../../ducks/userReducer";
 import { getAllPixels } from "../../../ducks/pixelReducer";
 import { getAllEvents } from "../../../ducks/eventReducer";
-import { FlatButton } from "material-ui";
-import Snackbar from "material-ui/Snackbar";
+import Button from "@material-ui/core/Button"
+import Snackbar from "@material-ui/core/Snackbar";
 import moment from "moment";
 import axios from "axios";
 
@@ -229,12 +229,12 @@ class Home extends Component {
             <i className="fas fa-quote-right home_dq-l" />
             <p className="Home_quoteBox_author">{`-By  ${quote.author}`}</p>
           </div>
-          <FlatButton
+          <Button
             label="Save"
             onClick={() => this.saveQuote()}
             primary={true}
           />
-          <FlatButton
+          <Button
             label="Get Another"
             onClick={() => {
               this.refresh();

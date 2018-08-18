@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Nav.css";
 import { Link } from "react-router-dom";
-import Drawer from "material-ui/Drawer";
+import Drawer from "@material-ui/core/Drawer";
 
 class Nav extends Component {
   state = {
